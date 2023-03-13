@@ -29,7 +29,7 @@ Where distance from code segment:
 CODE:0000 9A00007007    CALL	SYS:0000                          
 ```
 
-Initialize System Library: [SYS:000](0000-Init.md)
+Initialize System Library: [SYS:000](0000-INIT.md)
 
 ```
 CODE:0005 55            PUSH	BP                                 
