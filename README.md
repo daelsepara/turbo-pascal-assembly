@@ -10,8 +10,10 @@
 
 - [System Library](SYSTEM.md)
   
-  - [0000 INIT](0000-INIT.md)
+  - [0000 Initialize System Library](0000-INIT.md)
 
-  - [02CD CHECK STACK](02CD-CHECK_STACK.md)
+  - [00B1 Test for 8086/80186/80286](00B1-TEST86.md)
+
+  - [02CD Check stack](02CD-CHECK_STACK.md)
   
   - [0580 Clear input/output buffers and interrupt vector array](0580-CLEAR.md)
