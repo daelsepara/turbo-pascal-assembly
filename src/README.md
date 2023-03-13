@@ -1,6 +1,6 @@
 # Table of Contents
 
-- [Files in this repository](INDEX.md)
+- [Files in this repository](FILES.md)
 
 - [System Data](DATA.md)
 

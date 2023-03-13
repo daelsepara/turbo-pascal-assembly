@@ -1,4 +1,4 @@
-# MAIN.DMP
+# Main Program
 
 ## Registers
 ```
