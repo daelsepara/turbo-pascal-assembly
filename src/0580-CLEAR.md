@@ -18,7 +18,7 @@ Copy DS into ES. STOSW stores word (in AX) into ES:[DI].
 058A D1E9          SHR	CX,1
 ```
 
-Clear memory from 0050 (**Input**)  to 029C (**SaveInt75**) or around 294 words. Code computes this value
+Clear memory from 0050h (**Input**) to 029Ch (**SaveInt75**) or around ((029Ch - 0050h) / 2) = 294 words.
 
 ```
 058C 33C0          XOR	AX,AX
@@ -44,6 +44,6 @@ Clear until CX = 0. CX is decremented by 1 each time STOSW is executed
 0591 C3            RET
 ```
 
-Return to calling program. This is a near return, implying that it is called from system library.
+Return to caller. This is a near return, i.e. it is called from within the System Library
 
 Go back to: [System Library](SYSTEM.md) or [Table of Contents](README.md)
