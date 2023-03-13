@@ -26,6 +26,7 @@
 ## Program Segment Prefix
 
 |Address|   Variable  |
+|-------|-------------|
 | 0038  | PrefixSeg   |
 
 Stores PSP segment address setup by DOS upon loading the program.
@@ -33,6 +34,7 @@ Stores PSP segment address setup by DOS upon loading the program.
 ## TBD
 
 |Address|   Variable  |
+|-------|-------------|
 | 003A  | StackLimit  |
 | 003C  | InOutRes    |
 | 003E  | RandSeed    |
