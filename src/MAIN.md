@@ -29,7 +29,7 @@ Where distance from code segment:
 CODE:0000 9A00007007    CALL	SYS:0000                          
 ```
 
-Initialize System Library: [SYS:000](0000-INIT.md)
+Initialize System Library: [SYS:0000](0000-INIT.md)
 
 ```
 CODE:0005 55            PUSH	BP                                 
@@ -43,11 +43,14 @@ CODE:0008 31C0          XOR	AX,AX
 CODE:000A 9ACD027007    CALL	SYS:02CD
 ```
 
+Checks the size of the stack: [SYS:02CD](02CD-CHECK_STACK.md). Exits with an error message if stack size is above the limit.
+
+
 ```
 CODE:000F 5D            POP	BP
 ```
 
-This balances the stack from PUSH BP/MOV BP, SP above.
+This balances the stack from PUSH BP/MOV BP, SP above. Again, this seems to be a defining feature of compiled code.
 
 ```
 CODE:0010 31C0          XOR	AX,AX
