@@ -43,7 +43,7 @@ CODE:0008 31C0          XOR	AX,AX
 CODE:000A 9ACD027007    CALL	SYS:02CD
 ```
 
-Checks the size of the stack: [SYS:02CD](02CD-CHECK_STACK.md). Exits with an error message if stack size is above the limit.
+Checks the size of the stack: [SYS:02CD](02CD-CHECK-STACK.md). Exits with an error message if stack size is above the limit.
 
 
 ```

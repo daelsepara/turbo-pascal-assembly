@@ -46,4 +46,4 @@ Clear until CX = 0. CX is decremented by 1 each time STOSW is executed
 
 Return to caller. This is a near return, i.e. it is called from within the System Library
 
-Go back to: [System Library](SYSTEM.md) or [Table of Contents](README.md)
+[Back](SYSTEM.md)

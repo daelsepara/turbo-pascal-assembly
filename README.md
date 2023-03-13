@@ -14,6 +14,8 @@
 
   - [00B1 Test for 8086/80186/80286](00B1-TEST86.md)
 
-  - [02CD Check stack](02CD-CHECK_STACK.md)
+  - [00D6 Heap error exit routine](00D6-HEAP-ERROR.md)
+
+  - [02CD Check stack](02CD-CHECK-STACK.md)
   
   - [0580 Clear input/output buffers and interrupt vector array](0580-CLEAR.md)
