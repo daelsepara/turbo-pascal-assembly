@@ -34,4 +34,4 @@ Where distance from code segment:
 076E:0012 9A16017007    CALL	0770:0116                          
 ```
 
-[Back](INDEX.md)
+[Back](README.md)
