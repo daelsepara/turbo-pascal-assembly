@@ -10,12 +10,12 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 
 When the program is loaded in memory, ES AND DS points to the Program Segment Prefix (PSP). Stack size is around 16384 kilobytes (SP = 4000h). The system library follows CODE segment immediately but is still aligned on paragraph (16 bytes) boundaries.
 
-|Segment|Value|Distance from code segment|
+|Segment|Value|Distance from CODE segment|
 |-------|-----|--------------------------|
-|PSP    | 075E|  16 paragraphs above code|
+|PSP    | 075E|  16 paragraphs above CODE|
 |CODE   | 076E|                          |
-|SYSTEM | 0770|   2 paragraphs below code|
-|STACK  | 07F4| 134 paragraphs below code|
+|SYSTEM | 0770|   2 paragraphs below CODE|
+|STACK  | 07F4| 134 paragraphs below CODE|
 
 Where distance from code segment:
 ```
@@ -33,3 +33,5 @@ Where distance from code segment:
 076E:0010 31C0          XOR	AX,AX                              
 076E:0012 9A16017007    CALL	0770:0116                          
 ```
+
+[Back](INDEX.md)
