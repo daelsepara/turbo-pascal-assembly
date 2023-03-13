@@ -34,11 +34,27 @@ Initialize System Library: [SYS:000](0000-INIT.md)
 ```
 CODE:0005 55            PUSH	BP                                 
 CODE:0006 89E5          MOV	BP,SP                              
-CODE:0008 31C0          XOR	AX,AX                              
-CODE:000A 9ACD027007    CALL	SYS:02CD                          
-CODE:000F 5D            POP	BP                                 
-CODE:0010 31C0          XOR	AX,AX                              
-CODE:0012 9A16017007    CALL	SYS:0116                          
 ```
+
+Probably like other compiled high-level languages, Turbo Pascal has a lot of stack manipulation. This sequence of statements PUSH BP/MOV BP, SP is like a defining signature of compiled code. It's likely that the main program is a callable function and receives parameters (e.g. argc, argv) on the stack right next to the return code. BP is used to address these parameters. It can be observed in Turbo Pascal, the compiler takes special care of BP and SP while playing fast and loose with the other registers.
+
+```
+CODE:0008 31C0          XOR	AX,AX
+CODE:000A 9ACD027007    CALL	SYS:02CD
+```
+
+```
+CODE:000F 5D            POP	BP
+```
+
+This balances the stack from PUSH BP/MOV BP, SP above.
+
+```
+CODE:0010 31C0          XOR	AX,AX
+CODE:0012 9A16017007    CALL	SYS:0116
+```
+
+Call Exit Function. AX contains the exit code (AL = 0, no error)
+
 
 [Back](README.md)
