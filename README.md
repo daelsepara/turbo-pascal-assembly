@@ -16,6 +16,8 @@
 
   - [00D6 Heap error exit routine](00D6-HEAP-ERROR.md)
 
+  - [010C INT 00h Handler](010C-INT00H.md)
+
   - [02CD Check stack](02CD-CHECK-STACK.md)
   
   - [0580 Clear input/output buffers and interrupt vector array](0580-CLEAR.md)

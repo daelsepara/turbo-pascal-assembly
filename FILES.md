@@ -421,29 +421,29 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 ### Code block 02 (028A-02E4)
 ```
 0770:028A 33C0          XOR	AX,AX
-0770:028C 87063C00      XCHG	AX,[003C]                          
+0770:028C 87063C00      XCHG	AX,[003C] 
 0770:0290 CB            RETF
 0770:0291 833E3C0000    CMP	WORD PTR [003C],+00                
 0770:0296 7501          JNZ	0299
 0770:0298 CB            RETF
-0770:0299 A13C00        MOV	AX,[003C]                          
+0770:0299 A13C00        MOV	AX,[003C] 
 0770:029C E970FE        JMP	010F
 0770:029F 8BF4          MOV	SI,SP
 0770:02A1 36            SS:
-0770:02A2 8E4402        MOV	ES,[SI+02]                         
+0770:02A2 8E4402        MOV	ES,[SI+02]
 0770:02A5 26            ES:
-0770:02A6 3B5502        CMP	DX,[DI+02]                         
+0770:02A6 3B5502        CMP	DX,[DI+02]
 0770:02A9 7F07          JG	02B2
 0770:02AB 7C14          JL	02C1
 0770:02AD 26            ES:
 0770:02AE 3B05          CMP	AX,[DI]
 0770:02B0 720F          JB	02C1
 0770:02B2 26            ES:
-0770:02B3 3B5506        CMP	DX,[DI+06]                         
+0770:02B3 3B5506        CMP	DX,[DI+06]
 0770:02B6 7C08          JL	02C0
 0770:02B8 7F07          JG	02C1
 0770:02BA 26            ES:
-0770:02BB 3B4504        CMP	AX,[DI+04]                         
+0770:02BB 3B4504        CMP	AX,[DI+04]
 0770:02BE 7701          JA	02C1
 0770:02C0 CB            RETF
 0770:02C1 B8C900        MOV	AX,00C9
@@ -455,7 +455,7 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:02D2 2BC4          SUB	AX,SP
 0770:02D4 7309          JNB	02DF
 0770:02D6 F7D8          NEG	AX  
-0770:02D8 3B063A00      CMP	AX,[003A]                          
+0770:02D8 3B063A00      CMP	AX,[003A] 
 0770:02DC 7201          JB	02DF
 0770:02DE CB            RETF
 0770:02DF B8CA00        MOV	AX,00CA
@@ -468,9 +468,9 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:02E8 8BDC          MOV	BX,SP
 0770:02EA 1E            PUSH	DS  
 0770:02EB 36            SS:
-0770:02EC C47F08        LES	DI,[BX+08]                         
+0770:02EC C47F08        LES	DI,[BX+08]
 0770:02EF 36            SS:
-0770:02F0 C57704        LDS	SI,[BX+04]                         
+0770:02F0 C57704        LDS	SI,[BX+04]
 0770:02F3 FC            CLD
 0770:02F4 33C0          XOR	AX,AX
 0770:02F6 AB            STOSW
@@ -482,7 +482,7 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:0301 AB            STOSW
 0770:0302 AB            STOSW
 0770:0303 AB            STOSW
-0770:0304 8D4574        LEA	AX,[DI+74]                         
+0770:0304 8D4574        LEA	AX,[DI+74]
 0770:0307 AB            STOSW
 0770:0308 8CC0          MOV	AX,ES
 0770:030A AB            STOSW
@@ -513,24 +513,24 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:0336 CA0800        RETF	0008
 0770:0339 8BDC          MOV	BX,SP
 0770:033B 36            SS:
-0770:033C C47F0A        LES	DI,[BX+0A]                         
+0770:033C C47F0A        LES	DI,[BX+0A]
 0770:033F 36            SS:
-0770:0340 8B4704        MOV	AX,[BX+04]                         
+0770:0340 8B4704        MOV	AX,[BX+04]
 0770:0343 26            ES:
-0770:0344 894504        MOV	[DI+04],AX                         
+0770:0344 894504        MOV	[DI+04],AX
 0770:0347 36            SS:
-0770:0348 8B4706        MOV	AX,[BX+06]                         
+0770:0348 8B4706        MOV	AX,[BX+06]
 0770:034B 26            ES:
-0770:034C 89450C        MOV	[DI+0C],AX                         
+0770:034C 89450C        MOV	[DI+0C],AX
 0770:034F 36            SS:
-0770:0350 8B4708        MOV	AX,[BX+08]                         
+0770:0350 8B4708        MOV	AX,[BX+08]
 0770:0353 26            ES:
-0770:0354 89450E        MOV	[DI+0E],AX                         
+0770:0354 89450E        MOV	[DI+0E],AX
 0770:0357 33C0          XOR	AX,AX
 0770:0359 26            ES:
-0770:035A 894508        MOV	[DI+08],AX                         
+0770:035A 894508        MOV	[DI+08],AX
 0770:035D 26            ES:
-0770:035E 89450A        MOV	[DI+0A],AX                         
+0770:035E 89450A        MOV	[DI+0A],AX
 0770:0361 CA0A00        RETF	000A
 0770:0364 BAB1D7        MOV	DX,D7B1
 0770:0367 EB08          JMP	0371
@@ -539,9 +539,9 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:036E BAB3D7        MOV	DX,D7B3
 0770:0371 55            PUSH	BP  
 0770:0372 8BEC          MOV	BP,SP
-0770:0374 C47E06        LES	DI,[BP+06]                         
+0770:0374 C47E06        LES	DI,[BP+06]
 0770:0377 26            ES:
-0770:0378 8B4502        MOV	AX,[DI+02]                         
+0770:0378 8B4502        MOV	AX,[DI+02]
 0770:037B 3DB1D7        CMP	AX,D7B1
 0770:037E 7412          JZ	0392
 0770:0380 3DB2D7        CMP	AX,D7B2
@@ -558,11 +558,11 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:0399 5A            POP	DX  
 0770:039A 33C0          XOR	AX,AX
 0770:039C 26            ES:
-0770:039D 895502        MOV	[DI+02],DX                         
+0770:039D 895502        MOV	[DI+02],DX
 0770:03A0 26            ES:
-0770:03A1 894508        MOV	[DI+08],AX                         
+0770:03A1 894508        MOV	[DI+08],AX
 0770:03A4 26            ES:
-0770:03A5 89450A        MOV	[DI+0A],AX                         
+0770:03A5 89450A        MOV	[DI+0A],AX
 0770:03A8 BB1000        MOV	BX,0010
 0770:03AB E84C00        CALL	03FA
 0770:03AE 7406          JZ	03B6
@@ -575,7 +575,7 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:03BE B001          MOV	AL,01
 0770:03C0 55            PUSH	BP  
 0770:03C1 8BEC          MOV	BP,SP
-0770:03C3 C47E06        LES	DI,[BP+06]                         
+0770:03C3 C47E06        LES	DI,[BP+06]
 0770:03C6 26            ES:
 0770:03C7 817D02B1D7    CMP	WORD PTR [DI+02],D7B1              
 0770:03CC 7418          JZ	03E6
@@ -604,25 +604,25 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:03FF FF19          CALL	FAR [BX+DI]                        
 0770:0401 0BC0          OR	AX,AX
 0770:0403 7403          JZ	0408
-0770:0405 A33C00        MOV	[003C],AX                          
+0770:0405 A33C00        MOV	[003C],AX 
 0770:0408 5F            POP	DI  
 0770:0409 07            POP	ES  
 0770:040A C3            RET
 0770:040B 8BDC          MOV	BX,SP
 0770:040D 1E            PUSH	DS  
 0770:040E 36            SS:
-0770:040F C47F04        LES	DI,[BX+04]                         
+0770:040F C47F04        LES	DI,[BX+04]
 0770:0412 26            ES:
-0770:0413 C5550C        LDS	DX,[DI+0C]                         
+0770:0413 C5550C        LDS	DX,[DI+0C]
 0770:0416 26            ES:
-0770:0417 8B4D04        MOV	CX,[DI+04]                         
+0770:0417 8B4D04        MOV	CX,[DI+04]
 0770:041A 26            ES:
 0770:041B 8B1D          MOV	BX,[DI]
 0770:041D B43F          MOV	AH,3F
 0770:041F CD21          INT	21  
 0770:0421 7210          JB	0433
 0770:0423 26            ES:
-0770:0424 89450A        MOV	[DI+0A],AX                         
+0770:0424 89450A        MOV	[DI+0A],AX
 0770:0427 33C0          XOR	AX,AX
 0770:0429 26            ES:
 0770:042A C745080000    MOV	WORD PTR [DI+08],0000              
@@ -634,12 +634,12 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:043B 8BDC          MOV	BX,SP
 0770:043D 1E            PUSH	DS  
 0770:043E 36            SS:
-0770:043F C47F04        LES	DI,[BX+04]                         
+0770:043F C47F04        LES	DI,[BX+04]
 0770:0442 26            ES:
-0770:0443 C5550C        LDS	DX,[DI+0C]                         
+0770:0443 C5550C        LDS	DX,[DI+0C]
 0770:0446 33C9          XOR	CX,CX
 0770:0448 26            ES:
-0770:0449 874D08        XCHG	CX,[DI+08]                         
+0770:0449 874D08        XCHG	CX,[DI+08]
 0770:044C 26            ES:
 0770:044D 8B1D          MOV	BX,[DI]
 0770:044F B440          MOV	AH,40
@@ -653,12 +653,12 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:0460 8BDC          MOV	BX,SP
 0770:0462 1E            PUSH	DS  
 0770:0463 36            SS:
-0770:0464 C47F04        LES	DI,[BX+04]                         
+0770:0464 C47F04        LES	DI,[BX+04]
 0770:0467 26            ES:
-0770:0468 C5550C        LDS	DX,[DI+0C]                         
+0770:0468 C5550C        LDS	DX,[DI+0C]
 0770:046B 33C9          XOR	CX,CX
 0770:046D 26            ES:
-0770:046E 874D08        XCHG	CX,[DI+08]                         
+0770:046E 874D08        XCHG	CX,[DI+08]
 0770:0471 26            ES:
 0770:0472 8B1D          MOV	BX,[DI]
 0770:0474 B440          MOV	AH,40
@@ -669,7 +669,7 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:047D CA0400        RETF	0004
 0770:0480 8BDC          MOV	BX,SP
 0770:0482 36            SS:
-0770:0483 C47F04        LES	DI,[BX+04]                         
+0770:0483 C47F04        LES	DI,[BX+04]
 0770:0486 26            ES:
 0770:0487 8B1D          MOV	BX,[DI]
 0770:0489 83FB04        CMP	BX,+04 
@@ -682,7 +682,7 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:0499 8BDC          MOV	BX,SP
 0770:049B 1E            PUSH	DS  
 0770:049C 36            SS:
-0770:049D C57F04        LDS	DI,[BX+04]                         
+0770:049D C57F04        LDS	DI,[BX+04]
 0770:04A0 33C9          XOR	CX,CX
 0770:04A2 890D          MOV	[DI],CX
 0770:04A4 B8003D        MOV	AX,3D00
@@ -695,7 +695,7 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:04B9 B43C          MOV	AH,3C
 0770:04BB 807D3000      CMP	BYTE PTR [DI+30],00                
 0770:04BF 7409          JZ	04CA
-0770:04C1 8D5530        LEA	DX,[DI+30]                         
+0770:04C1 8D5530        LEA	DX,[DI+30]
 0770:04C4 CD21          INT	21  
 0770:04C6 725A          JB	0522
 0770:04C8 8905          MOV	[DI],AX
@@ -722,10 +722,10 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 0770:0501 33C9          XOR	CX,CX
 0770:0503 33DB          XOR	BX,BX
 0770:0505 C74502B2D7    MOV	WORD PTR [DI+02],D7B2              
-0770:050A 894514        MOV	[DI+14],AX                         
-0770:050D 895516        MOV	[DI+16],DX                         
-0770:0510 894D18        MOV	[DI+18],CX                         
-0770:0513 895D1A        MOV	[DI+1A],BX                         
+0770:050A 894514        MOV	[DI+14],AX
+0770:050D 895516        MOV	[DI+16],DX
+0770:0510 894D18        MOV	[DI+18],CX
+0770:0513 895D1A        MOV	[DI+1A],BX
 0770:0516 C7451C8004    MOV	WORD PTR [DI+1C],0480              
 0770:051B C7451E7007    MOV	WORD PTR [DI+1E],0770              
 0770:0520 33C0          XOR	AX,AX
