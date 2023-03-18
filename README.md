@@ -9,7 +9,7 @@
 - [Main Program](MAIN.md)
 
 - **System Library**
-  
+
   - [0000 Initialize System Library](0000-INIT.md)
 
   - [00B1 Test for 8086/80186/80286](00B1-TEST86.md)
@@ -19,5 +19,5 @@
   - [010C INT 00h Handler](010C-INT00H.md)
 
   - [02CD Check stack](02CD-CHECK-STACK.md)
-  
+
   - [0580 Clear input/output buffers and interrupt vector array](0580-CLEAR.md)

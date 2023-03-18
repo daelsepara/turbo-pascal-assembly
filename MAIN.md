@@ -2,8 +2,8 @@
 
 ## Registers
 ```
-AX=FFFF  BX=0000  CX=0B64  DX=0000  SP=4000  BP=0000  SI=0000  DI=0000  
-DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC 
+AX=FFFF  BX=0000  CX=0B64  DX=0000  SP=4000  BP=0000  SI=0000  DI=0000
+DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 ```
 
 ## Segments
@@ -26,14 +26,14 @@ Where distance from code segment:
 ## Source code
 
 ```
-CODE:0000 9A00007007    CALL	SYS:0000                          
+CODE:0000 9A00007007    CALL	SYS:0000
 ```
 
 Initialize System Library: [SYS:0000](0000-INIT.md)
 
 ```
-CODE:0005 55            PUSH	BP                                 
-CODE:0006 89E5          MOV	BP,SP                              
+CODE:0005 55            PUSH	BP
+CODE:0006 89E5          MOV	BP,SP
 ```
 
 Probably like other compiled high-level languages, Turbo Pascal has a lot of stack manipulation. This sequence of statements PUSH BP/MOV BP, SP is like a defining signature of compiled code. It's likely that the main program is a callable function and receives parameters (e.g. argc, argv) on the stack right next to the return code. BP is used to address these parameters. It can be observed in Turbo Pascal, the compiler takes special care of BP and SP while playing fast and loose with the other registers.
