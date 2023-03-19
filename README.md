@@ -26,7 +26,7 @@
 
   - [0218 Print digits](0218-PRINT-DIGITS.md)
 
-  - [0232 Print character](0218-PRINT-CHAR.md)
+  - [0232 Print character](0232-PRINT-CHAR.md)
 
   - [02C1 Range check error](02C1-RANGE.md)
 
