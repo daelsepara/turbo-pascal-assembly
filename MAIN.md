@@ -28,10 +28,10 @@ When the program is loaded in memory, ES AND DS points to the Program Segment Pr
 
 |Segment|Value|Distance from CODE segment|Distance calculation |size / hex / align / paragraphs + start = next|
 |-------|-----|--------------------------|---------------------|----------------------------------------------|
-|PSP    | 075E|  16 paragraphs above CODE|076E - 0010 = 075E   |   256 => 0100 => 0100 => 010 + 75E = 76E     |
-|CODE   | 076E|                          |                     |    23 => 0017 => 0020 => 002 + 76E = 770     | 
-|SYSTEM | 0770|   2 paragraphs below CODE|076E + 0002 = 0770   |  1426 => 0592 => 05A0 => 05A + 770 = 7CA     |
-|DATA   | 07CA|  92 paragraphs below CODE|076E + 005C = 07CA   |   668 => 029C => 02A0 => 02A + 7CA = 7F4     |
+|PSP    | 075E| 016 paragraphs above CODE|076E - 0010 = 075E   | 00256 => 0100 => 0100 => 010 + 75E = 76E     |
+|CODE   | 076E|                          |                     | 00023 => 0017 => 0020 => 002 + 76E = 770     | 
+|SYSTEM | 0770| 002 paragraphs below CODE|076E + 0002 = 0770   | 01426 => 0592 => 05A0 => 05A + 770 = 7CA     |
+|DATA   | 07CA| 092 paragraphs below CODE|076E + 005C = 07CA   | 00668 => 029C => 02A0 => 02A + 7CA = 7F4     |
 |STACK  | 07F4| 134 paragraphs below CODE|076E + 0086 = 07F4   | 16384 => 4000 => 4000 => 400 + 7F4 = ???     |
 
 Where **Distance from CODE segment** is calculated using:
