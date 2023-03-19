@@ -17,6 +17,6 @@ SYS:01B2 83C704        ADD	DI,+04
 SYS:01B5 E2F0          LOOP	01A7
 ```
 
-Restores the vectors for the 19 interrupts (listed in [SYS:0239-024B](0239-INTERRUPT-LIST.md)) modified and saved during system library initialization. 
+Restores the vectors for the 19 interrupts (listed in [SYS:0239-024B](0239-INTERRUPT-LIST.md)) saved on [DATA:0250](DATA.md) and modified during system library initialization.
 
 [Go back](README.md)
