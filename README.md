@@ -29,3 +29,5 @@
   - [02CD Check stack](02CD-CHECK-STACK.md)
 
   - [0580 Clear input/output buffers and interrupt vector array](0580-CLEAR.md)
+
+- [Runtime Error Codes](ERROR-CODES.md)
