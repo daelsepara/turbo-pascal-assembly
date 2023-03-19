@@ -18,6 +18,10 @@
 
   - [010C INT 00h Handler](010C-INT00H.md)
 
+  - [01FE Convert number to ASCII](01FE-CONVERT-NUMBER.md)
+
+  - [0218 Print digits](0218-PRINT-DIGITS.md)
+
   - [02CD Check stack](02CD-CHECK-STACK.md)
 
   - [0580 Clear input/output buffers and interrupt vector array](0580-CLEAR.md)
