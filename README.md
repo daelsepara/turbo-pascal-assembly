@@ -18,9 +18,13 @@
 
   - [010C INT 00h Handler](010C-INT00H.md)
 
+  - [01F0 Print string](01FE-CONVERT-NUMBER.md)
+
   - [01FE Convert number to ASCII](01FE-CONVERT-NUMBER.md)
 
   - [0218 Print digits](0218-PRINT-DIGITS.md)
+
+  - [0232 Print character](0218-PRINT-CHAR.md)
 
   - [02CD Check stack](02CD-CHECK-STACK.md)
 
