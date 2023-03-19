@@ -26,11 +26,13 @@
 
   - [010C INT 00h Handler](010C-INT00H.md)
 
+  - [018B Unknown](018B-UNKNOWN.md)
+
+  - [019D Restore interrupt vectors](019D-RESTORE-INT.md)
+
   - [01C0 Print Runtime error](01C0-PRINT-RUNTIME-ERR.md)
  
   - [01E9 DOS Exit](01E9-DOS-EXIT.md)
-  
-  - [019D Restore interrupt vectors](019D-RESTORE-INT.md)
 
   - [01F0 Print string](01F0-PRINT-STRING.md)
 
