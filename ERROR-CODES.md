@@ -41,6 +41,8 @@ This list was obtained from **Appendix D** of [Free Pascal's User Guide](https:/
 | 205| CD|Floating point overflow         |
 | 206| CE|Floating point underflow        |
 | 207| CF|Invalid floating point operation|
+| 208| D0|Overlay manager not installed   |
+| 209| D1|Overlay file read error         |
 | 210| D2|Object not initialized          |
 | 211| D3|Call to abstract method         |
 | 212| D4|Stream registration error       |

@@ -18,7 +18,11 @@
 
   - [00DB Critical Error Handler](00DB-CRITICAL-ERROR.md)
 
+  - [0104 Overlay manager not installed error](0104-OVERMAN.md)
+
   - [010C INT 00h Handler](010C-INT00H.md)
+
+  - [019D Restore interrupt vectors](019D-INTERRUPT-LIST.md)
 
   - [01F0 Print string](01F0-PRINT-STRING.md)
 
@@ -27,6 +31,8 @@
   - [0218 Print digits](0218-PRINT-DIGITS.md)
 
   - [0232 Print character](0232-PRINT-CHAR.md)
+
+  - [0239 Interrupt List](0239-INTERRUPT-LIST.md)
 
   - [02C1 Range check error](02C1-RANGE.md)
 
