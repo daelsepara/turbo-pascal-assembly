@@ -12,6 +12,10 @@
 
   - [0000 Initialize System Library](0000-INIT.md)
 
+  - [0088 Initialize Input](0088-INIT-INPUT.md)
+
+  - [009C Initialize Output](009C-INIT-OUTPUT.md)
+
   - [00B1 Test for 8086/80186/80286](00B1-TEST86.md)
 
   - [00D6 Heap error exit routine](00D6-HEAP-ERROR.md)
@@ -41,6 +45,8 @@
   - [02CD Check stack](02CD-CHECK-STACK.md)
 
   - [02E6 Unknown](02E6-UNKNOWN.md)
+
+  - [0364 Unknown](0364-UNKNOWN.md)
   
   - [03BE Unknown](03BE-UNKNOWN.md)
 
