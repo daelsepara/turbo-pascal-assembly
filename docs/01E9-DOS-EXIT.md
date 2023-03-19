@@ -8,4 +8,4 @@ SYS:01EE CD21          INT	21
 
 Exits the programe with an [ExitCode](DATA.md) using the DOS INT 21h AH=4Ch function. The exit code is in AL.
 
-[Go back](README.md)
+[Go back](../README.md)

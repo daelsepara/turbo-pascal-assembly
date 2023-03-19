@@ -17,4 +17,4 @@ This will load one character at a time from [BX], then call the [print character
 
 Because it returns with a**NEAR RET**, it can only be called from within the system library.
 
-[Back](README.md)
+[Back](../README.md)

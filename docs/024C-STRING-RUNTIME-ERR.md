@@ -11,4 +11,4 @@ This is the string that is used to print the error code. It contains three parts
 - **SYS:025B**: It contains the *at* string which has a single whitespace character on both ends.
 - **SYS:0260**: It is **.** (period) followed by newline characters (0Dh, 0Ah).
 
-[Go back](README.md)
+[Go back](../README.md)

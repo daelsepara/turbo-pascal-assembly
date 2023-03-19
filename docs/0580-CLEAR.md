@@ -18,7 +18,7 @@ SYS:0588 2BCF          SUB	CX,DI
 SYS:058A D1E9          SHR	CX,1
 ```
 
-Clear memory from 0050h (**Input**) to 029Ch (**SaveInt75**) or around ((029Ch - 0050h) / 2) = 294 words.
+Clear memory from 0050h (**Input**) to 029Ch (**SaveInt75**) or around ((029Ch - 0050h) / 2) = 294 words (See: [DATA](DATA.md)).
 
 ```
 SYS:058C 33C0          XOR	AX,AX
@@ -46,4 +46,4 @@ SYS:0591 C3            RET
 
 Return to caller. Because it returns with a **NEAR RET**, it can only be called from within the system library.
 
-[Back](README.md)
+[Back](../README.md)

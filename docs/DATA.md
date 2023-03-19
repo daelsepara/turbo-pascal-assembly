@@ -82,4 +82,4 @@ Each buffer is arround 256 bytes in size.
 
 Stores original interrupt vectors for INT 00h/02h/1Bh/21h/23h-24h/34h-3Fh/75h. Each can contain a FAR address (4 bytes).
 
-[Back](README.md)
+[Back](../README.md)

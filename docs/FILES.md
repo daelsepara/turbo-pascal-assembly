@@ -18,11 +18,11 @@ C:\TP\BIN\TPC.EXE -GS -GP -GD -$D+ MAIN
 ```
 ... to produce an executable named **MAIN.EXE**
 
-[Back](README.md)
+[Back](../README.md)
 
 ## MAIN.MAP
 
-Upon compilation with the above command options, a map file is generated containing the size and offsets of the segments (data, code, stack, heap), the locations of the public symbols in the system library's data segment.
+Upon compilation with the above command options, a map file is generated containing the size and offsets of the segments (data, code, stack, heap), the locations of the public symbols in the system library's data segment (see: [MAIN.MAP](../src/MAIN.MAP)).
 
 ```
  Start  Stop   Length Name               Class
@@ -95,7 +95,7 @@ Line numbers for main(MAIN.PAS) segment main
 Program entry point at 0000:0000
 ```
 
-[Go back](README.md)
+[Go back](../README.md)
 
 ## MAIN.DMP
 
@@ -115,7 +115,7 @@ CODE:0010 31C0          XOR	AX,AX
 CODE:0012 9A16017007    CALL	SYS:0116
 ```
 
-Go to: [MAIN.DMP](MAIN.md) or: [Back](README.md)
+Go to: [MAIN.DMP](../src/MAIN.DMP), the annotated [MAIN](MAIN.md) or [Back](../README.md)
 
 ## SYSTEM.DMP
 
@@ -123,7 +123,7 @@ This is the system library linked to the program above. As the main program beco
 
 Because of varying starting location and length, it is possible that the dump here may not be the actual assembled code. Even a slight deviation in the offset where disassembly is started, will propagate the error. Further investigation may minimize such things from happening.
 
-Go to: [SYSTEM.DMP](SYSTEM.md) or: [Back](README.md)
+Go to: [SYSTEM.DMP](../src/SYSTEM.DMP) or [Back](../README.md)
 
 ### Registers
 ```
@@ -786,4 +786,4 @@ SYS:0590 AB            STOSW
 SYS:0591 C3            RET
 ```
 
-[Go back](README.md)
+[Go back](../README.md)

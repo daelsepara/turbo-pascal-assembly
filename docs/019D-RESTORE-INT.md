@@ -19,4 +19,4 @@ SYS:01B5 E2F0          LOOP	01A7
 
 Restores the vectors for the 19 interrupts (listed in [SYS:0239-024B](0239-INTERRUPT-LIST.md)) saved on [DATA:0250](DATA.md) and modified during system library initialization. It uses DOS INT 21H AH=25H Service. It expects DS:DX refers to the original interrupt vector assigned to the interrupt number store in AL.
 
-[Go back](README.md)
+[Go back](../README.md)
