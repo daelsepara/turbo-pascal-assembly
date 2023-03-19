@@ -18,7 +18,7 @@ C:\TP\BIN\TPC.EXE -GS -GP -GD -$D+ MAIN
 ```
 ... to produce an executable named **MAIN.EXE**
 
-Go to:[MAIN.PAS](MAIN-PAS.md) or [Back](../README.md)
+Go to: [MAIN.PAS](MAIN-PAS.md) or [Back](../README.md)
 
 ## MAIN.MAP
 
@@ -95,7 +95,7 @@ Line numbers for main(MAIN.PAS) segment main
 Program entry point at 0000:0000
 ```
 
-Go to [MAIN.MAP](MAP.md) or [back](../README.md)
+Go to [MAIN.MAP](MAP.md) or [Back](../README.md)
 
 ## MAIN.DMP
 
