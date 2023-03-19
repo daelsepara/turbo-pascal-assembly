@@ -33,7 +33,7 @@ SYS:0211 E81E00        CALL	0232
 SYS:0214 58            POP	AX
 ```
 
-This converts the result in AL to ASCII by adding 30h ('0') and calling [SYS:0232](0218-PRINT-DIGIT.md) to print it.
+This converts the result in AL to ASCII by adding 30h ('0') and calling [SYS:0232](0218-PRINT-DIGITS.md) to print it.
 
 ```
 SYS:0215 8AC4          MOV	AL,AH
