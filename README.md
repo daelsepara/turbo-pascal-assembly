@@ -22,7 +22,7 @@
 
   - [010C INT 00h Handler](010C-INT00H.md)
 
-  - [019D Restore interrupt vectors](019D-INTERRUPT-LIST.md)
+  - [019D Restore interrupt vectors](019D-RESTORE-INT.md)
 
   - [01F0 Print string](01F0-PRINT-STRING.md)
 
