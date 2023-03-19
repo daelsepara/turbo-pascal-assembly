@@ -44,6 +44,6 @@ Clear until CX = 0. CX is decremented by 1 each time STOSW is executed
 SYS:0591 C3            RET
 ```
 
-Return to caller. This is a near return, i.e. it is called from within the System Library
+Return to caller. Because it returns with a **NEAR RET**, it can only be called from within the system library.
 
 [Back](README.md)

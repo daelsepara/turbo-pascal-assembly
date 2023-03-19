@@ -11,13 +11,13 @@ SYS:02DC 7201          JB	02DF
 SYS:02DE CB            RETF
 ```
 
-Check if stack size is above the limit, otherwise return.
+Check if stack size is within the limit, otherwise return.
 
 ```
 SYS:02DF B8CA00        MOV	AX,00CA
 SYS:02E2 E92AFE        JMP	010F
 ```
 
-Exit program with an error code CAh
+This prints a runtime error message with error code = CAh.
 
 [Back](README.md)

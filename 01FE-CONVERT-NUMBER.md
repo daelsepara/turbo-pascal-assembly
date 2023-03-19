@@ -40,6 +40,8 @@ SYS:0215 8AC4          MOV	AL,AH
 SYS:0217 C3            RET
 ```
 
-This puts the remainder back in AL then returns to the calling subroutine. If this was called from SYS:0200, it would have converted the upper digit already and will now proceed to SYS:0203 and convert the lower digits. Otherwise, it will return to the caller. Because it is a **NEAR RET**, it can only be called from within the SYS code segment.
+This puts the remainder back in AL then returns to the calling subroutine. If this was called from SYS:0200, it would have converted the upper digit already and will now proceed to SYS:0203 and convert the lower digits. Otherwise, it will return to the caller. 
+
+Because it returns with a **NEAR RET**, it can only be called from within the system library.
 
 [Back](README.md)
