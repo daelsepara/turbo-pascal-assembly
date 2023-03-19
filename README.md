@@ -26,6 +26,10 @@
 
   - [010C INT 00h Handler](010C-INT00H.md)
 
+  - [01C0 Print Runtime error](01C0-PRINT-RUNTIME-ERR.md)
+ 
+  - [01E9 DOS Exit](01E9-DOS-EXIT.md)
+  
   - [019D Restore interrupt vectors](019D-RESTORE-INT.md)
 
   - [01F0 Print string](01F0-PRINT-STRING.md)
@@ -37,6 +41,10 @@
   - [0232 Print character](0232-PRINT-CHAR.md)
 
   - [0239 Interrupt List](0239-INTERRUPT-LIST.md)
+
+  - [024C Runtime error strings](024C-STRING-RUNTIME-ERR.md)
+
+  - [0263 Copyright string (invisible)](0263-DATA-COPYRIGHT.md)
 
   - [02C1 Range check error](02C1-RANGE.md)
 
