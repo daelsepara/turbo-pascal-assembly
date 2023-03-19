@@ -28,6 +28,10 @@
 
   - [0232 Print character](0218-PRINT-CHAR.md)
 
+  - [02C1 Range check error](02C1-RANGE.md)
+
+  - [02C7 Arithmetic overflow error](02C7-ARITHMETIC-OVERFLOW.md)
+
   - [02CD Check stack](02CD-CHECK-STACK.md)
 
   - [02E6 Unknown](02E6-UNKNOWN.md)
