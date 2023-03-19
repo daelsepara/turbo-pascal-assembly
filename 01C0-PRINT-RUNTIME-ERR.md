@@ -1,6 +1,6 @@
 # 01C0 Print Runtime error
 
-Prints the Runtime error it has the form:
+Prints the Runtime error string which has the form:
 ```
 Runtime error XXX at YYYY:ZZZZ
 ```
@@ -33,21 +33,21 @@ SYS:01D2 A13600        MOV	AX,[ErrorAddr:SEG]
 SYS:01D5 E84000        CALL	0218
 ```
 
-Print the segment address **XXXX** in base 16 (hexadecimal) using the [SYS:0218 Print digits subroutine](0218-PRINT-DIGITS.md).
+Print the segment address **YYYY** in base 16 (hexadecimal) using the [SYS:0218 Print digits subroutine](0218-PRINT-DIGITS.md).
 
 ```
 SYS:01D8 B03A          MOV	AL,3A
 SYS:01DA E85500        CALL	0232
 ```
 
-Prints the *:* (colon) character as part of the **XXXX:YYYY** address using the [SYS:0232 Print character subroutine](0232-PRINT-CHAR.m).
+Prints the *:* (colon) character as part of the **YYYY:ZZZZ** address using the [SYS:0232 Print character subroutine](0232-PRINT-CHAR.m).
 
 ```
 SYS:01DD A13400        MOV	AX,[ErrorAddr:OFF]
 SYS:01E0 E83500        CALL	0218
 ```
 
-Print the offset address **YYYY** in base 16 (hexadecimal) using the [SYS:0218 Print digits subroutine](0218-PRINT-DIGITS.md).
+Print the offset address **ZZZZ** in base 16 (hexadecimal) using the [SYS:0218 Print digits subroutine](0218-PRINT-DIGITS.md).
 
 ```
 SYS:01E3 BB6002        MOV	BX,0260
