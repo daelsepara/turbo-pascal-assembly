@@ -12,7 +12,7 @@ SYS:01C0 BB4C02        MOV	BX,024C
 SYS:01C3 E82A00        CALL	01F0
 ```
 
-Print [*Runtime error*](024C-STRING-RUNTIME-ERR.md) including the trailing whitespace using the [SYS:01F0 Print string subroutine](01F0-PRINT-STRING.md).
+Print ["*Runtime error*](024C-STRING-RUNTIME-ERR.md) including the trailing whitespace using the [SYS:01F0 Print string subroutine](01F0-PRINT-STRING.md).
 
 ```
 SYS:01C6 A13200        MOV	AX,[ExitCode]
@@ -26,7 +26,7 @@ SYS:01CC BB5B02        MOV	BX,025B
 SYS:01CF E81E00        CALL	01F0
 ```
 
-Print the [*at*](024C-STRING-RUNTIME-ERR.md) including both whitespace characters at the front and end of the **at** using the [SYS:01F0 Print string subroutine](01F0-PRINT-STRING.md)
+Print the [*at*](024C-STRING-RUNTIME-ERR.md) including both whitespace characters at the front and end of the " **at** " string using [SYS:01F0](01F0-PRINT-STRING.md)
 
 ```
 SYS:01D2 A13600        MOV	AX,[ErrorAddr:SEG]
@@ -47,13 +47,13 @@ SYS:01DD A13400        MOV	AX,[ErrorAddr:OFF]
 SYS:01E0 E83500        CALL	0218
 ```
 
-Print the offset address **ZZZZ** in base 16 (hexadecimal) using the [SYS:0218 Print digits subroutine](0218-PRINT-DIGITS.md).
+Print the offset address **ZZZZ** in base 16 (hexadecimal) using [SYS:0218](0218-PRINT-DIGITS.md).
 
 ```
 SYS:01E3 BB6002        MOV	BX,0260
 SYS:01E6 E80700        CALL	01F0
 ```
 
-Finally, print **.** and the newline characters. The code continues to the [SYS:1E9 DOS Exit](01E9-DOS-EXIT.md) subroutine.
+Finally, print a **.** and the newline characters using [SYS:01F0](01F0-PRINT-STRING.md). The code continues to the [SYS:1E9 DOS Exit](01E9-DOS-EXIT.md) subroutine.
 
 [Go back](README.md)
