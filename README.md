@@ -18,7 +18,7 @@
 
   - [010C INT 00h Handler](010C-INT00H.md)
 
-  - [01F0 Print string](01FE-CONVERT-NUMBER.md)
+  - [01F0 Print string](01F0-PRINT-STRING.md)
 
   - [01FE Convert number to ASCII](01FE-CONVERT-NUMBER.md)
 
