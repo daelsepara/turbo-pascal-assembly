@@ -1,0 +1,29 @@
+# 00DB Critical Error Handler
+
+```
+SYS:00DB FB            STI
+SYS:00DC 83C406        ADD	SP,+06
+SYS:00DF 58            POP	AX
+SYS:00E0 83E71F        AND	DI,+1F
+SYS:00E3 81C79600      ADD	DI,0096
+SYS:00E7 80FC39        CMP	AH,39
+SYS:00EA 7303          JNB	00EF
+SYS:00EC BFFFFF        MOV	DI,FFFF
+SYS:00EF 57            PUSH	DI
+SYS:00F0 B454          MOV	AH,54
+SYS:00F2 CD21          INT	21
+SYS:00F4 8BEC          MOV	BP,SP
+SYS:00F6 804E1601      OR	BYTE PTR [BP+16],01
+SYS:00FA 58            POP	AX
+SYS:00FB 5B            POP	BX
+SYS:00FC 59            POP	CX
+SYS:00FD 5A            POP	DX
+SYS:00FE 5E            POP	SI
+SYS:00FF 5F            POP	DI
+SYS:0100 5D            POP	BP
+SYS:0101 1F            POP	DS
+SYS:0102 07            POP	ES
+SYS:0103 CF            IRET
+```
+
+[Back](README.md)

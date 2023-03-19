@@ -1,5 +1,7 @@
 # 02CD CHECK STACK
 
+Checks whether the program's stack size is sufficient.
+
 ```
 SYS:02CD 050002        ADD	AX,0200
 SYS:02D0 720D          JB	02DF
@@ -11,7 +13,7 @@ SYS:02DC 7201          JB	02DF
 SYS:02DE CB            RETF
 ```
 
-Check if stack size is within the limit, otherwise return.
+Usually, DS:[StackLimit] = 0000, i.e. unlimited. In this case, stack overflow error only happens when AX > SP - 4 ( = size of return address). Because this is a **FAR RET**, it can be called from anywhere.
 
 ```
 SYS:02DF B8CA00        MOV	AX,00CA

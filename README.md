@@ -16,6 +16,8 @@
 
   - [00D6 Heap error exit routine](00D6-HEAP-ERROR.md)
 
+  - [00DB Critical Error Handler](00DB-CRITICAL-ERROR.md)
+
   - [010C INT 00h Handler](010C-INT00H.md)
 
   - [01F0 Print string](01F0-PRINT-STRING.md)
