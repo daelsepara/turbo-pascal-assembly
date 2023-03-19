@@ -1,0 +1,18 @@
+# 0480 Unknown
+
+```
+SYS:0480 8BDC          MOV	BX,SP
+SYS:0482 36            SS:
+SYS:0483 C47F04        LES	DI,[BX+04]
+SYS:0486 26            ES:
+SYS:0487 8B1D          MOV	BX,[DI]
+SYS:0489 83FB04        CMP	BX,+04
+SYS:048C 7606          JBE	0494
+SYS:048E B43E          MOV	AH,3E
+SYS:0490 CD21          INT	21
+SYS:0492 7202          JB	0496
+SYS:0494 33C0          XOR	AX,AX
+SYS:0496 CA0400        RETF	0004
+```
+
+[Go back](../README.md)

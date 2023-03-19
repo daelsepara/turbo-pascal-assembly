@@ -58,7 +58,23 @@
 
   - [0364 Unknown](docs/0364-UNKNOWN.md)
   
-  - [03BE Unknown](docs/03BE-UNKNOWN.md)
+  - [03BA Unknown](docs/03BA-UNKNOWN.md)
+
+  - [03FA Unknown](docs/03FA-UNKNOWN.md)
+
+  - [040B Unknown](docs/040B-UNKNOWN.md)
+
+  - [0433 Unknown](docs/0433-UNKNOWN.md)
+
+  - [0460 Unknown](docs/0460-UNKNOWN.md)
+  
+  - [0480 Unknown](docs/0480-UNKNOWN.md)
+
+  - [0499 Unknown](docs/0499-UNKNOWN.md)
+
+  - [0526 Unknown](docs/0526-UNKNOWN.md)
+
+  - [0569 Unknown](docs/0569-SEEK-AND-WRITE.md)
 
   - [0580 Clear input/output buffers and interrupt vector array](docs/0580-CLEAR.md)
 

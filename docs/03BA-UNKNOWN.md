@@ -1,6 +1,8 @@
-# 03BE Unknown
+# 03BA Unknown
 
 ```
+SYS:03BA B000          MOV	AL,00
+SYS:03BC EB02          JMP	03C0
 SYS:03BE B001          MOV	AL,01
 SYS:03C0 55            PUSH	BP
 SYS:03C1 8BEC          MOV	BP,SP

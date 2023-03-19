@@ -15,4 +15,4 @@ SYS:0098 0E            PUSH	CS
 SYS:0099 E8C802        CALL	0364
 ```
 
-[Back](../README.md)
+See also: [SYS:0263 Copyright string (Invisible)](0263-DATA-COPYRIGHT.md), [SYS:02E6](02E6-UNKNOWN.md), [SYS:0364](0364-UNKNOWN.md) or Go [Back](../README.md)
