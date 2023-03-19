@@ -29,7 +29,7 @@ Conversion is done one digit at a time. First, it clears the upper half of AX, i
 ```
 SYS:020E 0430          ADD	AL,30
 SYS:0210 50            PUSH	AX
-SYS:0211 E81E00        CALL	[0232](0218-PRINT-DIGIT.md)
+SYS:0211 E81E00        CALL	0232
 SYS:0214 58            POP	AX
 ```
 
