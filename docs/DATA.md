@@ -1,6 +1,6 @@
 # SYSTEM DATA
 
-## TBD
+## Variables, Constants and Addresses
 
 |Address|   Variable  |
 |-------|-------------|
@@ -31,7 +31,7 @@
 
 Stores PSP segment address setup by DOS upon loading the program.
 
-## TBD
+## Constants and Variables
 
 |Address|   Variable  |
 |-------|-------------|
