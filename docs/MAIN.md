@@ -78,6 +78,6 @@ CODE:0010 31C0          XOR	AX,AX
 CODE:0012 9A16017007    CALL	SYS:0116
 ```
 
-Call [SYS:0116](0113-CTRL-C-HANDLER.md) Exit Function . AX contains the exit code (AL = 0, no error).
+Call [SYS:0116](0113-CTRL-C-HANDLER.md) Exit Function . AX contains the [ExitCode](DATA.md) = 0 (No Error).
 
 [Back](../README.md)
