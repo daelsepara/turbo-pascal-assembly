@@ -1,4 +1,4 @@
-# 018B Unknown
+# 018B Flush and Close Input and Output Buffers
 
 ```
 SYS:018B B85000        MOV	AX,OFFSET Input

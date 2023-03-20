@@ -22,4 +22,4 @@ SYS:02E2 E92AFE        JMP	010F
 
 This prints a runtime error message with error code [CA/202: Stack overflow error](ERROR-CODES.md).
 
-[Back](../README.md)
+See also: [SYS:10F](010C-INT00H.md) or Go [Back](../README.md)

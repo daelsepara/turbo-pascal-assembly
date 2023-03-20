@@ -8,4 +8,4 @@ SYS:010A EB03          JMP	010F
 
 This prints a runtime error message with error code [D0/208: Overlay manager not installed](ERROR-CODES.md).
 
-[Back](../README.md)
+See also: [SYS:10F](010C-INT00H.md) or Go [Back](../README.md)

@@ -1,4 +1,4 @@
-# 0113 Ctrl-C / Int 23h Handler
+# 0113 Ctrl-C / Int 23h Handler / Program Exit
 
 ```
 SYS:0113 B8FF00        MOV	AX,00FF
@@ -56,4 +56,6 @@ SYS:0189 53            PUSH	BX
 SYS:018A CB            RETF
 ```
 
-See also: [SYS:018B](018B-UNKNOWN.md) or Go [Back](../README.md)
+This CTRL-C handler is also the **Exit Program** subroutine. When called at **SYS:0116**, it is assumed that the error code is already set prior in AX. The CTRL-C handler (starting at **SYS:0113)** simply performs the same exit procedure but with Exit Code = -1 (FFh).
+
+See also: [SYS:018B](018B-FLUSH-BUFFERS.md) or Go [Back](../README.md)
