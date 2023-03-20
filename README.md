@@ -62,7 +62,7 @@
   
   - [03BA Unknown](docs/03BA-UNKNOWN.md)
 
-  - [03FA Unknown](docs/03FA-UNKNOWN.md)
+  - [03FA I/O Function Dispatcher](docs/03FA-IO-FUNCTION-DISPATCHER.md)
 
   - [040B Unknown](docs/040B-UNKNOWN.md)
 

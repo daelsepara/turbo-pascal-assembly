@@ -1,4 +1,4 @@
-# 03FA Unknown
+# 03FA I/O Function Dispatcher
 
 ```
 SYS:03FA 06            PUSH	ES
