@@ -32,4 +32,4 @@ SYS:0566 43            INC	BX
 SYS:0567 EBF2          JMP	055B
 ```
 
-[Go back](../README.md)
+See also: [SYS:0569 Seek and Write](0569-SEEK-AND-WRITE.md) or Go [back](../README.md)

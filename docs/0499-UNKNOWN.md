@@ -55,4 +55,4 @@ SYS:0522 1F            POP	DS
 SYS:0523 CA0400        RETF	0004
 ```
 
-See also: [SYS:0460](0460-UNKNOWN.md) or Go [back](../README.md)
+See also: [SYS:0460](0460-UNKNOWN.md), [SYS:0526](0526-UNKNOWN.md) or Go [back](../README.md)
