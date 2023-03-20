@@ -15,6 +15,6 @@ SYS:01FD C3            RET
 
 This will load one character at a time from [BX], then call the [print character service](0232-PRINT-CHAR.md) in [SYS:232](0232-PRINT-CHAR.md). It will continue printing a character until a **NULL** (00h) byte is encountered. The strings it prints must be located within the system library's code segment.
 
-Because it returns with a**NEAR RET**, it can only be called from within the system library.
+Because it returns with a **NEAR RET**, it can only be called from within the system library.
 
 [Back](../README.md)
