@@ -20,7 +20,7 @@ SYS:011A BACA07        MOV	DX,DATA
 SYS:011D 8EDA          MOV	DS,DX
 ```
 
-**SYS:011A** is the entry point for stopping the program with an [ExitCode](DATA.md) in AX.
+**SYS:011A** is also an entry point for stopping the program with an [ExitCode](DATA.md) in AX.
 
 ```
 SYS:011F FB            STI
