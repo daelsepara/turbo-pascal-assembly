@@ -50,4 +50,4 @@ SYS:0335 1F            POP	DS
 SYS:0336 CA0800        RETF	0008
 ```
 
-[Back](../README.md)
+See also: [SYS:0499](0499-UNKNOWN.md) or Go [Back](../README.md)

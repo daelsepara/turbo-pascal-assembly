@@ -41,4 +41,4 @@ SYS:03B6 5D            POP	BP
 SYS:03B7 CA0400        RETF	0004
 ```
 
-See Also: [SYS:03BA](03BA-UNKNOWN.md) [Back](../README.md)
+See Also: [SYS:03BA](03BA-UNKNOWN.md), [SYS:03FA](03FA-UNKNOWN.md) or Go [Back](../README.md)

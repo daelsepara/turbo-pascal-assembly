@@ -26,6 +26,8 @@
 
   - [010C INT 00h Handler](docs/010C-INT00H.md)
 
+  - [0113 Ctrl-C / INT 23h Handler](docs/0113-CTRL-C-HANDLER.md)
+
   - [018B Unknown](docs/018B-UNKNOWN.md)
 
   - [019D Restore interrupt vectors](docs/019D-RESTORE-INT.md)

@@ -23,4 +23,4 @@ SYS:042F 1F            POP	DS
 SYS:0430 CA0400        RETF	0004
 ```
 
-[Go back](../README.md)
+See also: [SYS:0433](0433-UNKNOWN.md) or Go [back](../README.md)
