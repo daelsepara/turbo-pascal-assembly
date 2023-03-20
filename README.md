@@ -32,7 +32,7 @@
 
   - [019D Restore interrupt vectors](docs/019D-RESTORE-INT.md)
 
-  - [01C0 Print Runtime error](docs/01C0-PRINT-RUNTIME-ERR.md)
+  - [01B7 Print Runtime error](docs/01B7-PRINT-RUNTIME-ERR.md)
  
   - [01E9 DOS Exit](docs/01E9-DOS-EXIT.md)
 
