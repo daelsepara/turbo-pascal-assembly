@@ -57,15 +57,16 @@ CODE:0005 55            PUSH	BP
 CODE:0006 89E5          MOV	BP,SP
 ```
 
-Probably like other compiled high-level languages, Turbo Pascal has a lot of stack manipulation. This sequence of statements PUSH BP/MOV BP, SP is like a defining signature of compiled code. It's likely that the main program is a callable function and receives parameters (e.g. argc, argv) on the stack right next to the return code. BP is used to address these parameters. It can be observed in Turbo Pascal, the compiler takes special care of BP and SP while playing fast and loose with the other registers.
+Probably like other compiled high-level languages, Turbo Pascal has a lot of stack manipulation. This sequence of statements PUSH BP/MOV BP, SP is like a defining signature of compiled code. It's likely that the main program is a callable function and receives parameters (e.g. argc, argv) on the stack right next to the return code. It is also possible that the loader or the parent program did a **FAR JMP** to **CODE:0000**. 
+
+BP is used often to address these parameters on the stack. In most cases Turbo Pascal compiler takes special care of BP and SP, while playing fast and loose with the other registers.
 
 ```
 CODE:0008 31C0          XOR	AX,AX
 CODE:000A 9ACD027007    CALL	SYS:02CD
 ```
 
-Checks the size of the stack: [SYS:02CD](02CD-CHECK-STACK.md). Exits with an error message if stack size is above the limit.
-
+Checks the size of the stack with a call to [SYS:02CD](02CD-CHECK-STACK.md). Exits with an error message if stack size is not sufficient or below the minimum.
 
 ```
 CODE:000F 5D            POP	BP
