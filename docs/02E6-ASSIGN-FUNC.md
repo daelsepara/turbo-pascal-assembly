@@ -54,7 +54,7 @@ Loads the pointer to the **[Name](0263-DATA-COPYRIGHT.md)** string into DS:SI.
 SYS:02F3 FC            CLD
 ```
 
-Set direction to forward (DF = 0)
+Set copy direction to forward (DF = 0).
 
 ```
 SYS:02F4 33C0          XOR	AX,AX
@@ -85,7 +85,7 @@ SYS:0303 AB            STOSW
 ```
 
 Does the following in order:
-- **[Private](TextFileType.md)** to 0.
+- Set **[Private](TextFileType.md)** to 0.
 - Resets **[BufPos](TextFileType.md)** pointer/index to the beginning (0).
 - Resets **[BufEnd](TextFileType.md)**, the number of characters in the buffer, to 0.
 
@@ -138,14 +138,14 @@ SYS:0322 3AC8          CMP	CL,AL
 SYS:0324 7604          JBE	032A
 ```
 
-In some scenarios, the first byte of the source buffer is the length. If the length is below or equal to 79, then copy the name to **[Name](TextFileType.md)**.
+In some scenarios, the first byte of the source buffer is the length. If the length is below or equal to 79, then copy the name in DS:SI to **[Name](TextFileType.md)**.
 
 ```
 SYS:0326 8AC8          MOV	CL,AL
 SYS:0328 E308          JCXZ	0332
 ```
 
-If greater than **79** bytes, modify the loop counter in CX.
+If greater than **79** bytes, i.e. **CL > AL**, modify the loop counter in CX.
 
 ```
 SYS:032A AC            LODSB
