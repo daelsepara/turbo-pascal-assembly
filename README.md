@@ -6,15 +6,17 @@
 
 - [System Data](docs/DATA.md)
 
+- [Text File Type](docs/TextFileType.md)
+
 - [Main Program](docs/MAIN.md)
 
 - **System Library**
 
   - [0000 Initialize System Library](docs/0000-INIT.md)
 
-  - [0088 Initialize Input](docs/0088-INIT-INPUT.md)
+  - [0088 Initialize Input File Record](docs/0088-INIT-INPUT.md)
 
-  - [009C Initialize Output](docs/009C-INIT-OUTPUT.md)
+  - [009C Initialize Output File Record](docs/009C-INIT-OUTPUT.md)
 
   - [00B1 Test for 8086/80186/80286](docs/00B1-TEST86.md)
 

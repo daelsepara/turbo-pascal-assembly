@@ -47,15 +47,16 @@ Stores PSP segment address setup by DOS upon loading the program.
 | 004D  | Test8087    |
 | 004E  | FileMode    |
 
-## Input/Output buffers
+## Input/Output Text File Type
 
 |Address|   Variable  |
 |-------|-------------|
 | 0050  | Input       |
 | 0150  | Output      |
 
-Each buffer is arround 256 bytes in size.
+Each  is around 256 bytes in size.
 
+See: [Text File Type](TextFileType.md)
 ## Interrupt Vectors
 
 |Address|   Variable  |
