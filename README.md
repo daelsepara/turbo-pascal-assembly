@@ -58,7 +58,7 @@
 
   - [02CD Check stack](docs/02CD-CHECK-STACK.md)
 
-  - [02E6 Unknown](docs/02E6-UNKNOWN.md)
+  - [02E6 Assign Function](docs/02E6-ASSIGN-FUNC.md)
 
   - [0364 Unknown](docs/0364-UNKNOWN.md)
   
@@ -74,7 +74,7 @@
   
   - [0480 Unknown](docs/0480-UNKNOWN.md)
 
-  - [0499 Unknown](docs/0499-UNKNOWN.md)
+  - [0499 OpenFunc](docs/0499-OPEN-FUNC.md)
 
   - [0526 Unknown](docs/0526-UNKNOWN.md)
 

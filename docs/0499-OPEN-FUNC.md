@@ -1,4 +1,4 @@
-# 0499 Unknown
+# 0499 OpenFunc
 
 ```
 SYS:0499 8BDC          MOV	BX,SP

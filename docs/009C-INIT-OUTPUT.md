@@ -18,5 +18,5 @@ SYS:00AD E8B902        CALL	0369
 SYS:00B0 CB            RETF
 ```
 
-See also: [Text File Type](TextFileType.md), [SYS:0263 Copyright string (Invisible)](0263-DATA-COPYRIGHT.md), [SYS:02E6](02E6-UNKNOWN.md), [SYS:0369](0364-UNKNOWN.md) or Go [Back](../README.md)
+See also: [Text File Type](TextFileType.md), [SYS:0263 Copyright string (Invisible)](0263-DATA-COPYRIGHT.md), [SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md), [SYS:0369](0364-UNKNOWN.md) or Go [Back](../README.md)
 

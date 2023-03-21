@@ -17,7 +17,7 @@ This is a type of file or record used internally by Turbo Pascal. It is around 2
 |0014   |4            |InOutFunc|FAR PTR   |Pointer to I/O routine that performs read/write on this file                    |
 |0018   |4            |FlushFunc|FAR PTR   |Pointer to I/O routine that flushes the buffer                                  |
 |001C   |4            |CloseFunc|FAR PTR   |Pointer to I/O routine that closes this file                                    |
-|0020   |16           |UserData |BYTE array| Not used by TurboPascal and can be freely used to store any data               |
+|0020   |16           |UserData |BYTE array|Not used by Turbo Pascal. can be freely used to store any data                  |
 |0030   |80           |Name     |BYTE array|This file's name which is a NULL (00h) terminated string                        |
 |0080   |128          |TextBuf  |BYTE array|Character buffer                                                                |
 
