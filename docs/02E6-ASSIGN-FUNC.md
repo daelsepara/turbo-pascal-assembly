@@ -169,4 +169,6 @@ SYS:0335 1F            POP	DS
 SYS:0336 CA0800        RETF	0008
 ```
 
+Return and pop-off the two **FAR PTR** parameters (8 bytes) from the stack.
+
 See also: [SYS:0499 OpenFunc](0499-OPEN-FUNC.md) or Go [Back](../README.md)
