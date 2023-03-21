@@ -48,7 +48,7 @@ SYS:02EF 36            SS:
 SYS:02F0 C57704        LDS	SI,[BX+04]
 ```
 
-Loads the **[Copyright String Data](0263-DATA-COPYRIGHT.md)** into DS:SI.
+Loads the pointer to the **[Name](0263-DATA-COPYRIGHT.md)** string into DS:SI.
 
 ```
 SYS:02F3 FC            CLD
