@@ -60,7 +60,7 @@
 
   - [02E6 Assign Function](docs/02E6-ASSIGN-FUNC.md)
 
-  - [0364 Unknown](docs/0364-UNKNOWN.md)
+  - [0364 Reset/Rewrite Function](docs/0364-RESET-REWRITE-FUNC.md)
   
   - [03BA Unknown](docs/03BA-UNKNOWN.md)
 

@@ -1,4 +1,4 @@
-# 0364 Unknown
+# 0364 Reset/Rewrite Function
 
 ```
 SYS:0364 BAB1D7        MOV	DX,fmInput
