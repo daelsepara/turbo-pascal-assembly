@@ -4,7 +4,7 @@ This is Turbo Pascal's **Assign**(*File*, *Name*) function. It takes two paramet
 - **File**: Pointer to the [File Record](TextFileType.md)
 - **Name**: Pointer to **[string](0263-DATA-COPYRIGHT.md)**  to assign to the **File** 
 
-Upon calling this routine, - this is how the stack looks like:
+Upon calling this routine, this is how the stack looks like:
 
 ## Stack upon call to SYS:02E6
 
