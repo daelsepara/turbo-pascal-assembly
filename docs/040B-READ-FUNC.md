@@ -83,12 +83,12 @@ Restore DS from the stack.
 
 ```
 SYS:0430 CA0400        RETF	0004
-SYS:0433 26            ES:
 ```
 
 Return to caller and pop-off parameters from the stack.
 
 ```
+SYS:0433 26            ES:
 SYS:0434 C7450A0000    MOV	WORD PTR [DI+0A],0000
 SYS:0439 EBEE          JMP	0429
 ```
