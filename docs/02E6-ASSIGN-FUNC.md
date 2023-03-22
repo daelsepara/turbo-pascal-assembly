@@ -1,7 +1,7 @@
 # 02E6 Assign Function
 
 This is Turbo Pascal's **Assign**(*File*, *Name*) function. It takes two parameters:
-- **File**: Pointer to the [File Record](TextFileType.md)
+- **File**: Pointer to the [File Record](TEXT-FILE-TYPE.md)
 - **Name**: Pointer to **[string](0263-DATA-COPYRIGHT.md)**  to assign to the **File** 
 
 Upon calling this routine, this is how the stack looks like:
@@ -28,7 +28,7 @@ Set name length 0.
 SYS:02E8 8BDC          MOV	BX,SP
 ```
 
-Sets up BX to address data on the stack. **SYS:02E8** is a possible entry point if a non-zero length string were to be assigned to **[File](TextFileType.md)**.
+Sets up BX to address data on the stack. **SYS:02E8** is a possible entry point if a non-zero length string were to be assigned to **[File](TEXT-FILE-TYPE.md)**.
 
 ```
 SYS:02EA 1E            PUSH	DS
@@ -41,7 +41,7 @@ SYS:02EB 36            SS:
 SYS:02EC C47F08        LES	DI,[BX+08]
 ```
 
-Loads the pointer to the **[Text File/Record data](TextFileType.md)** into ES:DI.
+Loads the pointer to the **[Text File/Record data](TEXT-FILE-TYPE.md)** into ES:DI.
 
 ```
 SYS:02EF 36            SS:
@@ -61,21 +61,21 @@ SYS:02F4 33C0          XOR	AX,AX
 SYS:02F6 AB            STOSW
 ```
 
-Initialize **[Handle](TextFileType.md)** to 0.
+Initialize **[Handle](TEXT-FILE-TYPE.md)** to 0.
 
 ```
 SYS:02F7 B8B0D7        MOV	AX,fmClosed
 SYS:02FA AB            STOSW
 ```
 
-Set **[Mode](TextFileType.md)** to **[fmClosed](TextFileType.md)**.
+Set **[Mode](TEXT-FILE-TYPE.md)** to **[fmClosed](FILE-MODES.md)**.
 
 ```
 SYS:02FB B88000        MOV	AX,0080
 SYS:02FE AB            STOSW
 ```
 
-Set **[BufSize](TextFileType.md)** to 128  (80h) bytes.
+Set **[BufSize](TEXT-FILE-TYPE.md)** to 128  (80h) bytes.
 
 ```
 SYS:02FF 33C0          XOR	AX,AX
@@ -85,23 +85,23 @@ SYS:0303 AB            STOSW
 ```
 
 Does the following in order:
-- Set **[Private](TextFileType.md)** to 0.
-- Resets **[BufPos](TextFileType.md)** pointer/index to the beginning (0).
-- Resets **[BufEnd](TextFileType.md)**, the number of characters in the buffer, to 0.
+- Set **[Private](TEXT-FILE-TYPE.md)** to 0.
+- Resets **[BufPos](TEXT-FILE-TYPE.md)** pointer/index to the beginning (0).
+- Resets **[BufEnd](TEXT-FILE-TYPE.md)**, the number of characters in the buffer, to 0.
 
 ```
 SYS:0304 8D4574        LEA	AX,[DI+74]
 SYS:0307 AB            STOSW
 ```
 
-Loads the offset location of **[TextBuf](TextFileType.md)** into AX, then sets the offset part of **[BufPtr](TextFileType.md)**.
+Loads the offset location of **[TextBuf](TEXT-FILE-TYPE.md)** into AX, then sets the offset part of **[BufPtr](TEXT-FILE-TYPE.md)**.
 
 ```
 SYS:0308 8CC0          MOV	AX,ES
 SYS:030A AB            STOSW
 ```
 
-Copies ES which is the SEGMENT location of **[TextBuf](TextFileType.md)** into AX, then sets the segment part of **[BufPtr](TextFileType.md)**.
+Copies ES which is the SEGMENT location of **[TextBuf](TEXT-FILE-TYPE.md)** into AX, then sets the segment part of **[BufPtr](TEXT-FILE-TYPE.md)**.
 
 ```
 SYS:030B B89904        MOV	AX,0499
@@ -110,7 +110,7 @@ SYS:030F B87007        MOV	AX,SYS
 SYS:0312 AB            STOSW
 ```
 
-Sets **[OpenFunc](TextFileType.md)** pointer to [SYS:0499 OpenFunc](0499-OPEN-FUNC.md).
+Sets **[OpenFunc](TEXT-FILE-TYPE.md)** pointer to [SYS:0499 OpenFunc](0499-OPEN-FUNC.md).
 
 ```
 SYS:0313 33C0          XOR	AX,AX
@@ -120,9 +120,9 @@ SYS:0319 AB            STOSW
 ```
 
 Clears the following:
-- **[FlushFunc](TextFileType.md)**
-- **[CloseFunc](TextFileType.md)**
-- **[UserData](TextFileType.md)**
+- **[FlushFunc](TEXT-FILE-TYPE.md)**
+- **[CloseFunc](TEXT-FILE-TYPE.md)**
+- **[UserData](TEXT-FILE-TYPE.md)**
 
 ```
 SYS:031A B94F00        MOV	CX,004F
@@ -138,7 +138,7 @@ SYS:0322 3AC8          CMP	CL,AL
 SYS:0324 7604          JBE	032A
 ```
 
-In some scenarios, the first byte of the source buffer is the length. If the length is below or equal to 79, then copy the name in DS:SI to **[Name](TextFileType.md)**.
+In some scenarios, the first byte of the source buffer is the length. If the length is below or equal to 79, then copy the name in DS:SI to **[Name](TEXT-FILE-TYPE.md)**.
 
 ```
 SYS:0326 8AC8          MOV	CL,AL
@@ -155,14 +155,14 @@ SYS:032F AA            STOSB
 SYS:0330 E2F8          LOOP	032A
 ```
 
-This does the actual copying of the name in DS:SI to **[Name](TextFileType.md)**.
+This does the actual copying of the name in DS:SI to **[Name](TEXT-FILE-TYPE.md)**.
 
 ```
 SYS:0332 32C0          XOR	AL,AL
 SYS:0334 AA            STOSB
 ```
 
-**NULL** (00h) terminates the **[Name](TextFileType.md)** string.
+**NULL** (00h) terminates the **[Name](TEXT-FILE-TYPE.md)** string.
 
 ```
 SYS:0335 1F            POP	DS

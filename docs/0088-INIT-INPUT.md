@@ -32,8 +32,8 @@ SYS:0098 0E            PUSH	CS
 SYS:0099 E8C802        CALL	0364
 ```
 
-Calls [SYS:0263 Reset Function](0364-RESET-REWRITE-FUNC.md) and use **Input**'s **[OpenFunc](TextFileType.md)** to open it.
+Calls [SYS:0364 Reset Function](0364-RESET-REWRITE-FUNC.md) and use **Input**'s **[OpenFunc](TEXT-FILE-TYPE.md)** to open it.
 
 Code continues to [SYS:009C Initialize Output File](009C-INIT-OUTPUT.md).
 
-See also: [Text File Type](TextFileType.md), [SYS:0263 Copyright string (Invisible)](0263-DATA-COPYRIGHT.md), [SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md), [SYS:0364 Reset/Rewrite Function](0364-RESET-REWRITE-FUNC.md) or Go [Back](../README.md)
+See also: [Text File Type](TEXT-FILE-TYPE.md), [SYS:0263 empty string](0263-DATA-COPYRIGHT.md), [SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md), [SYS:0364 Reset/Rewrite Function](0364-RESET-REWRITE-FUNC.md) or Go [Back](../README.md)

@@ -56,7 +56,7 @@ Stores PSP segment address setup by DOS upon loading the program.
 
 Each  is around 256 bytes in size.
 
-See: [Text File Type](TextFileType.md)
+See: [Text File Type](TEXT-FILE-TYPE.md)
 ## Interrupt Vectors
 
 |Address|   Variable  |

@@ -7,7 +7,7 @@ This is a type of file or record used internally by Turbo Pascal. It is around 2
 |Address|Size (bytes) |Name     |Type      |Description                                                                     |
 | :---: | :---------: | :-----: | :------: |--------------------------------------------------------------------------------|
 |0000   |2            |Handle   |WORD      |Handle contains the file's handle (when the file is open) as returned by **DOS**|
-|0002   |2            |Mode     |WORD      |The Mode field can assume one of the *magic* values (see **Modes** below)       |
+|0002   |2            |Mode     |WORD      |The Mode field can assume one of the *magic* values (see [Modes](FILE-MODES.md))|
 |0004   |2            |BufSize  |WORD      |Size of the *TextBuf* character buffer                                          |
 |0006   |2            |Private  |WORD      |Unused but reserved                                                             | 
 |0008   |2            |BufPos   |WORD      |Index of the next character in the buffer to read or write                      |
@@ -23,14 +23,4 @@ This is a type of file or record used internally by Turbo Pascal. It is around 2
 
 Total size: 256 (100h) bytes
 
-# Modes
-
-| Name      | Value (Hex) |Description                                                                           |
-| :-------: | :---------: |--------------------------------------------------------------------------------------|
-|fmClosed   | D7B0        | The file is closed                                                                   |
-|fmInput    | D7B1        | The file is a *text file* that has been reset                                        |
-|fmOutput   | D7B2        | The file is a *text file* that has been rewritten                                    |
-|fmInOut    | D7B3        | The file variable is a typed or an untyped file that has been reset or rewritten     |
-|*Undefined*| ????        | The file variable hasn't been assigned (and thereby not initialized)                 |
-
-See also: [Input/Output](DATA.md), or Go [Back](../README.md)
+See also: [File Modes](FILE-MODES.md), [Input/Output](DATA.md), or Go [Back](../README.md)

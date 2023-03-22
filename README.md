@@ -6,7 +6,9 @@
 
 - [System Data](docs/DATA.md)
 
-- [Text File Type](docs/TextFileType.md)
+- [Text File Type](docs/TEXT-FILE-TYPE.md)
+
+- [File Modes](docs/FILE-MODES.md)
 
 - [Main Program](docs/MAIN.md)
 
@@ -50,7 +52,7 @@
 
   - [024C Runtime error strings](docs/024C-STRING-RUNTIME-ERR.md)
 
-  - [0263 Copyright string (invisible)](docs/0263-DATA-COPYRIGHT.md)
+  - [0263 Empty string and Hidden Copyright string](docs/0263-DATA-COPYRIGHT.md)
 
   - [02C1 Range check error](docs/02C1-RANGE.md)
 

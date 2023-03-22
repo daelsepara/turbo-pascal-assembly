@@ -41,4 +41,4 @@ SYS:03B6 5D            POP	BP
 SYS:03B7 CA0400        RETF	0004
 ```
 
-See Also: [SYS:03BA](03BA-UNKNOWN.md), [SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md), or [Back](../README.md)
+See Also: [File Modes](FILE-MODES.md), [Text File Type](TEXT-FILE-TYPE.md), [SYS:03BA](03BA-UNKNOWN.md), [SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md), or [Back](../README.md)
