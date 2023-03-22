@@ -1,4 +1,4 @@
-# 0460 Unknown
+# 0460 Write Function
 
 ```
 SYS:0460 8BDC          MOV	BX,SP
@@ -20,4 +20,4 @@ SYS:047C 1F            POP	DS
 SYS:047D CA0400        RETF	0004
 ```
 
-[Go back](../README.md)
+See also: [Text File Type](TEXT-FILE-TYPE.md) or go [back](../README.md)

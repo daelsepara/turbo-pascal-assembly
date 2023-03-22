@@ -64,17 +64,17 @@
 
   - [0364 Reset/Rewrite Function](docs/0364-RESET-REWRITE-FUNC.md)
   
-  - [03BA Unknown](docs/03BA-UNKNOWN.md)
+  - [03BA Reset/Rewrite Function (II)](docs/03BA-RESET-REWRITE-FUNC-II.md)
 
   - [03FA I/O Function Dispatcher](docs/03FA-IO-FUNCTION-DISPATCHER.md)
 
-  - [040B Unknown](docs/040B-UNKNOWN.md)
+  - [040B Read Function](docs/040B-READ-FUNC.md)
 
-  - [0433 Unknown](docs/0433-UNKNOWN.md)
+  - [043B Unknown](docs/043B-UNKNOWN.md)
 
-  - [0460 Unknown](docs/0460-UNKNOWN.md)
+  - [0460 Write Function](docs/0460-WRITE-FUNC.md)
   
-  - [0480 Unknown](docs/0480-UNKNOWN.md)
+  - [0480 CloseFunc](docs/0480-CLOSE-FUNC.md)
 
   - [0499 OpenFunc](docs/0499-OPEN-FUNC.md)
 

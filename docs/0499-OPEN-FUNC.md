@@ -55,4 +55,4 @@ SYS:0522 1F            POP	DS
 SYS:0523 CA0400        RETF	0004
 ```
 
-See also: [File Modes](FILE-MODES.md), [Text File Type](TEXT-FILE-TYPE.md), [SYS:040B](040B-UNKNOWN.md), [SYS:043B](0433-UNKNOWN.md), [SYS:0460](0460-UNKNOWN.md), [SYS:0526](0526-UNKNOWN.md) or Go [back](../README.md)
+See also: [Text File Type](TEXT-FILE-TYPE.md), [File Modes](FILE-MODES.md), [SYS:040B Read Function](040B-READ-FUNC.md), [SYS:043B](043B-UNKNOWN.md), [SYS:0460 Write Function](0460-WRITE-FUNC.md), [SYS:0480 CloseFunc](0480-CLOSE-FUNC.md), [SYS:0526](0526-UNKNOWN.md) or Go [back](../README.md)

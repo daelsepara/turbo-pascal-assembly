@@ -15,4 +15,4 @@ SYS:019A E82102        CALL	03BE
 
 Flushes and closes **Input** and **Output** buffers on call to **SYS:03BE**. Continues to [SYS:019D Restore interrupt vectors](019D-RESTORE-INT.md).
 
-See also: [SYS:03BE](03BA-UNKNOWN.md) or Go [back](../README.md)
+See also: [SYS:03BE](03BA-RESET-REWRITE-FUNC-II.md) or Go [back](../README.md)

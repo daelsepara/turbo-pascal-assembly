@@ -1,9 +1,6 @@
-# 0433 Unknown
+# 043B Unknown
 
 ```
-SYS:0433 26            ES:
-SYS:0434 C7450A0000    MOV	WORD PTR [DI+0A],0000
-SYS:0439 EBEE          JMP	0429
 SYS:043B 8BDC          MOV	BX,SP
 SYS:043D 1E            PUSH	DS
 SYS:043E 36            SS:
@@ -25,4 +22,4 @@ SYS:045C 1F            POP	DS
 SYS:045D CA0400        RETF	0004
 ```
 
-See also: [SYS:0429](040B-UNKNOWN.md) or Go [back](../README.md)
+[Back](../README.md)
