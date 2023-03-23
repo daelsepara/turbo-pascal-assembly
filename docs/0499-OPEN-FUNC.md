@@ -171,7 +171,7 @@ SYS:0516 C7451C8004    MOV	WORD PTR [DI+1C],0480
 SYS:051B C7451E7007    MOV	WORD PTR [DI+1E],SYS
 ```
 
-Set up the handlers for **[File](TEXT-FILE-TYPE.md)**'s **[CloseFunc](TEXT-FILE-TYPE.md)**.
+Set up the handlers for **[File](TEXT-FILE-TYPE.md)**'s **[CloseFunc](0480-CLOSE-FUNC.md)**.
 
 ```
 SYS:0520 33C0          XOR	AX,AX
