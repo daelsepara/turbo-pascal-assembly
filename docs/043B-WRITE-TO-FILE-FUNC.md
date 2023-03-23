@@ -1,4 +1,4 @@
-# 043B Unknown
+# 043B Write to file with additional error checking
 
 ```
 SYS:043B 8BDC          MOV	BX,SP

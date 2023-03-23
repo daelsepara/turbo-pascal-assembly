@@ -10,6 +10,8 @@
 
 - [File Modes](docs/FILE-MODES.md)
 
+- [DOS Standard Handles](docs/DOS-STANDARD-HANDLES.md)
+
 - [Main Program](docs/MAIN.md)
 
 - **System Library**
@@ -70,7 +72,7 @@
 
   - [040B Read Function](docs/040B-READ-FUNC.md)
 
-  - [043B Unknown](docs/043B-UNKNOWN.md)
+  - [043B Write to File Function](docs/043B-WRITE-TO-FILE-FUNC.md)
 
   - [0460 Write Function](docs/0460-WRITE-FUNC.md)
   
