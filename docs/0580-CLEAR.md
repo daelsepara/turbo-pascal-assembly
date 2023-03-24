@@ -1,4 +1,4 @@
-# 0580 Clear input/output buffers and interrupt vector array
+# 0580 Clear input/output file records and interrupt vector array
 
 ```
 SYS:0580 BF5000        MOV	DI,0050

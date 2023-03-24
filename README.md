@@ -82,6 +82,6 @@
 
   - [0526 Open Function (II)](docs/0526-OPEN-FUNC-II.md)
 
-  - [0580 Clear input/output buffers and interrupt vector array](docs/0580-CLEAR.md)
+  - [0580 Clear input/output file records and interrupt vector array](docs/0580-CLEAR.md)
 
 - [Runtime Error Codes](docs/ERROR-CODES.md)
