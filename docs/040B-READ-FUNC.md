@@ -54,8 +54,8 @@ SYS:041D B43F          MOV	AH,3F
 SYS:041F CD21          INT	21
 ```
 
-Read from file or device using **DOS INT 21h AH=3Fh** service with parameters:
-- **BX** = File handle from [**DI**] in **[File](TEXT-FILE-TYPE.md)**.
+Read from file or device using **DOS INT 21h AH = 3Fh** service with parameters:
+- **BX** = Handle from **[File](TEXT-FILE-TYPE.md)**.
 - **CX** = Number of bytes to read
 - **DS**:**DX** = Pointer to buffer
 
