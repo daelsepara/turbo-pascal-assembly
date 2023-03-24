@@ -1,6 +1,6 @@
 # 0526 Open Function (II)
 
-This is part of the [SYS:0499 Open Function](0499-OPEN-FUNC.md) but the main purpose is to move the file pointer to the beginning of the filem if the file is new/empty/to be overwritten, or to the end of the file if it is to be appended.
+This is part of the **[SYS:0499 Open Function](0499-OPEN-FUNC.md)** but the main purpose is to move the file pointer to the beginning of the filem if the file is new/empty/to be overwritten, or to the end of the file if it is to be appended.
 
 ```
 SYS:0526 33D2          XOR	DX,DX

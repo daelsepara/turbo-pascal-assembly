@@ -6,7 +6,7 @@ SYS:0270  79 72 69 67 68 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
 SYS:0280  39 32 20 42 6F 72 6C 61-6E 64                     92 Borland
 ```
 
-This NULL (00h) byte character at **SYS:0263** is a Pascal "**empty string**". Pascal strings are byte arrays where the first byte is the length. This **empty string** is used in the initialization of [Input](0088-INIT-INPUT.md) and [Output](009C-INIT-OUTPUT.md).
+This NULL (00h) byte character at **SYS:0263** is a Pascal "**empty string**". Pascal strings are byte arrays where the first byte is the length. This **empty string** is used in the initialization of **[Input](0088-INIT-INPUT.md)** and **[Output](009C-INIT-OUTPUT.md)**.
 
 The other bytes **SYS:0264-0289** that looks like a copyright string is not used is never visibile.
 

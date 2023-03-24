@@ -81,7 +81,7 @@ SYS:038A C7063C006600  MOV	WORD PTR [InOutRes],0066
 SYS:0390 EB24          JMP	03B6
 ```
 
-Exit with an error [66: File not assigned](ERROR-CODES.md).
+Exit with an error **[66/102: File not assigned](ERROR-CODES.md)**.
 
 ```
 SYS:0392 52            PUSH	DX
@@ -96,7 +96,7 @@ SYS:0395 0E            PUSH	CS
 SYS:0396 E82500        CALL	03BE
 ```
 
-Call [SYS:03BE Reset()/Rewrite()](03BA-RESET-REWRITE-FUNC-II.md) and pushing the pointer to **[File](TEXT-FILE-TYPE.md)** onto the stack.
+Call **[SYS:03BE Reset()/Rewrite()](03BA-RESET-REWRITE-FUNC-II.md)** and pushing the pointer to **[File](TEXT-FILE-TYPE.md)** onto the stack.
 
 
 ```
@@ -137,7 +137,7 @@ SYS:03A8 BB1000        MOV	BX,0010
 SYS:03AB E84C00        CALL	03FA
 ```
 
-Open **[File](TEXT-FILE-TYPE.md)** with a call to its **[BX = 0010 OpenFunc()](TEXT-FILE-TYPE.md)** using [SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md).
+Open **[File](TEXT-FILE-TYPE.md)** with a call to its **[BX = 0010 OpenFunc()](TEXT-FILE-TYPE.md)** using **[SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md)**.
 
 ```
 SYS:03AE 7406          JZ	03B6

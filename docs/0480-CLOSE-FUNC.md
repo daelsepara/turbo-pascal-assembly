@@ -35,7 +35,7 @@ SYS:0489 83FB04        CMP	BX,+04
 SYS:048C 7606          JBE	0494
 ```
 
-Check if *[Handle](TEXT-FILE-TYPE.md)** is a **[standard handle](DOS-STANDARD-HANDLES.md)** provided by **DOS** and return immediately if it is.
+Check if **[Handle](TEXT-FILE-TYPE.md)** is a **[standard handle](DOS-STANDARD-HANDLES.md)** provided by **DOS** and return immediately if it is.
 
 ```
 SYS:048E B43E          MOV	AH,3E

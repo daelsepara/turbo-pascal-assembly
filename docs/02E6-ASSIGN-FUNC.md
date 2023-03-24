@@ -110,7 +110,7 @@ SYS:030F B87007        MOV	AX,SYS
 SYS:0312 AB            STOSW
 ```
 
-Sets this **[File](TEXT-FILE-TYPE.md)**'s **[OpenFunc](TEXT-FILE-TYPE.md)** pointer to [SYS:0499 Open Function](0499-OPEN-FUNC.md).
+Sets this **[File](TEXT-FILE-TYPE.md)**'s **[OpenFunc](TEXT-FILE-TYPE.md)** pointer to **[SYS:0499 Open Function](0499-OPEN-FUNC.md)**.
 
 ```
 SYS:0313 33C0          XOR	AX,AX

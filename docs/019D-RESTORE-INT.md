@@ -17,8 +17,8 @@ SYS:01B2 83C704        ADD	DI,+04
 SYS:01B5 E2F0          LOOP	01A7
 ```
 
-Restores the vectors for the 19 interrupts (listed in [SYS:0239-024B](0239-INTERRUPT-LIST.md)) saved on [DATA:0250](DATA.md) and modified during system library initialization. It uses DOS INT 21H AH=25H Service. It expects DS:DX refers to the original interrupt vector assigned to the interrupt number store in AL.
+Restores the vectors for the 19 interrupts (listed in **[SYS:0239-024B](0239-INTERRUPT-LIST.md)**) saved on **[DATA:0250](DATA.md)** and modified during system library initialization. It uses **DOS INT 21H AH = 25h** service. It expects **DS**:**DX** refers to the original interrupt vector assigned to the interrupt number store in **AL**.
 
-Code continues to [SYS:01B7 Print Runtime Error](01B7-PRINT-RUNTIME-ERR.md).
+Code continues to **[SYS:01B7 Print Runtime Error](01B7-PRINT-RUNTIME-ERR.md)**.
 
 [Go back](../README.md)

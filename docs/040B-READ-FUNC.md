@@ -1,7 +1,7 @@
 # 040B Read Function
 
 This is Turbo Pascal's **Read**(**[File](TEXT-FILE-TYPE.md)**) function. It takes one parameter:
-- **File**: Pointer to the [File Record](TEXT-FILE-TYPE.md).
+- **File**: Pointer to the **[File Record](TEXT-FILE-TYPE.md)**.
 
 This reads bytes from **[File](TEXT-FILE-TYPE.md)**, if available.
 

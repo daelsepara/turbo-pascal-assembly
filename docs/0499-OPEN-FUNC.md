@@ -111,7 +111,7 @@ SYS:04D4 817D02B1D7    CMP	WORD PTR [DI+02],fmInput
 SYS:04D9 742F          JZ	050A
 ```
 
-Set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** to [SYS:040B Read Function](040B-READ-FUNC.md) then check if **[File](TEXT-FILE-TYPE.md)** was opened with **[Reset()](FILE-MODES.md)**.
+Set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** to **[SYS:040B Read Function](040B-READ-FUNC.md)** then check if **[File](TEXT-FILE-TYPE.md)** was opened with **[Reset()](FILE-MODES.md)**.
 
 ```
 SYS:04DB 8B1D          MOV	BX,[DI]
@@ -130,7 +130,7 @@ SYS:04ED 8BDA          MOV	BX,DX
 SYS:04EF 7514          JNZ	0505
 ```
 
-If **[File](TEXT-FILE-TYPE.md)** is a character device (80h), set its **[InOutFunc and FlushFunc](TEXT-FILE-TYPE.md)** to [SYS:0460 Write Function](0460-WRITE-FUNC.md).
+If **[File](TEXT-FILE-TYPE.md)** is a character device (80h), set its **[InOutFunc and FlushFunc](TEXT-FILE-TYPE.md)** to **[SYS:0460 Write Function](0460-WRITE-FUNC.md)**.
 
 
 ```
@@ -148,7 +148,7 @@ SYS:0501 33C9          XOR	CX,CX
 SYS:0503 33DB          XOR	BX,BX
 ```
 
-Set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** to [SYS:43B Write to File Function](043B-WRITE-TO-FILE-FUNC.md).
+Set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** to **[SYS:43B Write to File Function](043B-WRITE-TO-FILE-FUNC.md)**.
 
 ```
 SYS:0505 C74502B2D7    MOV	WORD PTR [DI+02],fmOutput
@@ -177,7 +177,7 @@ Set up the handler for **[File](TEXT-FILE-TYPE.md)**'s **[CloseFunc](TEXT-FILE-T
 SYS:0520 33C0          XOR	AX,AX
 ```
 
-Set I/O result in [InOutRes](DATA.md) to 0 on success.
+Set I/O result in **[InOutRes](DATA.md)** to 0 on success.
 
 ```
 SYS:0522 1F            POP	DS
