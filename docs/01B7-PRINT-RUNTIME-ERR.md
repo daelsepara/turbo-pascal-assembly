@@ -64,6 +64,6 @@ SYS:01E3 BB6002        MOV	BX,0260
 SYS:01E6 E80700        CALL	01F0
 ```
 
-Finally, print a **.** and the newline characters using **[SYS:01F0](01F0-PRINT-STRING.md)**. The code continues to the **[SYS:01E9 DOS Exit](01E9-DOS-EXIT.md)** subroutine.
+Finally, print a **.** and the newline characters using **[SYS:01F0 Print String](01F0-PRINT-STRING.md)**. The code continues to the **[SYS:01E9 DOS Exit](01E9-DOS-EXIT.md)** subroutine.
 
 [Go back](../README.md)
