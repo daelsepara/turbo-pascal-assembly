@@ -19,10 +19,9 @@ SYS:03C0 55            PUSH	BP
 
 Use **BP** to index items on the stack.
 
-## Stack after SYS:03C0
-
 Upon entering this subroutine from any of the entry points: **SYS:03BA Read-Only** or **SYS:03BE Write-Only**, and saving **BP**, the stack looks like this:
 
+## Stack after SYS:03C0
 |Index|Contents                                  |
 |-----|------------------------------------------|
 |BP   |Old **BP** value                          |
@@ -68,7 +67,7 @@ SYS:03E2 E81500        CALL	03FA
 SYS:03E5 58            POP	AX
 ```
 
-Call **[BX = 0014 InOutFunc()](TEXT-FILE-TYPE.md)** using [SYS:03F6 I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md). This is used to flush the buffer, i.e. write any bytes still left in the buffer.
+Call **[BX = 0014 InOutFunc()](TEXT-FILE-TYPE.md)** using **[SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md)**. This is used to flush the buffer, i.e. write any bytes still left in the buffer.
 
 ```
 SYS:03E6 0AC0          OR	AL,AL

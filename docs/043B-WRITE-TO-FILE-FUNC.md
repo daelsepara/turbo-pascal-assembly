@@ -90,4 +90,4 @@ SYS:045D CA0400        RETF	0004
 
 Return to caller with error code in **AX**, later to be stored in **[InOutRes](DATA.md)**. Pop-off **FAR PTR** parameter from the stack (4 bytes).
 
-See also: [SYS:0460 Write FUnciton](0460-WRITE-FUNC.md), or go [back](../README.md)
+See also: [SYS:0460 Write Function](0460-WRITE-FUNC.md), or go [back](../README.md)
