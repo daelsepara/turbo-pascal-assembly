@@ -84,6 +84,8 @@ If these do not match return with an code [65/101: Disk write error](ERROR-CODES
 SYS:045C 1F            POP	DS
 ```
 
+Restore **DS**.
+
 ```
 SYS:045D CA0400        RETF	0004
 ```

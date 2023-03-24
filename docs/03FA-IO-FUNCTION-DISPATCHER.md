@@ -4,7 +4,7 @@ This is the I/O Function Dispatcher for a **[File](TEXT-FILE-TYPE.md)**. It is c
 
 ## Possible values for BX
 
-|BX  |Function | Description|                                               |
+|BX  |Function | Description                                                |
 |----|---------|------------------------------------------------------------|
 |0010|OpenFunc |Pointer to I/O routine that opens this file                 |
 |0014|InOutFunc|Pointer to I/O routine that performs read/write on this file|
