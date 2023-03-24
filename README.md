@@ -34,7 +34,7 @@
 
   - [0113 Ctrl-C / INT 23h Handler](docs/0113-CTRL-C-HANDLER.md)
 
-  - [018B Flush and Close Input and Output Buffers](docs/018B-FLUSH-BUFFERS.md)
+  - [018B Flush and Close Input and Output Files](docs/018B-FLUSH-FILES.md)
 
   - [019D Restore interrupt vectors](docs/019D-RESTORE-INT.md)
 

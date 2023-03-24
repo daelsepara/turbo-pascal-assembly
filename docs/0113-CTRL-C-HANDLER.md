@@ -118,7 +118,7 @@ SYS:0174 0BC3          OR	AX,BX
 SYS:0176 7413          JZ	018B
 ```
 
-If **[ExitProc](DATA.md)** is undefined then flush buffers ([SYS:018B Flush Buffers](018B-FLUSH-BUFFERS.md)).
+If **[ExitProc](DATA.md)** is undefined then flush buffers ([SYS:018B Flush and Close Input and Output Files](018B-FLUSH-FILES.md)).
 
 ```
 SYS:0178 33C0          XOR	AX,AX
@@ -154,4 +154,4 @@ SYS:018A CB            RETF
 
 Exit from the next overlay in the chain or back to **SYS:016E**.
 
-See also: [SYS:018B](018B-FLUSH-BUFFERS.md) or Go [Back](../README.md)
+See also: [SYS:018B Flush and Close Input and Output Files](018B-FLUSH-FILES.md) or Go [Back](../README.md)
