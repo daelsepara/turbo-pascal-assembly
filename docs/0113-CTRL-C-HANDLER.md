@@ -13,7 +13,7 @@ SYS:0116 33C9          XOR	CX,CX
 SYS:0118 33DB          XOR	BX,BX
 ```
 
-**SYS:0116** is the entry point for the Program Exit. It first clears the [ExitProc](DATA.md) Address in BX:CX.
+**SYS:0116** is the entry point for the Program Exit. It first clears the [ExitProc](DATA.md) Address in **BX**:**CX**.
 
 ```
 SYS:011A BACA07        MOV	DX,DATA

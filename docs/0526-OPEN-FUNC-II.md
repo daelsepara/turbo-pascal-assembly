@@ -1,5 +1,7 @@
 # 0526 Open Function (II)
 
+This is part of the [SYS:0499 Open Function](0499-OPEN-FUNC.md) but the main purpose is to move the file pointer to the beginning of the filem if the file is new/empty/to be overwritten, or to the end of the file if it is to be appended.
+
 ```
 SYS:0526 33D2          XOR	DX,DX
 SYS:0528 33C9          XOR	CX,CX
@@ -16,7 +18,7 @@ Move file pointer to end of the file with a call to **DOS INT 21h AH = 42h** ser
 - **BX** file handle
 - **CX**:**DX** unsigned 32-bit offset (~ 4GB).
 
-Upon return: **DX**:**AX** contains the new file pointer location, with **CF** clear on success, an error code in **AX** and **CF** is set.
+Upon return: **DX**:**AX** contains the new file pointer location, with **CF** clear on success, an error code in **AX** and **CF** is set. This purpose of this first call to **DOS INT 21h AH = 42h** is to get the file size.
 
 ```
 SYS:0531 2D8000        SUB	AX,0080
@@ -81,14 +83,14 @@ SYS:055B 3BD8          CMP	BX,AX
 SYS:055D 7420          JZ	057F
 ```
 
-Check all bytes (i.e. count in **AX**) have been verified.
+Check all bytes up to (the count in) **AX** have been verified then exit.
 
 ```
 SYS:055F 80B980001A    CMP	BYTE PTR [BX+DI+0080],1A
 SYS:0564 7403          JZ	0569
 ```
 
-Check for the **CTRL-Z**/26/1Ah byte, which is usually the last byte (or signature mark) of a text file.
+Search for the **CTRL-Z**/26/1Ah byte, which is usually the last byte (or signature mark) of a text file.
 
 ```
 SYS:0566 43            INC	BX
