@@ -139,7 +139,7 @@ SYS:04F6 7503          JNZ	04FB
 SYS:04F8 E82B00        CALL	0526
 ```
 
-Check if **[File (Mode)](TEXT-FILE-TYPE.md)** was opened using **[Reset() and Rewrite()](FILE-MODES.md)** then get file size and move file pointer.
+Check if **[File (Mode)](TEXT-FILE-TYPE.md)** was opened using **[Reset() and Rewrite()](FILE-MODES.md)** move file pointer to end of the file.
 
 ```
 SYS:04FB B83B04        MOV	AX,043B

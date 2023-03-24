@@ -82,8 +82,6 @@
 
   - [0526 Open Function (II)](docs/0526-OPEN-FUNC-II.md)
 
-  - [0569 Seek and Write](docs/0569-SEEK-AND-WRITE.md)
-
   - [0580 Clear input/output buffers and interrupt vector array](docs/0580-CLEAR.md)
 
 - [Runtime Error Codes](docs/ERROR-CODES.md)
