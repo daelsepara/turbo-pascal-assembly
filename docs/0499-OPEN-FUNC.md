@@ -11,10 +11,10 @@ Use **BX** to address items on the stack. Upon entry into this subroutine, the s
 
 |Index|Contents                                  |
 |-----|------------------------------------------|
-|BP   |Return Address (OFFSET)                   |
-|BP+02|Return Address (SEGMENT)                  |
-|BP+04|Pointer to File/Text Record Data (OFFSET) |
-|BP+06|Pointer to File/Text Record Data (SEGMENT)|
+|BX   |Return Address (OFFSET)                   |
+|BX+02|Return Address (SEGMENT)                  |
+|BX+04|Pointer to File/Text Record Data (OFFSET) |
+|BX+06|Pointer to File/Text Record Data (SEGMENT)|
 
 ```
 SYS:049B 1E            PUSH	DS
@@ -59,7 +59,7 @@ SYS:04AE B002          MOV	AL,02
 SYS:04B0 FF05          INC	WORD PTR [DI]
 ```
 
-Otherwise, set access mode to read/write and set **[File](TEXT-FILE-TYPE.md)**'s **[Handle](TEXT-FILE-TYPE.md)** to 1 (**[STDOUT](DOS-STANDARD-HANDLES.md)**) by adding to the **[Handle](TEXT-FILE-TYPE.md)** at [**DI**].
+Otherwise, set access mode to read/write and set **[File](TEXT-FILE-TYPE.md)**'s **[Handle](TEXT-FILE-TYPE.md)** to 1 (**[STDOUT](DOS-STANDARD-HANDLES.md)**) by adding 1 [**DI**].
 
 ```
 SYS:04B2 817D02B3D7    CMP	WORD PTR [DI+02],fmInOut
@@ -81,26 +81,26 @@ SYS:04BB 807D3000      CMP	BYTE PTR [DI+30],00
 SYS:04BF 7409          JZ	04CA
 ```
 
-If the filename is empty, there is no need to call the **DOS** service set up in **AH**. The empty string indicates that this is either **[Input](DATA.md)** or **[Output](DATA.md)**.
+If the filename is empty, there is no need to call the **DOS** service indicated in **AH**. The empty string indicates that this is either **[Input](DATA.md)** or **[Output](DATA.md)**.
 
 ```
 SYS:04C1 8D5530        LEA	DX,[DI+30]
 SYS:04C4 CD21          INT	21
 ```
 
-Load the pointer to the **[File](TEXT-FILE-TYPE.md)**'s **[Name](TEXT-FILE-TYPE.md)** into **DS**:**DX**. **DS** was already set in **SYS:04A2** above.
+Load the pointer to the **[File](TEXT-FILE-TYPE.md)**'s **[Name](TEXT-FILE-TYPE.md)** into **DS**:**DX**. **DS** was already set in **SYS:04A2** above. Call on the **DOS** service indicated in **AH**.
 
 ```
 SYS:04C6 725A          JB	0522
 ```
 
-On error, exit immediately with an **[error code](ERROR-CODES.md)**. 
+On error, return immediately with a non-zero **[error code](ERROR-CODES.md)** in AX (to be stored later in **[InOutRes](DATA.md)**).
 
 ```
 SYS:04C8 8905          MOV	[DI],AX
 ```
 
-Upon success of the call to the **DOS** services, AX contains the handle of the openend / created file. Copy AX in **[File](TEXT-FILE-TYPE.md)**'s **[Handle](TEXT-FILE-TYPE.md)**.
+Upon success of the call to the **DOS** service, **AX** contains the handle of the openend / created file. Copy **AX** in **[File](TEXT-FILE-TYPE.md)**'s **[Handle](TEXT-FILE-TYPE.md)**.
 
 ```
 SYS:04CA B80B04        MOV	AX,040B
@@ -111,7 +111,7 @@ SYS:04D4 817D02B1D7    CMP	WORD PTR [DI+02],fmInput
 SYS:04D9 742F          JZ	050A
 ```
 
-Set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** to [SYS:040B Read Function](040B-READ-FUNC.md) if **[File](TEXT-FILE-TYPE.md)** was opened with **[Reset()](FILE-MODES.md)**.
+Set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** to [SYS:040B Read Function](040B-READ-FUNC.md) then check if **[File](TEXT-FILE-TYPE.md)** was opened with **[Reset()](FILE-MODES.md)**.
 
 ```
 SYS:04DB 8B1D          MOV	BX,[DI]
@@ -119,7 +119,7 @@ SYS:04DD B80044        MOV	AX,4400
 SYS:04E0 CD21          INT	21
 ```
 
-Get device information using **DOS INT 21h AX = 4200h** service with parameter **BX** = File handle.
+Get device information using **DOS INT 21h AX = 4400h** service with parameter **BX** = File handle. It returns device information in **DX**.
 
 ```
 SYS:04E2 F6C280        TEST	DL,80
@@ -130,7 +130,7 @@ SYS:04ED 8BDA          MOV	BX,DX
 SYS:04EF 7514          JNZ	0505
 ```
 
-If file is a character device (80h), set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc and FlushFunc](TEXT-FILE-TYPE.md)** to [SYS:0460 Write Function](0460-WRITE-FUNC.md).
+If **[File](TEXT-FILE-TYPE.md)** is a character device (80h), set its **[InOutFunc and FlushFunc](TEXT-FILE-TYPE.md)** to [SYS:0460 Write Function](0460-WRITE-FUNC.md).
 
 
 ```
@@ -154,7 +154,7 @@ Set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** to [SYS:4
 SYS:0505 C74502B2D7    MOV	WORD PTR [DI+02],fmOutput
 ```
 
-Mark the **[File](TEXT-FILE-TYPE.md)** as having been opened using **[Rewrite()](FILE-MODES.md)**.
+Mark the **[File](TEXT-FILE-TYPE.md)** as opened using **[Rewrite()](FILE-MODES.md)**.
 
 
 ```
@@ -164,20 +164,20 @@ SYS:0510 894D18        MOV	[DI+18],CX
 SYS:0513 895D1A        MOV	[DI+1A],BX
 ```
 
-Set up the handlers for **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** and **[FlushFunc](TEXT-FILE-TYPE.md)**.
+Set up the handlers for **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** and **[FlushFunc](TEXT-FILE-TYPE.md)**. **DX**:**AX**, **BX**:**CX**, at this point contains the correct pointers to the subroutines.
 
 ```
 SYS:0516 C7451C8004    MOV	WORD PTR [DI+1C],0480
 SYS:051B C7451E7007    MOV	WORD PTR [DI+1E],SYS
 ```
 
-Set up the handlers for **[File](TEXT-FILE-TYPE.md)**'s **[CloseFunc](0480-CLOSE-FUNC.md)**.
+Set up the handler for **[File](TEXT-FILE-TYPE.md)**'s **[CloseFunc](TEXT-FILE-TYPE.md)** to **[SYS:0480 Close Function](0480-CLOSE-FUNC.md)**.
 
 ```
 SYS:0520 33C0          XOR	AX,AX
 ```
 
-Set exit code to 0 on success
+Set I/O result in [InOutRes](DATA.md) to 0 on success.
 
 ```
 SYS:0522 1F            POP	DS
@@ -189,6 +189,6 @@ Restores DS.
 SYS:0523 CA0400        RETF	0004
 ```
 
-Return and pop-off parameter from the stack.
+Return and pop-off parameter from the stack. The **[error code](ERROR-CODES.md)** in **AX**.
 
 See also: [Text File Type](TEXT-FILE-TYPE.md), [File Modes](FILE-MODES.md), [SYS:040B Read Function](040B-READ-FUNC.md), [SYS:043B Write to File Function](043B-WRITE-TO-FILE-FUNC.md), [SYS:0460 Write Function](0460-WRITE-FUNC.md), [SYS:0480 CloseFunc](0480-CLOSE-FUNC.md), [SYS:0526](0526-UNKNOWN.md) or go [back](../README.md)
