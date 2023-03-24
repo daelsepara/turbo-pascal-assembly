@@ -59,7 +59,7 @@ SYS:03D6 C7063C006700  MOV	WORD PTR [InOutRes],0067
 SYS:03DC EB18          JMP	03F6
 ```
 
-Exit with an error [67: File not open](ERROR-CODES.md).
+Exit with an error [67/103: File not open](ERROR-CODES.md).
 
 ```
 SYS:03DE 50            PUSH	AX
@@ -98,4 +98,4 @@ SYS:03F7 CA0400        RETF	0004
 
 Return to caller and pop-off parameters.
 
-See also: [Text File Type](TEXT-FILE-TYPE.md), [File Modes](FILE-MODES.md), [SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md), [SYS:043B Write to File Function](043B-WRITE-TO-FILE-FUNC.md), [SYS:0460 Write Function](0460-WRITE-FUNC.md) or go [back](../README.md)
+See also: [Text File Type](TEXT-FILE-TYPE.md), [File Modes](FILE-MODES.md), [SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md) or go [back](../README.md)
