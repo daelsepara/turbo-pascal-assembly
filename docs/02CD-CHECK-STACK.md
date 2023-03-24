@@ -13,7 +13,7 @@ SYS:02DC 7201          JB	02DF
 SYS:02DE CB            RETF
 ```
 
-Usually, DS:[StackLimit] = 0000, i.e. unlimited. In this case, stack overflow error only happens when AX > SP - 4 ( = size of return address). Because this is a **FAR RET**, it can be called from anywhere.
+Usually, **[StackLimit](DATA.md)** = 0000h, i.e. unlimited. In this case, stack overflow error only happens when **AX** > **SP - 4** ( = size of return address ). Because this is a **FAR RET**, it can be called from anywhere.
 
 ```
 SYS:02DF B8CA00        MOV	AX,00CA

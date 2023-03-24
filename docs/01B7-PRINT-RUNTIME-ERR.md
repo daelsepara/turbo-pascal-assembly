@@ -1,4 +1,4 @@
-# 01C0 Print Runtime error
+# 01B7 Print Runtime error
 
 Prints the Runtime error string which has the form:
 ```

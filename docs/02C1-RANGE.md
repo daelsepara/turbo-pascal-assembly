@@ -7,4 +7,4 @@ SYS:02C4 E948FE        JMP	010F
 
 This prints a runtime error message with error code [C9/201: Range check error](ERROR-CODES.md).
 
-See also: [SYS:10F](010C-INT00H.md) or Go [Back](../README.md)
+See also: [SYS:10F Runtime error](010C-INT00H.md) or Go [Back](../README.md)
