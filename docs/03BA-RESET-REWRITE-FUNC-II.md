@@ -22,6 +22,7 @@ Use **BP** to index items on the stack.
 Upon entering this subroutine from any of the entry points: **SYS:03BA Read-Only** or **SYS:03BE Write-Only**, and saving **BP**, the stack looks like this:
 
 ## Stack after SYS:03C0
+
 |Index|Contents                                  |
 |-----|------------------------------------------|
 |BP   |Old **BP** value                          |
