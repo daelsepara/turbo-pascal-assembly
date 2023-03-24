@@ -2,36 +2,36 @@
 
 ## Overlay Manager Internal Variables
 
-|Address|   Variable  |
-|-------|-------------|
-| 0002  | OvrCodeList |
-| 0004  | OvrHeapSize |
-| 0006  | OvrDebugPtr |
-| 000A  | OvrHeapOrg  |
-| 000C  | OvrHeapPtr  |
-| 000E  | OvrHeapEnd  |
-| 0010  | OvrLoadList |
-| 0012  | OvrDosHandle|
-| 0014  | OvrEmsHandle|
+|Address| Variable    | Description                                                               |
+|-------|-------------|---------------------------------------------------------------------------|
+| 0002  | OvrCodeList | Overlay code segment list: 0 = no overlays                                |
+| 0004  | OvrHeapSize | Minimum overlay heap size in paragraphs (16 bytes)                        |
+| 0006  | OvrDebugPtr | Overlay debugger hook used by Turbo Pascal Debugger                       |
+| 000A  | OvrHeapOrg  | Overlay buffer origin (segment address of the start of the overlay buffer)|
+| 000C  | OvrHeapPtr  | Overlay buffer pointer (Used internally)                                  |
+| 000E  | OvrHeapEnd  | Stores the segment address of the end of the overlay buffer               |
+| 0010  | OvrLoadList | Loaded overlays list                                                      |
+| 0012  | OvrDosHandle| Overlay file handle. Stores the file handle of the program's overlay file |
+| 0014  | OvrEmsHandle| Overlay EMS handle. Handle of overlays in expanded memory block           |
 
 ## Heap Internal Variables
 
-|Address|   Variable  |
-|-------|-------------|
-| 0016  | HeapOrg     |
-| 001A  | HeapPtr     |
-| 001E  | HeapEnd     |
-| 0022  | FreeList    |
-| 0026  | FreeZero    |
-| 002A  | HeapError   |
+|Address| Variable    | Description                                     |
+|-------|-------------|-------------------------------------------------|
+| 0016  | HeapOrg     | Points to the bottom of the heap                |
+| 001A  | HeapPtr     | Points to the top of the heap                   | 
+| 001E  | HeapEnd     | Points to the end of DOS memory used by programs|
+| 0022  | FreeList    | Points to the first free block in the heap      |
+| 0026  | FreeZero    | ???                                             | 
+| 002A  | HeapError   | Pointer to Heap Error Handler                   |
 
 # Exit/Error Internal Variables
 
-|Address|   Variable  |
-|-------|-------------|
-| 002E  | ExitProc    |
-| 0032  | ExitCode    |
-| 0034  | ErrorAddr   |
+|Address| Variable    | Description                                                   |
+|-------|-------------|---------------------------------------------------------------|
+| 002E  | ExitProc    | Pointer to application's exit procedure list                  |
+| 0032  | ExitCode    | Contains the application's exit code                          |
+| 0034  | ErrorAddr   | Contains the address of the statement causing a run-time error|
 
 ## Program Segment Prefix
 
@@ -43,40 +43,62 @@ Stores PSP segment address setup by DOS upon loading the program.
 
 ## Constants and Variables
 
-|Address|   Variable  |
+|Address| Variable    |
 |-------|-------------|
 | 003A  | StackLimit  |
 
+This is the lowest value the SP register can contain before it is considered a stack overflow.
+
 ## I/O Function Result
 
-|Address|   Variable  |
+|Address| Variable    |
 |-------|-------------|
 | 003C  | InOutRes    |
 
-Stores any error codes generated whenever I/O functions are used.
+Stores the status of the last 1/a operation performed.
 
-## Constants and Variables
+## Miscellaneous Constants and Variables
 
-|Address|   Variable  |
-|-------|-------------|
-| 003E  | RandSeed    |
-| 0042  | SelectorInc |
-| 0044  | Seg0040     |
-| 0046  | SegA000     |
-| 0048  | SegB000     |
-| 004A  | SegB800     |
+|Address|   Variable  | Description                                                |
+|-------|-------------|------------------------------------------------------------|
+| 003E  | RandSeed    | Stores the built-in random number generator's seed         |
+| 0042  | SelectorInc | Number to add/subtract to increase/decrease selector by 64K|
+| 0044  | Seg0040     | Selector for segment 0040 (ROM BIOS Workspace)             |
+| 0046  | SegA000     | Selector for segment A000 (EGA and VGA Graphics Pages)     |
+| 0048  | SegB000     | Selector for segment B000 (Monochrome Adapter video memory)|
+| 004A  | SegB800     | Selector for segment B800 (CGA Adapter video memory)       |
 
 
-## CPU and fCPU types
+## 8086 CPU Type
 
-|Address|   Variable  |
+|Address| Variable    |
 |-------|-------------|
 | 004C  | Test8086    |
+
+Type of 80x86 processor the system contains:
+- 0 Processor is an 8086
+- 1 Processor is an 80286
+- 2 Processor is an 80386 or later
+
+## 8087 fCPU Type
+
+|Address| Variable    |
+|-------|-------------|
 | 004D  | Test8087    |
+
+Stores the results of the 80x87 autodetection logic and coprocessor classification:
+- 0 No coprocessor detected
+- 1 8087 detected
+- 2 80287 detected
+- 3 80387 or later detected
 
 ## Constantas and Variables
 
+|Address| Variable    |
+|-------|-------------|
 | 004E  | FileMode    |
+
+Access code to pass to DOS when typed and untyped files are opened using the **Reset** procedure.
 
 ## Input/Output Text File Records
 
