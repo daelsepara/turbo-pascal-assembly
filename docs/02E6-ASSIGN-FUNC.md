@@ -1,12 +1,12 @@
 # 02E6 Assign Function
 
-This is Turbo Pascal's **Assign**(*File*, *Name*) function. It takes two parameters:
+This is Turbo Pascal's **Assign**(**[File](TEXT-FILE-TYPE.md)**, *Name*) function. It takes two parameters:
 - **File**: Pointer to the [File Record](TEXT-FILE-TYPE.md)
 - **Name**: Pointer to **[string](0263-DATA-COPYRIGHT.md)**  to assign to the **File** 
 
 Upon calling this routine, this is how the stack looks like:
 
-## Stack upon call to SYS:02E6
+## Stack upon call to SYS:02E6 Assign Function
 
 |Index|Contents                                  |
 |-----|------------------------------------------|
@@ -41,20 +41,20 @@ SYS:02EB 36            SS:
 SYS:02EC C47F08        LES	DI,[BX+08]
 ```
 
-Loads the pointer to the **[Text File/Record data](TEXT-FILE-TYPE.md)** into ES:DI.
+Loads the pointer to the **[Text File/Record data](TEXT-FILE-TYPE.md)** into **ES**:**DI**.
 
 ```
 SYS:02EF 36            SS:
 SYS:02F0 C57704        LDS	SI,[BX+04]
 ```
 
-Loads the pointer to the **[Name](0263-DATA-COPYRIGHT.md)** string into DS:SI.
+Loads the pointer to the **[Name](0263-DATA-COPYRIGHT.md)** string into **DS**:**SI**.
 
 ```
 SYS:02F3 FC            CLD
 ```
 
-Set copy direction to forward (DF = 0).
+Set copy direction to forward (**DF** = 0).
 
 ```
 SYS:02F4 33C0          XOR	AX,AX
@@ -101,7 +101,7 @@ SYS:0308 8CC0          MOV	AX,ES
 SYS:030A AB            STOSW
 ```
 
-Copies ES which is the SEGMENT location of **[TextBuf](TEXT-FILE-TYPE.md)** into AX, then sets the segment part of **[BufPtr](TEXT-FILE-TYPE.md)**.
+Copies ES which is the SEGMENT location of **[TextBuf](TEXT-FILE-TYPE.md)** into **AX**, then sets the segment part of **[BufPtr](TEXT-FILE-TYPE.md)**.
 
 ```
 SYS:030B B89904        MOV	AX,0499
@@ -130,7 +130,7 @@ SYS:031D 0BD2          OR	DX,DX
 SYS:031F 7509          JNZ	032A
 ```
 
-Check if there are bytes to copy (up to CX = 79/4Fh).
+Check if there are bytes to copy (up to **CX** = 79/4Fh).
 
 ```
 SYS:0321 AC            LODSB
