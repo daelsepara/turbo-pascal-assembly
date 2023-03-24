@@ -1,25 +1,30 @@
 # 040B Read Function
 
-Upon entry the stack looks like this:
+This is Turbo Pascal's **Read**(**[File](TEXT-FILE-TYPE.md)**) function. It takes one parameter:
+- **File**: Pointer to the [File Record](TEXT-FILE-TYPE.md).
 
-|Index|Contents                                  |
-|-----|------------------------------------------|
-|SP   |Return Address (OFFSET)                   |
-|SP+02|Return Address (SEGMENT)                  |
-|SP+04|Pointer to File/Text Record Data (OFFSET) |
-|SP+06|Pointer to File/Text Record Data (SEGMENT)|
+This reads bytes from **[File](TEXT-FILE-TYPE.md)**, if available.
 
 ```
 SYS:040B 8BDC          MOV	BX,SP
 ```
 
-Use BX to address items in the stack.
+Use **BX** to address items on the stack.
+
+## Stack after SYS:040B
+
+|Index|Contents                                  |
+|-----|------------------------------------------|
+|BX   |Return Address (OFFSET)                   |
+|BX+02|Return Address (SEGMENT)                  |
+|BX+04|Pointer to File/Text Record Data (OFFSET) |
+|BX+06|Pointer to File/Text Record Data (SEGMENT)|
 
 ```
 SYS:040D 1E            PUSH	DS
 ```
 
-Save DS to the stack.
+Save **DS** to the stack.
 
 ```
 SYS:040E 36            SS:
@@ -40,7 +45,7 @@ SYS:0416 26            ES:
 SYS:0417 8B4D04        MOV	CX,[DI+04]
 ```
 
-Get size of the buffer (**[BufSize](TEXT-FILE-TYPE.md)**) in **[File](TEXT-FILE-TYPE.md)** into CX.
+Get size of the buffer (**[BufSize](TEXT-FILE-TYPE.md)**) in **[File](TEXT-FILE-TYPE.md)** into **CX**.
 
 ```
 SYS:041A 26            ES:
@@ -50,9 +55,9 @@ SYS:041F CD21          INT	21
 ```
 
 Read from file or device using **DOS INT 21h AH=3Fh** service with parameters:
-- BX = File handle from [**DI**] in **[File](TEXT-FILE-TYPE.md)**.
-- CX = Number of bytes to read
-- DS:DX = Pointer to buffer
+- **BX** = File handle from [**DI**] in **[File](TEXT-FILE-TYPE.md)**.
+- **CX** = Number of bytes to read
+- **DS**:**DX** = Pointer to buffer
 
 ```
 SYS:0421 7210          JB	0433
