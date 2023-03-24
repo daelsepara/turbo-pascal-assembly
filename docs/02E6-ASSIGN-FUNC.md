@@ -155,7 +155,7 @@ SYS:032F AA            STOSB
 SYS:0330 E2F8          LOOP	032A
 ```
 
-This does the actual copying of the name in DS:SI to **[Name](TEXT-FILE-TYPE.md)**. Exit loop immediately if a NULL (00h) byte from the source is encountered.
+This does the actual copying of the name in **DS**:**SI** to **[Name](TEXT-FILE-TYPE.md)**. Exit loop immediately if a NULL (00h) byte from the source is encountered.
 
 ```
 SYS:0332 32C0          XOR	AL,AL
