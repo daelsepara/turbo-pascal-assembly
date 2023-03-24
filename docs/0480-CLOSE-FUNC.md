@@ -14,7 +14,7 @@ Upon entry the stack looks like this:
 SYS:0480 8BDC          MOV	BX,SP
 ```
 
-Use BX to address items in the stack.
+Use **BX** to address items in the stack.
 
 ```
 SYS:0482 36            SS:

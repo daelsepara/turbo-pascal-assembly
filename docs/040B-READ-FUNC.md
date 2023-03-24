@@ -33,7 +33,7 @@ SYS:0412 26            ES:
 SYS:0413 C5550C        LDS	DX,[DI+0C]
 ```
 
-Loads the pointer to buffer (**[BufPtr](TEXT-FILE-TYPE.md)**) in **[File](TEXT-FILE-TYPE.md)** into DS:DX.
+Loads the pointer to buffer (**[BufPtr](TEXT-FILE-TYPE.md)**) in **[File](TEXT-FILE-TYPE.md)** into **DS**:**DX**.
 
 ```
 SYS:0416 26            ES:
