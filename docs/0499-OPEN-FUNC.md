@@ -1,4 +1,4 @@
-# 0499 OpenFunc
+# 0499 Open Function
 
 This is the Open([**File**](TEXT-FILE-TYPE.md)) function. It assumes that **[File](TEXT-FILE-TYPE.md)** is already be bound to a filename using the **[Assign](02E6-ASSIGN-FUNC.md)**(**[File](TEXT-FILE-TYPE.md)**, Filename) function.
 
@@ -189,6 +189,6 @@ Restores DS.
 SYS:0523 CA0400        RETF	0004
 ```
 
-Return and pop-off parameter from the stack. The **[error code](ERROR-CODES.md)** in **AX**.
+Return and pop-off parameter from the stack. The **[error code](ERROR-CODES.md)** in **AX**, later stored in **[InOutRes](DATA.md)**.
 
-See also: [Text File Type](TEXT-FILE-TYPE.md), [File Modes](FILE-MODES.md), [SYS:040B Read Function](040B-READ-FUNC.md), [SYS:043B Write to File Function](043B-WRITE-TO-FILE-FUNC.md), [SYS:0460 Write Function](0460-WRITE-FUNC.md), [SYS:0480 CloseFunc](0480-CLOSE-FUNC.md), [SYS:0526](0526-UNKNOWN.md) or go [back](../README.md)
+See also: [Text File Type](TEXT-FILE-TYPE.md), [File Modes](FILE-MODES.md), [SYS:040B Read Function](040B-READ-FUNC.md), [SYS:043B Write to File Function](043B-WRITE-TO-FILE-FUNC.md), [SYS:0460 Write Function](0460-WRITE-FUNC.md), [SYS:0480 Close Function](0480-CLOSE-FUNC.md), [SYS:0526 Open Function (II)](0526-OPEN-FUNC-II.md) or go [back](../README.md)

@@ -137,7 +137,7 @@ SYS:03A8 BB1000        MOV	BX,0010
 SYS:03AB E84C00        CALL	03FA
 ```
 
-Open **[File](TEXT-FILE-TYPE.md)** with a call to **[BX = 0010 OpenFunc()](TEXT-FILE-TYPE.md)** using [SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md).
+Open **[File](TEXT-FILE-TYPE.md)** with a call to its **[BX = 0010 OpenFunc()](TEXT-FILE-TYPE.md)** using [SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md).
 
 ```
 SYS:03AE 7406          JZ	03B6

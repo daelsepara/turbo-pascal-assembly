@@ -75,7 +75,7 @@ SYS:03EA BB1C00        MOV	BX,001C
 SYS:03ED E80A00        CALL	03FA
 ```
 
-Close the **[File](TEXT-FILE-TYPE.md)** on errors with a call to **[BX = 001C CloseFunc()](TEXT-FILE-TYPE.md)** using [SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md).
+Close the **[File](TEXT-FILE-TYPE.md)** on errors with a call to its **[BX = 001C CloseFunc()](TEXT-FILE-TYPE.md)** using [SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md).
 
 ```
 SYS:03F0 26            ES:

@@ -1,4 +1,4 @@
-# 0526 Unknown
+# 0526 Open Function (II)
 
 ```
 SYS:0526 33D2          XOR	DX,DX

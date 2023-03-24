@@ -76,11 +76,11 @@
 
   - [0460 Write Function](docs/0460-WRITE-FUNC.md)
   
-  - [0480 CloseFunc](docs/0480-CLOSE-FUNC.md)
+  - [0480 Close Function](docs/0480-CLOSE-FUNC.md)
 
-  - [0499 OpenFunc](docs/0499-OPEN-FUNC.md)
+  - [0499 Open Function](docs/0499-OPEN-FUNC.md)
 
-  - [0526 Unknown](docs/0526-UNKNOWN.md)
+  - [0526 Open Function (II)](docs/0526-OPEN-FUNC-II.md)
 
   - [0569 Seek and Write](docs/0569-SEEK-AND-WRITE.md)
 

@@ -110,7 +110,7 @@ SYS:030F B87007        MOV	AX,SYS
 SYS:0312 AB            STOSW
 ```
 
-Sets **[OpenFunc](TEXT-FILE-TYPE.md)** pointer to [SYS:0499 OpenFunc](0499-OPEN-FUNC.md).
+Sets this **[File](TEXT-FILE-TYPE.md)**'s **[OpenFunc](TEXT-FILE-TYPE.md)** pointer to [SYS:0499 Open Function](0499-OPEN-FUNC.md).
 
 ```
 SYS:0313 33C0          XOR	AX,AX
@@ -138,14 +138,14 @@ SYS:0322 3AC8          CMP	CL,AL
 SYS:0324 7604          JBE	032A
 ```
 
-In some scenarios, the first byte of the source buffer is the length. If the length is below or equal to 79, then copy the name in DS:SI to **[Name](TEXT-FILE-TYPE.md)**.
+Check if the string (**filename**) in **DS**:**SI** is 79 characters or less then copy it to this **[Files](TEXT-FILE-TYPE.md)**'s **[Name](TEXT-FILE-TYPE.md)**.
 
 ```
 SYS:0326 8AC8          MOV	CL,AL
 SYS:0328 E308          JCXZ	0332
 ```
 
-If greater than **79** bytes, i.e. **CL > AL**, modify the loop counter in CX.
+If greater than **79** bytes, i.e. **CL > AL**, modify the loop counter in **CX**. This may be used to copy Pascal strings whose first byte stores the string length (up to 255). If **CX** = 0, then return immediately because there are no bytes to copy.
 
 ```
 SYS:032A AC            LODSB
@@ -155,14 +155,14 @@ SYS:032F AA            STOSB
 SYS:0330 E2F8          LOOP	032A
 ```
 
-This does the actual copying of the name in DS:SI to **[Name](TEXT-FILE-TYPE.md)**.
+This does the actual copying of the name in DS:SI to **[Name](TEXT-FILE-TYPE.md)**. Exit loop immediately if a NULL (00h) byte from the source is encountered.
 
 ```
 SYS:0332 32C0          XOR	AL,AL
 SYS:0334 AA            STOSB
 ```
 
-**NULL** (00h) terminates the **[Name](TEXT-FILE-TYPE.md)** string.
+**NULL** (00h) terminates the **[Name](TEXT-FILE-TYPE.md)** string (or the destination string if not a **[File](TEXT-FILE-TYPE.md)**).
 
 ```
 SYS:0335 1F            POP	DS
@@ -171,4 +171,4 @@ SYS:0336 CA0800        RETF	0008
 
 Return and pop-off the two **FAR PTR** parameters (8 bytes) from the stack.
 
-See also: [SYS:0499 OpenFunc](0499-OPEN-FUNC.md) or Go [Back](../README.md)
+See also: [SYS:0499 Open Function](0499-OPEN-FUNC.md) or Go [Back](../README.md)
