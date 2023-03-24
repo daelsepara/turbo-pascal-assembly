@@ -11,16 +11,16 @@ DS=075E  ES=075E  SS=07F4  CS=076E  IP=0000   NV UP EI PL NZ NA PO NC
 
 The absolute values for DS, ES, SS, and CS itself are not important. What is relevant are the distances from one another (see below).
 
-CX is initialized to the file size minus the header (512 bytes):
+**CX** is initialized to the file size minus the header (512 bytes):
 
 ```
 CX = 3428 - 512 = 2916 (in Decimal)
 CX = 0D64 - 200 = 0B64 (in Hexadecimal)
 ```
 
-Stack size is around 16384 kilobytes (SP = 4000h).
+Stack size is around 16384 kilobytes (**SP** = 4000h).
 
-As to why AX = FFFFh, it is still a mystery to me as of now and will be explored later.
+As to why **AX** = FFFFh, it is still a mystery to me as of now and will be explored later.
 
 ## Segments
 
@@ -42,7 +42,7 @@ Where **Distance from CODE segment** is calculated using:
 
 Other calculations based on actual sizes of these segments as well as the rounded-off values are shown in the the last column of the table above. The rounded values are due to the assembler putting these segments in paragraph alignments. The location of the HEAP is calculated during the system library initialization.
 
-Refer to [MAIN.MAP](MAP.md) to see where these values are obtained.
+Refer to **[MAIN.MAP](MAP.md)** to see where these values are obtained.
 
 ## Source code
 
@@ -50,7 +50,7 @@ Refer to [MAIN.MAP](MAP.md) to see where these values are obtained.
 CODE:0000 9A00007007    CALL	SYS:0000
 ```
 
-Initialize System Library: [SYS:0000](0000-INIT.md)
+Initialize System Library: **[SYS:0000 System Library Initialization](0000-INIT.md)**
 
 ```
 CODE:0005 55            PUSH	BP
@@ -66,19 +66,19 @@ CODE:0008 31C0          XOR	AX,AX
 CODE:000A 9ACD027007    CALL	SYS:02CD
 ```
 
-Checks the size of the stack with a call to [SYS:02CD](02CD-CHECK-STACK.md). Exits with an error message if stack size is not sufficient or below the minimum.
+Checks the size of the stack with a call to **[SYS:02CD Check Stack](02CD-CHECK-STACK.md)**. Exits with an error message if stack size is not sufficient or it is below the minimum.
 
 ```
 CODE:000F 5D            POP	BP
 ```
 
-This balances the stack from PUSH BP/MOV BP, SP above. Again, this seems to be a defining feature of compiled code.
+This balances the stack from **PUSH BP/MOV BP, SP** above. Again, this seems to be a defining feature of compiled code.
 
 ```
 CODE:0010 31C0          XOR	AX,AX
 CODE:0012 9A16017007    CALL	SYS:0116
 ```
 
-Call [SYS:0116](0113-CTRL-C-HANDLER.md) Exit Function . AX contains the [ExitCode](DATA.md) = 0 (No Error).
+Call **[SYS:0116 Ctrl-C / Int 23h Handler / Program Exit](0113-CTRL-C-HANDLER.md)**. **AX** contains the **[ExitCode](DATA.md)**. **AX** = 0 means there were no errors encountered.
 
 [Back](../README.md)

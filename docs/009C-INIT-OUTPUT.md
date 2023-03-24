@@ -38,7 +38,7 @@ Calls **[SYS:0369 Rewrite Function](0364-RESET-REWRITE-FUNC.md)** and use **[Out
 SYS:00B0 CB            RETF
 ```
 
-Initialization is complete. Return to [MAIN](MAIN.md).
+Initialization is complete. Return to **[MAIN](MAIN.md)**.
 
 See also: [Text File Type](TEXT-FILE-TYPE.md), [SYS:0263 Empty string](0263-DATA-COPYRIGHT.md), [SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md), [SYS:0369 Reset/Rewrite Function](0364-RESET-REWRITE-FUNC.md) or Go [Back](../README.md)
 
