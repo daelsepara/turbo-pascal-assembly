@@ -154,4 +154,4 @@ SYS:018A CB            RETF
 
 Exit from the next overlay in the chain or back to **SYS:016E**.
 
-See also: [SYS:018B Flush and Close Input and Output Files](018B-FLUSH-FILES.md) or Go [Back](../README.md)
+See also: [SYS:018B Flush and Close Input and Output Files](018B-FLUSH-FILES.md) or go [Back](../README.md)

@@ -1,4 +1,4 @@
-# 02CD CHECK STACK
+# 02CD Check Stack
 
 Checks whether the program's stack size is sufficient.
 
