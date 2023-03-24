@@ -1,6 +1,6 @@
 # SYSTEM DATA
 
-## Variables, Constants and Addresses
+## Overlay Manager Internal Variables
 
 |Address|   Variable  |
 |-------|-------------|
@@ -13,12 +13,22 @@
 | 0010  | OvrLoadList |
 | 0012  | OvrDosHandle|
 | 0014  | OvrEmsHandle|
+
+## Heap Internal Variables
+
+|Address|   Variable  |
+|-------|-------------|
 | 0016  | HeapOrg     |
 | 001A  | HeapPtr     |
 | 001E  | HeapEnd     |
 | 0022  | FreeList    |
 | 0026  | FreeZero    |
 | 002A  | HeapError   |
+
+# Exit/Error Internal Variables
+
+|Address|   Variable  |
+|-------|-------------|
 | 002E  | ExitProc    |
 | 0032  | ExitCode    |
 | 0034  | ErrorAddr   |
@@ -36,27 +46,49 @@ Stores PSP segment address setup by DOS upon loading the program.
 |Address|   Variable  |
 |-------|-------------|
 | 003A  | StackLimit  |
+
+## I/O Function Result
+
+|Address|   Variable  |
+|-------|-------------|
 | 003C  | InOutRes    |
+
+Stores any error codes generated whenever I/O functions are used.
+
+## Constants and Variables
+
+|Address|   Variable  |
+|-------|-------------|
 | 003E  | RandSeed    |
 | 0042  | SelectorInc |
 | 0044  | Seg0040     |
 | 0046  | SegA000     |
 | 0048  | SegB000     |
 | 004A  | SegB800     |
+
+
+## CPU and fCPU types
+
+|Address|   Variable  |
+|-------|-------------|
 | 004C  | Test8086    |
 | 004D  | Test8087    |
+
+## Constantas and Variables
+
 | 004E  | FileMode    |
 
-## Input/Output Text File Type
+## Input/Output Text File Records
 
 |Address|   Variable  |
 |-------|-------------|
 | 0050  | Input       |
 | 0150  | Output      |
 
-Each  is around 256 bytes in size.
+Standard **Input** and **Output** files setup by Turbo Pascal. Each **Text file record** is around 256 bytes in size.
 
 See: [Text File Type](TEXT-FILE-TYPE.md)
+
 ## Interrupt Vectors
 
 |Address|   Variable  |
