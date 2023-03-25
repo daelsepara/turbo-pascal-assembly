@@ -28,7 +28,7 @@ Initialization.
 CODE:000F 9A15067207    CALL	SYS:0615
 ```
 
-Call to **Randomize** (no parameters).
+Call to **SYS:0615 Randomize** (see below).
 
 ```
 CODE:0014 5D            POP	BP
@@ -38,7 +38,7 @@ CODE:0017 9A16017207    CALL	SYS:0116
 
 Exit program with code 0.
 
-## Randomize
+## SYS:0615 Randomize
 
 ```
 SYS:0615 B42C          MOV	AH,2C
@@ -58,6 +58,10 @@ SYS:0619 890E3E00      MOV	[RandSeed:LSW],CX
 SYS:061D 89164000      MOV	[RandSeed:MSW],DX
 ```
 
-Store the low (**LSW** = least significant word) and high word (**MSW** = most significant word) into **[RandSeed](../DATA.md)** (*LongInt*).
+Store the 32-bit number in **DX**:**CX** into **[RandSeed](../DATA.md)** (*LongInt*).
+
+**Note**:
+- **LSW** = least significant word
+- **MSW** = most significant word
 
 See also: [RandSeed](../DATA.md), [SYS:0000 System Library Initialization](../0000-INIT.md), [SYS:02CD Check Stack](../02CD-CHECK-STACK.md), [SYS:0116 Program Exit](../0113-CTRL-C-HANDLER.md) or go [back](../../README.md)

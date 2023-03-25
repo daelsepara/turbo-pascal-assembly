@@ -93,3 +93,9 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
 - **Functions and Procedures**
   
   - [Randomize](docs/library/RANDOMIZE.md)
+
+  - [Random Number Geneator Engine](docs/library/RANDOM-ENGINE.md)
+  
+  - [Random: *Real*](docs/library/RANDOM-REAL.md)
+
+  - [Random(*Int*): *Int*](docs/library/RANDOM-INT.md)
