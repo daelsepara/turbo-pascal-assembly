@@ -1,5 +1,9 @@
 # A Deep Dive into the Turbo Pascal Compiled Code
 
+## Overview
+
+This is a walkthrough through the compiled code of an **[basic Pascal program](docs/MAIN.md)** that does nothing. The source was compiled under Turbo Pascal 7.0 (**TP7**). Because **TP7** uses **Smart Linking**, the final **.EXE** file will not contain any code or variable that is not called, used, or referenced. The main content within these pages refer to this **[basic Pascal program](docs/MAIN.md)**. On the final section (**Functions/Procedures**), we attempt to disassemble and analyze **System Library** functions and procedures that are normally not included in final **.EXE** generated for the **[basic Pascal program](docs/MAIN.md)**. That section will be updated and expanded as we are able to analyze more code.
+
 ## Table of Contents
 
 - [Files in this repository](docs/FILES.md)
@@ -14,7 +18,7 @@
 
 - [Main Program](docs/MAIN.md)
 
-- **System Library**
+- **System Library (Minimal)**
 
   - [0000 Initialize System Library](docs/0000-INIT.md)
 
@@ -85,3 +89,7 @@
   - [0580 Clear input/output file records and interrupt vector array](docs/0580-CLEAR.md)
 
 - [Runtime Error Codes](docs/ERROR-CODES.md)
+
+- **Functions and Procedures**
+  
+  - [Randomize](docs/library/RANDOMIZE.md)

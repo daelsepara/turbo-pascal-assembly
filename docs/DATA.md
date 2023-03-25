@@ -57,11 +57,16 @@ This is the lowest value the SP register can contain before it is considered a s
 
 Stores the status of the last 1/a operation performed.
 
+## Random Number Generator
+
+|Address|   Variable  | Description                                                    |
+|-------|-------------|----------------------------------------------------------------|
+| 003E  | RandSeed    | Stores the built-in random number generator's seed (*LongInt*) |
+
 ## Miscellaneous Constants and Variables
 
 |Address|   Variable  | Description                                                |
 |-------|-------------|------------------------------------------------------------|
-| 003E  | RandSeed    | Stores the built-in random number generator's seed         |
 | 0042  | SelectorInc | Number to add/subtract to increase/decrease selector by 64K|
 | 0044  | Seg0040     | Selector for segment 0040 (ROM BIOS Workspace)             |
 | 0046  | SegA000     | Selector for segment A000 (EGA and VGA Graphics Pages)     |

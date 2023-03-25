@@ -42,7 +42,7 @@ Where **Distance from CODE segment** is calculated using:
 
 Other calculations based on actual sizes of these segments as well as the rounded-off values are shown in the the last column of the table above. The rounded values are due to the assembler putting these segments in paragraph alignments. The location of the HEAP is calculated during the system library initialization.
 
-Refer to **[MAIN.MAP](MAP.md)** to see where these values are obtained.
+Refer to **[MAIN.MAP](MAIN-MAP.md)** to see where these values are obtained.
 
 ## Source code
 
