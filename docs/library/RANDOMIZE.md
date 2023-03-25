@@ -24,8 +24,9 @@ CODE:000A 9ACD027207    CALL	SYS:02CD
 
 Initialization.
 
-``
+```
 CODE:000F 9A15067207    CALL	SYS:0615
+```
 
 Call to **Randomize** (no parameters).
 
