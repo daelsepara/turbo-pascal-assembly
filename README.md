@@ -94,7 +94,7 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
   
   - [Randomize](docs/library/RANDOMIZE.md)
 
-  - [Random Number Geneator Engine](docs/library/RANDOM-ENGINE.md)
+  - [Random Number Generator Engine](docs/library/RANDOM-ENGINE.md)
   
   - [Random: *Real*](docs/library/RANDOM-REAL.md)
 
