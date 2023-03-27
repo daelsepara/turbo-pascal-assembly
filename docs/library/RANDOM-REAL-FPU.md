@@ -1,17 +1,24 @@
 # Random Function: (*Real*), FPU: 87/287/387 
 
-Returns a random number (*Real* type, 6-bytes) in the range **0.0** <= *X* < **1.0**. It is the same as the [**Random:** *Real*](RANDOM-REAL.md) function but compiled with **8087 emulation** disabled (**-$E-**) and **8087/80287/80387 code** enabled (**-$N+**):
+Returns a random number (*Real* type, 6-bytes) in the range **0.0** <= *X* < **1.0**. It is the same as the [**Random:** *Real*](RANDOM-REAL.md) function but it uses **FPU** code. The main program is with **8087 emulation** disabled (**-$E-**) and **8087/80287/80387 code** enabled (**-$N+**):
 
 ```
 TPC.EXE -GS -GP -GD -$D+ -$E- -$N+ MAIN
 ```
 
-## Main program disassembly
+## Random: *Real* using FPU
 
 ```
 CODE:0019 9A270D7407    CALL	SYS:0D27
 CODE:001E 9A8E097407    CALL	SYS:098E
 ```
+
+Random(*Real*) is composed of two separate calls to **System Library **subroutines (**SYS:0D27**) and (**SYS:0D27**). The results (*Real*, 6 bytes) is returned in **DX**:**BX**:**AX** where:
+- **DX** = High Word
+- **BX** = Middle Word
+- **AX** = Low Word
+
+## Random: *Real* using FPU (I)
 
 ```
 SYS:0D27 E82000        CALL	0D4A
@@ -24,11 +31,20 @@ SYS:0D41 CD3D          FWAIT
 SYS:0D43 CB            RETF
 ```
 
+## DWORD in SYS:0D44
 ```
-SYS:0D44 00 00 00 4F-E0 FF
+SYS:0D44  00 00 00 4F
 ```
 
-# Random Number Generator Engine
+## WROD in SYS:D48
+```
+SYS:0D48  E0 FF
+```
+
+## Random Number Generator Engine
+
+This is the same random number generator engine (see: **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)** for analysis). The location of this routine has been displaced due to inclusion of additional routines in the ***System Library***.
+
 
 ```
 SYS:0D4A A13E00        MOV	AX,[RandSeed.Low]
@@ -56,11 +72,12 @@ SYS:0D7B 89164000      MOV	[RandSeed.High],DX
 SYS:0D7F C3            RET
 ```
 
+## WORD in SYS:0D80
 ```
 SYS:0D80  05 84
 ```
 
-This is the same random number generator engine (see: **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)** for analysis). The location of this routine has been displaced due to inclusion of additional routines in the ***System Library***.
+## Random: *Real* using FPU (II)
 
 ```
 SYS:098E 83EC0A        SUB	SP,+0A
@@ -97,3 +114,5 @@ SYS:09CD 75EE          JNZ	09BD
 SYS:09CF B8CD00        MOV	AX,00CD
 SYS:09D2 E93AF7        JMP	010F
 ```
+
+See also: [RandSeed](../DATA.md), [SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md) or go [back](../../README.md)
