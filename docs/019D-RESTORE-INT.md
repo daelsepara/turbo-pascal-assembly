@@ -1,8 +1,8 @@
 # 019D Restore interrupt vectors
 
 ```
-SYS:019D BF5002        MOV	DI,0250
-SYS:01A0 BE3902        MOV	SI,0239
+SYS:019D BF5002        MOV	DI,SYS:0250
+SYS:01A0 BE3902        MOV	SI,SYS:0239
 SYS:01A3 B91300        MOV	CX,0013
 SYS:01A6 90            NOP
 SYS:01A7 FC            CLD

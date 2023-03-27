@@ -8,7 +8,7 @@ Reset (Input);
 ```
 
 ```
-SYS:0088 B85000        MOV	AX,OFFSET Input
+SYS:0088 B85000        MOV	AX,Input
 SYS:008B 1E            PUSH	DS
 SYS:008C 50            PUSH	AX
 SYS:008D 1E            PUSH	DS
@@ -18,7 +18,7 @@ SYS:008E 50            PUSH	AX
 Push pointer to **[Input](TEXT-FILE-TYPE.md)** twice. The first one is for **[SYS:0364 Reset Function](0364-RESET-REWRITE-FUNC.md)**, the second one for **[SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md)**.
 
 ```
-SYS:008F B86302        MOV	AX,0263
+SYS:008F B86302        MOV	AX,SYS:0263
 SYS:0092 0E            PUSH	CS
 SYS:0093 50            PUSH	AX
 SYS:0094 0E            PUSH	CS

@@ -104,7 +104,7 @@ SYS:030A AB            STOSW
 Copies ES which is the SEGMENT location of **[TextBuf](TEXT-FILE-TYPE.md)** into **AX**, then sets the segment part of **[BufPtr](TEXT-FILE-TYPE.md)**.
 
 ```
-SYS:030B B89904        MOV	AX,0499
+SYS:030B B89904        MOV	AX,SYS:0499
 SYS:030E AB            STOSW
 SYS:030F B87007        MOV	AX,SYS
 SYS:0312 AB            STOSW

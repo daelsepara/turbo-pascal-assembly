@@ -1,7 +1,7 @@
 # 0580 Clear input/output file records and interrupt vector array
 
 ```
-SYS:0580 BF5000        MOV	DI,OFFSET Input
+SYS:0580 BF5000        MOV	DI,Input
 ```
 Start at **[Input](DATA.md)** (in system data segment).
 
@@ -18,7 +18,7 @@ SYS:0588 2BCF          SUB	CX,DI
 SYS:058A D1E9          SHR	CX,1
 ```
 
-Clear memory from 0050h (**[Input](DATA.md)**) to 029Ch (**[SaveInt75](DATA.md)**) or around ((029Ch - 0050h) / 2) = **294** words.
+Clear memory from **0050h** (**[Input](DATA.md)**) to **029Ch** (**[SaveInt75](DATA.md)**) or around ((**029Ch** - **0050h**) / 2) = **294** words. **029Ch** is the size of the **DATA** segment (see: **[MAIN.MAP](MAIN-MAP.md)**).
 
 ```
 SYS:058C 33C0          XOR	AX,AX

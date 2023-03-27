@@ -103,7 +103,7 @@ SYS:04C8 8905          MOV	[DI],AX
 Upon success of the call to the **DOS** service, **AX** contains the handle of the openend / created file. Copy **AX** in **[File](TEXT-FILE-TYPE.md)**'s **[Handle](TEXT-FILE-TYPE.md)**.
 
 ```
-SYS:04CA B80B04        MOV	AX,040B
+SYS:04CA B80B04        MOV	AX,SYS:040B
 SYS:04CD BA7007        MOV	DX,SYS
 SYS:04D0 33C9          XOR	CX,CX
 SYS:04D2 33DB          XOR	BX,BX
@@ -123,7 +123,7 @@ Get device information using **DOS INT 21h AX = 4400h** service with parameter *
 
 ```
 SYS:04E2 F6C280        TEST	DL,80
-SYS:04E5 B86004        MOV	AX,0460
+SYS:04E5 B86004        MOV	AX,SYS:0460
 SYS:04E8 BA7007        MOV	DX,SYS
 SYS:04EB 8BC8          MOV	CX,AX
 SYS:04ED 8BDA          MOV	BX,DX
@@ -142,7 +142,7 @@ SYS:04F8 E82B00        CALL	0526
 Check if **[File (Mode)](TEXT-FILE-TYPE.md)** was opened using **[Reset() and Rewrite()](FILE-MODES.md)** move file pointer to end of the file.
 
 ```
-SYS:04FB B83B04        MOV	AX,043B
+SYS:04FB B83B04        MOV	AX,SYS:043B
 SYS:04FE BA7007        MOV	DX,SYS
 SYS:0501 33C9          XOR	CX,CX
 SYS:0503 33DB          XOR	BX,BX
@@ -167,7 +167,7 @@ SYS:0513 895D1A        MOV	[DI+1A],BX
 Set up the handlers for **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** and **[FlushFunc](TEXT-FILE-TYPE.md)**. **DX**:**AX**, **BX**:**CX**, at this point contains the correct pointers to the subroutines.
 
 ```
-SYS:0516 C7451C8004    MOV	WORD PTR [DI+1C],0480
+SYS:0516 C7451C8004    MOV	WORD PTR [DI+1C],SYS:0480
 SYS:051B C7451E7007    MOV	WORD PTR [DI+1E],SYS
 ```
 

@@ -8,7 +8,7 @@ Rewrite(Output);
 ```
 
 ```
-SYS:009C B85001        MOV	AX,OFFSET Output
+SYS:009C B85001        MOV	AX,Output
 SYS:009F 1E            PUSH	DS
 SYS:00A0 50            PUSH	AX
 SYS:00A1 1E            PUSH	DS
@@ -18,7 +18,7 @@ SYS:00A2 50            PUSH	AX
 Push pointer to **[Output](TEXT-FILE-TYPE.md)** twice. The first one is for **[SYS:0369 Reset Function](0364-RESET-REWRITE-FUNC.md)**, the second one for **[SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md)**.
 
 ```
-SYS:00A3 B86302        MOV	AX,0263
+SYS:00A3 B86302        MOV	AX,SYS:0263
 SYS:00A6 0E            PUSH	CS
 SYS:00A7 50            PUSH	AX
 SYS:00A8 0E            PUSH	CS

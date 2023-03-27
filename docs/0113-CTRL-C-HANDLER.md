@@ -71,7 +71,7 @@ SYS:0148 F7E2          MUL	DX
 SYS:014A 03C1          ADD	AX,CX
 SYS:014C 7207          JB	0155
 SYS:014E 26            ES:
-SYS:014F 3B060800      CMP	AX,[OvrDebugPtr:SEG]
+SYS:014F 3B060800      CMP	AX,[OvrDebugPtr.Segment]
 SYS:0153 7206          JB	015B
 ```
 
@@ -100,8 +100,8 @@ SYS:0163 83EB10        SUB	BX,+10
 Locate original **PSP** (usually 10h paragraphs below in memory).
 
 ```
-SYS:0166 890E3400      MOV	[ErrorAddr:OFF],CX
-SYS:016A 891E3600      MOV	[ErrorAddr:SEG],BX
+SYS:0166 890E3400      MOV	[ErrorAddr.Offset],CX
+SYS:016A 891E3600      MOV	[ErrorAddr.Segment],BX
 ```
 
 Load pointer in **BX**:**CX** (**PSP** Address) to **[ErrorAddr](DATA.md)**.
@@ -122,8 +122,8 @@ If **[ExitProc](DATA.md)** is undefined then flush buffers ([SYS:018B Flush and 
 
 ```
 SYS:0178 33C0          XOR	AX,AX
-SYS:017A A32E00        MOV	[ExitProc:OFF],AX
-SYS:017D A33000        MOV	[ExitProc:SEG],AX
+SYS:017A A32E00        MOV	[ExitProc.Offset],AX
+SYS:017D A33000        MOV	[ExitProc.Segment],AX
 SYS:0180 A33C00        MOV	[InOutRes],AX
 ```
 
@@ -134,7 +134,7 @@ Clears the following:
 ... of the current overlay.
 
 ```
-SYS:0183 B86E01        MOV	AX,016E
+SYS:0183 B86E01        MOV	AX,SYS:016E
 SYS:0186 0E            PUSH	CS
 SYS:0187 50            PUSH	AX
 ```

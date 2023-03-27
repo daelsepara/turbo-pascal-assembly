@@ -1,12 +1,12 @@
 # 018B Flush and Close Input and Output Files
 
 ```
-SYS:018B B85000        MOV	AX,OFFSET Input
+SYS:018B B85000        MOV	AX,Input
 SYS:018E 1E            PUSH	DS
 SYS:018F 50            PUSH	AX
 SYS:0190 0E            PUSH	CS
 SYS:0191 E82A02        CALL	03BE
-SYS:0194 B85001        MOV	AX,OFFSET Output
+SYS:0194 B85001        MOV	AX,Output
 SYS:0197 1E            PUSH	DS
 SYS:0198 50            PUSH	AX
 SYS:0199 0E            PUSH	CS
