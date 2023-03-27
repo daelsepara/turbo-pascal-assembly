@@ -100,7 +100,9 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
 
   - [8087/80287/80387 Temporary data](docs/library/DATA8087.md)
 
-  - [Test 8087/80287/80387](docs/library/TEST8087.md)
+  - [Identify 8087/80287/80387 FPU](docs/library/TEST8087.md)
+
+  - [Initialize 8087/80287/80387](docs/library/INIT8087.md)
 
   - [Randomize](docs/library/RANDOMIZE.md)
 
