@@ -8,8 +8,8 @@
 |10    |C2  |Condition Code 2    |
 |09    |C1  |Condition Code 1    |
 |08    |C0  |Condition Code 0    |
-|07    |IR  |Interrupt Request   |
-|06    |    |Undefined/Unused    |
+|07    |    |Exception Flag      |
+|06    |    |Stack Fault         |
 |05    |PE  |Precision           |
 |04    |UE  |Underflow           |
 |03    |OE  |Overflow            |
