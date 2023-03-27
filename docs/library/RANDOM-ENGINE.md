@@ -1,15 +1,11 @@
 # Random Number Generator Engine
 
 ```
-SYS:05DD A13E00        MOV	AX,[RandSeed:LSW]
-SYS:05E0 8B1E4000      MOV	BX,[RandSeed:MSW]
+SYS:05DD A13E00        MOV	AX,[RandSeed.Low]
+SYS:05E0 8B1E4000      MOV	BX,[RandSeed.High]
 ```
 
 Load **[RandomSeed](../DATA.md)** (*LongInt*) into **BX**:**AX**.
-
-**Note**:
-- **LSW** = least significant word
-- **MSW** = most significant word
 
 ```
 SYS:05E4 8BC8          MOV	CX,AX
@@ -33,11 +29,11 @@ SYS:0608 83D200        ADC	DX,+00
 ```
 
 ```
-SYS:060B A33E00        MOV	[RandSeed:LSW],AX
-SYS:060E 89164000      MOV	[RandSeed:MSW],DX
+SYS:060B A33E00        MOV	[RandSeed.Low],AX
+SYS:060E 89164000      MOV	[RandSeed.Low],DX
 ```
 
-Update **[RandomSeed](../DATA.md)** (*LongInt*) with **DX**:**AX**.
+Update **[RandSeed](../DATA.md)** (*LongInt*) with **DX**:**AX**.
 
 ```
 SYS:0612 C3            RET
@@ -49,8 +45,6 @@ Return to calling **Random** function (*[Real](RANDOM-REAL.md)*/*[Int](RANDOM-IN
 SYS:0613 05 84
 ```
 
-RNG Magic Number **8405h**/**33797**.
+RNG Magic Number **8405h**/**33797**. Used internally.
 
-Internal word
-
-See also: [RandSeed](../DATA.md)
+See also: [RandSeed](../DATA.md), or go [back](../../README.md)

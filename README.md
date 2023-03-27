@@ -92,10 +92,18 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
 
 - **Functions and Procedures**
   
+  - [8087/80287/80387 Temporary data](docs/library/DATA8087.md)
+
+  - [8087/80287/80387 x87 FPU Evironment](docs/library/ENV8087.md)
+
+  - [Test 8087/80287/80387](docs/library/TEST8087.md)
+
   - [Randomize](docs/library/RANDOMIZE.md)
 
   - [Random Number Generator Engine](docs/library/RANDOM-ENGINE.md)
   
   - [Random: *Real*](docs/library/RANDOM-REAL.md)
+
+  - [Random: *Real*, FPU: 87/287/387](docs/library/RANDOM-REAL-FPU.md)
 
   - [Random(*Int*): *Int*](docs/library/RANDOM-INT.md)

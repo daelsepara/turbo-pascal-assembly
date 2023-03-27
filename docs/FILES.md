@@ -5,8 +5,9 @@
 This is the Turbo pascal program that does nothing. It is compiled with Turbo Pascal 7.01 under the DOSBOX 0.74-3 emulation environment. The purpose of this skeleton code is to make it easier to separate user-generated code from the default system library code that is linked with it.
 
 The source is compiled using the following commands:
+
 ```
-C:\TP\BIN\TPC.EXE -GS -GP -GD -$D+ MAIN
+TPC.EXE -GS -GP -GD -$D+ MAIN
 ```
 ... to produce an executable named **MAIN.EXE**
 
