@@ -91,10 +91,14 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
 - [Runtime Error Codes](docs/ERROR-CODES.md)
 
 - **Functions and Procedures**
-  
-  - [8087/80287/80387 Temporary data](docs/library/DATA8087.md)
+
+  - [8087/80287/80387 x87 Control Word](docs/library/CONTROL8087.md)
+
+  - [8087/80287/80387 x87 Status Word](docs/library/STATUS8087.md)
 
   - [8087/80287/80387 x87 FPU Evironment](docs/library/ENV8087.md)
+
+  - [8087/80287/80387 Temporary data](docs/library/DATA8087.md)
 
   - [Test 8087/80287/80387](docs/library/TEST8087.md)
 
