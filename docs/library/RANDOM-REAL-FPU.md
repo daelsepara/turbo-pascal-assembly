@@ -1,6 +1,6 @@
 # Random Function: (*Real*), FPU: 87/287/387 
 
-Returns a random number (*Real* type, 6-bytes) in the range **0.0** <= *X* < **1.0**. It is the same as the [**Random:** *Real*](RANDOM-REAL.md) function but it uses **FPU** code. The main program is with **8087 emulation** disabled (**-$E-**) and **8087/80287/80387 code** enabled (**-$N+**):
+Returns a random number (*Real* type, 6-bytes) in the range **0.0** <= *X* < **1.0**. It is the same as the [**Random:** *Real*](RANDOM-REAL.md) function but uses **FPU** code. The main program is compiled with **8087 emulation** disabled (**-$E-**) and **8087/80287/80387 code** enabled (**-$N+**):
 
 ```
 TPC.EXE -GS -GP -GD -$D+ -$E- -$N+ MAIN
@@ -19,9 +19,13 @@ Random(*Real*) is composed of two separate calls to **System Library **subroutin
 - **AX** = Low Word
 
 ## Random: *Real* using FPU (I)
-
 ```
 SYS:0D27 E82000        CALL	0D4A
+```
+
+Call random number generator engine at **SYS:0D4A**.
+
+```
 SYS:0D2A CD3C9F06480D  FILD CS:WORD PTR [0D48]
 SYS:0D30 CD37063E00    FILD DWORD PTR [RandSeed]
 SYS:0D35 CD3C9806440D  FADD CS:DWORD PTR [0D44]
@@ -36,15 +40,14 @@ SYS:0D43 CB            RETF
 SYS:0D44  00 00 00 4F
 ```
 
-## WROD in SYS:D48
+## WORD in SYS:D48
 ```
 SYS:0D48  E0 FF
 ```
 
-## Random Number Generator Engine
+## SYS:0D4A Random Number Generator Engine
 
 This is the same random number generator engine (see: **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)** for analysis). The location of this routine has been displaced due to inclusion of additional routines in the ***System Library***.
-
 
 ```
 SYS:0D4A A13E00        MOV	AX,[RandSeed.Low]
@@ -78,7 +81,6 @@ SYS:0D80  05 84
 ```
 
 ## Random: *Real* using FPU (II)
-
 ```
 SYS:098E 83EC0A        SUB	SP,+0A
 SYS:0991 8BDC          MOV	BX,SP
