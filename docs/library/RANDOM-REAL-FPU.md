@@ -13,7 +13,7 @@ CODE:0019 9A270D7407    CALL	SYS:0D27
 CODE:001E 9A8E097407    CALL	SYS:098E
 ```
 
-Random(*Real*) is composed of two separate calls to **System Library **subroutines (**SYS:0D27**) and (**SYS:0D27**). The results (*Real*, 6 bytes) is returned in **DX**:**BX**:**AX** where:
+Random(*Real*) is composed of two separate calls to **System Library **subroutines (**SYS:0D27**) and (**SYS:098E**). The results (*Real*, 6 bytes) is returned in **DX**:**BX**:**AX** where:
 - **DX** = High Word
 - **BX** = Middle Word
 - **AX** = Low Word
@@ -79,6 +79,8 @@ SYS:0D7F C3            RET
 ```
 SYS:0D80  05 84
 ```
+
+Magic number used bye the random number generator engine (**8405h**/**33797**).
 
 ## Random: *Real* using FPU (II)
 ```
