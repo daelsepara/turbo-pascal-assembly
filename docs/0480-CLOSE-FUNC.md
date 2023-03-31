@@ -25,7 +25,7 @@ Loads the pointer to the **[File](TEXT-FILE-TYPE.md)** into **ES**:**DI**.
 
 ```
 SYS:0486 26            ES:
-SYS:0487 8B1D          MOV	BX,[DI]
+SYS:0487 8B1D          MOV	BX,[DI:Handle]
 ```
 
 Loads the (**[Handle](TEXT-FILE-TYPE.md)**) in **[File](TEXT-FILE-TYPE.md)** into **BX**.

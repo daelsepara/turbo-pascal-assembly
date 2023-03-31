@@ -1,4 +1,4 @@
-# 0239 Interrupt list
+# 0239 Interrupt list (InterruptList)
 
 Inside SYS code segment, on addresses 0239-024B is a list of interrupts whose vectors are saved and modified during initialization and restored on exit whether it was a normal termination or due to a runtime error.
 

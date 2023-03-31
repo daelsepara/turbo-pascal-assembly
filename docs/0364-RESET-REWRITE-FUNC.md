@@ -50,7 +50,7 @@ Loads the pointer to the **[File](TEXT-FILE-TYPE.md)** into ES:DI.
 
 ```
 SYS:0377 26            ES:
-SYS:0378 8B4502        MOV	AX,[DI+02]
+SYS:0378 8B4502        MOV	AX,[DI:Mode]
 ```
 
 Loads **[Mode](FILE-MODES.md)** int AX.
@@ -113,7 +113,7 @@ Clears AX.
 
 ```
 SYS:039C 26            ES:
-SYS:039D 895502        MOV	[DI+02],DX
+SYS:039D 895502        MOV	[DI:Mode],DX
 ```
 
 Set **[Mode](FILE-MODES.md)**  in **[File](TEXT-FILE-TYPE.md)**.
@@ -147,7 +147,7 @@ Return on succes.
 
 ```
 SYS:03B0 26            ES:
-SYS:03B1 C74502B0D7    MOV	WORD PTR [DI+02],fmClosed
+SYS:03B1 C74502B0D7    MOV	WORD PTR [DI:Mode],fmClosed
 ```
 
 Mark the file as  **[fmClosed](FILE-MODES.md)** on error.

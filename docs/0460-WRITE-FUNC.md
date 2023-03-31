@@ -31,7 +31,7 @@ Loads the pointer to the **[File](TEXT-FILE-TYPE.md)** into **ES**:**DI**.
 
 ```
 SYS:0467 26            ES:
-SYS:0468 C5550C        LDS	DX,[DI+0C]
+SYS:0468 C5550C        LDS	DX,[DI:BufPtr]
 ```
 
 Loads the pointer to buffer (**[BufPtr](TEXT-FILE-TYPE.md)**) in **[File](TEXT-FILE-TYPE.md)** into **DS**:**DX**.
@@ -39,14 +39,14 @@ Loads the pointer to buffer (**[BufPtr](TEXT-FILE-TYPE.md)**) in **[File](TEXT-F
 ```
 SYS:046B 33C9          XOR	CX,CX
 SYS:046D 26            ES:
-SYS:046E 874D08        XCHG	CX,[DI+08]
+SYS:046E 874D08        XCHG	CX,[DI:BufPos]
 ```
 
 Get number of bytes to write from the **[File](TEXT-FILE-TYPE.md)**'s **[BufPos](TEXT-FILE-TYPE.md)**.
 
 ```
 SYS:0471 26            ES:
-SYS:0472 8B1D          MOV	BX,[DI]
+SYS:0472 8B1D          MOV	BX,[DI:Handle]
 ```
 
 Get this **[File](TEXT-FILE-TYPE.md)**'s **[Handle](TEXT-FILE-TYPE.md)**.

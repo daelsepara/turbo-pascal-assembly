@@ -5,7 +5,7 @@ This is part of the **[SYS:0499 Open Function](0499-OPEN-FUNC.md)** but the main
 ```
 SYS:0526 33D2          XOR	DX,DX
 SYS:0528 33C9          XOR	CX,CX
-SYS:052A 8B1D          MOV	BX,[DI]
+SYS:052A 8B1D          MOV	BX,[DI:Handle]
 SYS:052C B80242        MOV	AX,4202
 SYS:052F CD21          INT	21
 ```
@@ -21,7 +21,7 @@ Move file pointer to end of the file with a call to **DOS INT 21h AH = 42h** ser
 Upon return: **DX**:**AX** contains the new file pointer location, with **CF** clear on success, an error code in **AX** and **CF** is set. This purpose of this first call to **DOS INT 21h AH = 42h** is to get the file size.
 
 ```
-SYS:0531 2D8000        SUB	AX,0080
+SYS:0531 2D8000        SUB	AX,SizeOf(TextBuf)
 SYS:0534 83DA00        SBB	DX,+00
 SYS:0537 7304          JNB	053D
 ```
@@ -43,7 +43,7 @@ SYS:053F 8BD0          MOV	DX,AX
 Copy file pointer in **DX**:**AX** to **CX**:**DX**.
 
 ```
-SYS:0541 8B1D          MOV	BX,[DI]
+SYS:0541 8B1D          MOV	BX,[DI:Handle]
 SYS:0543 B80042        MOV	AX,4200
 SYS:0546 CD21          INT	21
 ```
@@ -51,9 +51,9 @@ SYS:0546 CD21          INT	21
 Move the file pointer to new location using **DOS INT 21h AH = 42h** service.
 
 ```
-SYS:0548 8D958000      LEA	DX,[DI+0080]
-SYS:054C B98000        MOV	CX,0080
-SYS:054F 8B1D          MOV	BX,[DI]
+SYS:0548 8D958000      LEA	DX,[DI:TextBuf]
+SYS:054C B98000        MOV	CX,SizeOf(TextBuf)
+SYS:054F 8B1D          MOV	BX,[DI:Handle]
 SYS:0551 B43F          MOV	AH,3F
 SYS:0553 CD21          INT	21
 ```
@@ -86,7 +86,7 @@ SYS:055D 7420          JZ	057F
 Check all bytes up to (the count in) **AX** have been verified then exit.
 
 ```
-SYS:055F 80B980001A    CMP	BYTE PTR [BX+DI+0080],1A
+SYS:055F 80B980001A    CMP	BYTE PTR [BX+DI+TextBuf],1A
 SYS:0564 7403          JZ	0569
 ```
 
@@ -108,7 +108,7 @@ SYS:056D B9FFFF        MOV	CX,FFFF
 Setup a signed 32-bit number as file pointer (or offset) in **CX**:**DX**.
 
 ```
-SYS:0570 8B1D          MOV	BX,[DI]
+SYS:0570 8B1D          MOV	BX,[DI:Handle]
 ```
 
 Get file handle indicated by [DI].
@@ -122,7 +122,7 @@ Move file pointer to offset **CX**:**DX** from end of the file using **DOS Move 
 
 ```
 SYS:0577 33C9          XOR	CX,CX
-SYS:0579 8B1D          MOV	BX,[DI]
+SYS:0579 8B1D          MOV	BX,[DI:Handle]
 SYS:057B B440          MOV	AH,40
 SYS:057D CD21          INT	21
 ```

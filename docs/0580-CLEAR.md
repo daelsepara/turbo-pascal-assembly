@@ -13,12 +13,12 @@ SYS:0584 07            POP	ES
 Copy **DS** into **ES**. STOSW stores word (in **AX**) into **ES**:[**DI**].
 
 ```
-SYS:0585 B99C02        MOV	CX,029C
+SYS:0585 B99C02        MOV	CX,SizeOf(DATA)
 SYS:0588 2BCF          SUB	CX,DI
 SYS:058A D1E9          SHR	CX,1
 ```
 
-Clear memory from **0050h** (**[Input](DATA.md)**) to **029Ch** (**[SaveInt75](DATA.md)**) or around ((**029Ch** - **0050h**) / 2) = **294** words. **029Ch** is the size of the **DATA** segment (see: **[MAIN.MAP](MAIN-MAP.md)**).
+Clear memory from **0050h** (**[Input](DATA.md)**) to **SizeOf(DATA) = 029Ch** (**[SaveInt75](DATA.md)**) or around ((**029Ch** - **0050h**) / 2) = **294** words. **029Ch** is the size of the **DATA** segment (see: **[MAIN.MAP](MAIN-MAP.md)**).
 
 ```
 SYS:058C 33C0          XOR	AX,AX

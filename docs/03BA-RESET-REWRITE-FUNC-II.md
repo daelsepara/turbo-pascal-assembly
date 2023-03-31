@@ -40,7 +40,7 @@ Loads the pointer to the **[File](TEXT-FILE-TYPE.md)** into **ES**:**DI**.
 
 ```
 SYS:03C6 26            ES:
-SYS:03C7 817D02B1D7    CMP	WORD PTR [DI+02],fmInput
+SYS:03C7 817D02B1D7    CMP	WORD PTR [DI:Mode],fmInput
 SYS:03CC 7418          JZ	03E6
 ```
 
@@ -48,7 +48,7 @@ Checks if **[File](TEXT-FILE-TYPE.md)** was opened using **[Reset()](FILE-MODES.
 
 ```
 SYS:03CE 26            ES:
-SYS:03CF 817D02B2D7    CMP	WORD PTR [DI+02],fmOutput
+SYS:03CF 817D02B2D7    CMP	WORD PTR [DI:Mode],fmOutput
 SYS:03D4 7408          JZ	03DE
 ```
 
@@ -86,7 +86,7 @@ Close the **[File](TEXT-FILE-TYPE.md)** on errors with a call to its **[BX = 001
 
 ```
 SYS:03F0 26            ES:
-SYS:03F1 C74502B0D7    MOV	WORD PTR [DI+02],fmClosed
+SYS:03F1 C74502B0D7    MOV	WORD PTR [DI:Mode],fmClosed
 ```
 
 Mark **[File](TEXT-FILE-TYPE.md)** as **[fmClosed](FILE-MODES.md)**.

@@ -35,21 +35,21 @@ Loads the pointer to the **[File](TEXT-FILE-TYPE.md)** into ES:DI.
 
 ```
 SYS:0412 26            ES:
-SYS:0413 C5550C        LDS	DX,[DI+0C]
+SYS:0413 C5550C        LDS	DX,[DI:BufPtr]
 ```
 
 Loads the pointer to buffer (**[BufPtr](TEXT-FILE-TYPE.md)**) in **[File](TEXT-FILE-TYPE.md)** into **DS**:**DX**.
 
 ```
 SYS:0416 26            ES:
-SYS:0417 8B4D04        MOV	CX,[DI+04]
+SYS:0417 8B4D04        MOV	CX,[DI:BufSize]
 ```
 
 Get size of the buffer (**[BufSize](TEXT-FILE-TYPE.md)**) in **[File](TEXT-FILE-TYPE.md)** into **CX**.
 
 ```
 SYS:041A 26            ES:
-SYS:041B 8B1D          MOV	BX,[DI]
+SYS:041B 8B1D          MOV	BX,[DI:Handle]
 SYS:041D B43F          MOV	AH,3F
 SYS:041F CD21          INT	21
 ```
@@ -67,7 +67,7 @@ Exit on error.
 
 ```
 SYS:0423 26            ES:
-SYS:0424 89450A        MOV	[DI+0A],AX
+SYS:0424 89450A        MOV	[DI:BufEnd],AX
 ```
 
 Set the actual number of bytes read on  **[BufEnd](TEXT-FILE-TYPE.md)** in **[File](TEXT-FILE-TYPE.md)**.
@@ -75,7 +75,7 @@ Set the actual number of bytes read on  **[BufEnd](TEXT-FILE-TYPE.md)** in **[Fi
 ```
 SYS:0427 33C0          XOR	AX,AX
 SYS:0429 26            ES:
-SYS:042A C745080000    MOV	WORD PTR [DI+08],0000
+SYS:042A C745080000    MOV	WORD PTR [DI:BufPos],0000
 ```
 
 Reset index (**[BufPos](TEXT-FILE-TYPE.md)**) of next character in buffer to 0 (beginning).
@@ -94,7 +94,7 @@ Return to caller and pop-off parameters from the stack.
 
 ```
 SYS:0433 26            ES:
-SYS:0434 C7450A0000    MOV	WORD PTR [DI+0A],0000
+SYS:0434 C7450A0000    MOV	WORD PTR [DI:BufEnd],0000
 SYS:0439 EBEE          JMP	0429
 ```
 
