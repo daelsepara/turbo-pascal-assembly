@@ -104,6 +104,8 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
 
   - [Initialize 8087/80287/80387](docs/library/INIT8087.md)
 
+  - [Ports used by 8087/80287/80387](docs/library/PORTS.md)
+
   - [Randomize](docs/library/RANDOMIZE.md)
 
   - [Random Number Generator Engine](docs/library/RANDOM-ENGINE.md)

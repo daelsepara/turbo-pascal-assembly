@@ -16,7 +16,7 @@
 | 0 | 1 |ICW4 is needed          |  0  |No ICW4 needed              |
 | 1 | 1 |Single 8259             |  0  |Cascading 8259's            |
 | 2 | 1 |4 byte interrupt vectors|  0  |8 byte interrupt vectors    |
-| 3 | 1 |level triggered mode    |  0  |edge triggered mode         |
+| 3 | 1 |Level triggered mode    |  0  |Edge triggered mode         |
 | 4 | 1 |Must be set for **ICW1**|  0  |                            |
 | 5 | 1 |                        |  0  |Must be clear for PC Systems|
 
