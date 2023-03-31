@@ -115,3 +115,7 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
   - [Random: *Real*, FPU: 87/287/387](docs/library/RANDOM-REAL-FPU.md)
 
   - [Random(*Int*): *Int*](docs/library/RANDOM-INT.md)
+
+  - [Real Type](docs/library/REAL-TYPE.md)
+
+  - [Print Real Number](docs/library/PRINT-REAL.md)
