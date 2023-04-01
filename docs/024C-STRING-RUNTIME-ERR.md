@@ -1,7 +1,7 @@
 # 024C Runtime error strings
 
 ```
-SYS:0240                                      52 75 6E 74               Runt
+SYS:024C                                      52 75 6E 74               Runt
 SYS:0250  69 6D 65 20 65 72 72 6F-72 20 00 20 61 74 20 00   ime error . at .
 SYS:0260  2E 0D 0A 00                                       ...
 ```

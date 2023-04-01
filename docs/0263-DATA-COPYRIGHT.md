@@ -13,6 +13,6 @@ SYS:0270  79 72 69 67 68 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
 SYS:0280  39 32 20 42 6F 72 6C 61-6E 64                     92 Borland
 ```
 
-The other bytes **SYS:0264-0289** that looks like a copyright string is not used is never visibile.
+The other bytes **SYS:0264-0289** that looks like a copyright string is not used and is never visibile.
 
 See also: [SYS:0088 Initialize Input](0088-INIT-INPUT.md), [SYS:009C Initialize Output](009C-INIT-OUTPUT.md), or Go [Back](../README.md)
