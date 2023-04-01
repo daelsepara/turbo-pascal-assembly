@@ -30,7 +30,7 @@ SYS:0608 83D200        ADC	DX,+00
 
 ```
 SYS:060B A33E00        MOV	[RandSeed.Low],AX
-SYS:060E 89164000      MOV	[RandSeed.Low],DX
+SYS:060E 89164000      MOV	[RandSeed.High],DX
 ```
 
 Update **[RandSeed](../DATA.md)** (*LongInt*) with **DX**:**AX**.
@@ -45,6 +45,6 @@ Return to calling **Random** function (*[Real](RANDOM-REAL.md)*/*[Int](RANDOM-IN
 SYS:0613 05 84
 ```
 
-RNG Magic Number **8405h**/**33797**. Used internally.
+Magic Number **8405h**/**33797**. Used internally.
 
 See also: [RandSeed](../DATA.md), or go [back](../../README.md)

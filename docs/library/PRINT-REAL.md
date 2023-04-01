@@ -59,7 +59,7 @@ These parameters are pased onto the stack for the successive calls to the system
 |SP+02|  1100  |Constant Parameter|
 |SP+04|  8292  |Low Byte of **A** |
 |SP+06|  A2DA  |Mid Byte of **A** |
-|SP+08|  0F49  |High Byte of **A** |
+|SP+08|  0F49  |High Byte of **A**|
 
 Note that the byte order has been reversed (least significant byte **LSB** first, followed by the most significant byte **MSB**).
 

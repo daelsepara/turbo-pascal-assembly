@@ -17,7 +17,7 @@ Upon return:
 
 ```
 SYS:0619 890E3E00      MOV	[RandSeed.Low],CX
-SYS:061D 89164000      MOV	[RandSeed.Low],DX
+SYS:061D 89164000      MOV	[RandSeed.High],DX
 SYS:0621 CB            RETF
 ```
 

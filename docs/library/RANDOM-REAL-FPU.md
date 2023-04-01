@@ -1,6 +1,6 @@
 # Random Function: (*Real*), FPU: 87/287/387 
 
-Returns a random number (*Real* type, 6-bytes) in the range **0.0** <= *X* < **1.0**. It is the same as the [**Random:** *Real*](RANDOM-REAL.md) function but uses **FPU** code. The main program is compiled with **8087 emulation** disabled (**-$E-**) and **8087/80287/80387 code** enabled (**-$N+**):
+Returns a random number (***Real*** type, 6-bytes) in the range **0.0** <= ***X*** < **1.0**. It is the same as the [**Random:** ***Real***](RANDOM-REAL.md) function but uses **FPU** code. The main program is compiled with **8087 emulation** disabled (**-$E-**) and **8087/80287/80387 code** enabled (**-$N+**):
 
 ```
 TPC.EXE -GS -GP -GD -$D+ -$E- -$N+ MAIN
@@ -13,7 +13,7 @@ CODE:0019 9A270D7407    CALL	SYS:0D27
 CODE:001E 9A8E097407    CALL	SYS:098E
 ```
 
-Random(*Real*) is composed of two separate calls to **System Library **subroutines (**SYS:0D27**) and (**SYS:098E**). The results (*Real*, 6 bytes) is returned in **DX**:**BX**:**AX** where:
+Random(*Real*) is composed of two separate calls to **System Library** subroutines (**SYS:0D27**) and (**SYS:098E**). The results (***Real***, 6 bytes) is returned in **DX**:**BX**:**AX** where:
 - **DX** = High Word
 - **BX** = Middle Word
 - **AX** = Low Word
@@ -30,7 +30,7 @@ SYS:0D2A CD3C9F06480D  FILD CS:WORD PTR [0D48]
 SYS:0D30 CD37063E00    FILD DWORD PTR [RandSeed]
 SYS:0D35 CD3C9806440D  FADD CS:DWORD PTR [0D44]
 SYS:0D3A CD35FD        FSCALE
-SYS:0D3E CD39D9        FSTP    ST(1)
+SYS:0D3E CD39D9        FSTP ST(1)
 SYS:0D41 CD3D          FWAIT
 SYS:0D43 CB            RETF
 ```
@@ -40,14 +40,14 @@ SYS:0D43 CB            RETF
 SYS:0D44  00 00 00 4F
 ```
 
-## WORD in SYS:D48
+## WORD in SYS:0D48
 ```
 SYS:0D48  E0 FF
 ```
 
 ## SYS:0D4A Random Number Generator Engine
 
-This is the same random number generator engine (see: **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)** for analysis). The location of this routine has been displaced due to inclusion of additional routines in the ***System Library***.
+This is the same random number generator engine (see: **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)** for analysis). The location of this routine has been displaced due to inclusion of additional routines in the **System Library**.
 
 ```
 SYS:0D4A A13E00        MOV	AX,[RandSeed.Low]
@@ -86,7 +86,7 @@ Magic number used bye the random number generator engine (**8405h**/**33797**).
 ```
 SYS:098E 83EC0A        SUB	SP,+0A
 SYS:0991 8BDC          MOV	BX,SP
-SYS:0993 CD3C5B3F      FSTP  SS:TBYTE PTR [BX]
+SYS:0993 CD3C5B3F      FSTP SS:TBYTE PTR [BX]
 SYS:0997 CD3D          FWAIT
 SYS:0999 83C402        ADD	SP,+02
 SYS:099C 59            POP	CX

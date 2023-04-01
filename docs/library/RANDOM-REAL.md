@@ -1,6 +1,6 @@
 # Random Function: (*Real*) 
 
-Returns a random number (*Real* type, 6-bytes) in the range **0.0** <= *X* < **1.0**.
+Returns a random number (***Real*** type, 6-bytes) in the range **0.0** <= ***X*** < **1.0**.
 
 ```
 SYS:059D E83D00        CALL	05DD

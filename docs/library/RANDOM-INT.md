@@ -1,6 +1,6 @@
-# Random(A: *Int*): *Int* Function
+# Random(*Int*): *Int* Function
 
-Returns a random number (*Int/Word*, 2 bytes). It takes one parameter **A** and returns **X** in the range **0** <= *X* < **A**.
+Returns a random number (***Int***/***Word***, 2 bytes). It takes one ***Int*** parameter and returns ***X*** in the range: **0** <= ***X*** < ***Int***.
 
 ```
 SYS:0580 E85A00        CALL	05DD
@@ -10,11 +10,11 @@ Call **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)**.
 
 # Stack after SYS:0580
 
-|Index|Contents                                  |
-|-----|------------------------------------------|
-|SP   |Return Address (OFFSET)                   |
-|SP+02|Return Address (SEGMENT)                  |
-|SP+04|**A**: *Int* parameter                    |
+|Index|Contents                |
+|-----|------------------------|
+|SP   |Return Address (OFFSET) |
+|SP+02|Return Address (SEGMENT)|
+|SP+04|*Int* parameter         |
 
 
 ```
