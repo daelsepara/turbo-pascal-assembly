@@ -53,13 +53,15 @@ These parameters are pased onto the stack for the successive calls to the system
 
 ## Stack after CODE:0039
 
-|Index|Contents|Description       |
-|-----| :----: |------------------|
-|SP   |  FFFF  |Constant Parameter|
-|SP+02|  1100  |Constant Parameter|
-|SP+04|  8292  |Low Byte of **A** |
-|SP+06|  A2DA  |Mid Byte of **A** |
-|SP+08|  0F49  |High Byte of **A**|
+|Index|Contents|Description        |
+|-----| :----: |-------------------|
+|SP   |  FFFF  |Constant Parameter |
+|SP+02|  1100  |Constant Parameter |
+|SP+04|  8292  |Low Word of **A**  |
+|SP+06|  A2DA  |Mid Word of **A**  |
+|SP+08|  0F49  |High Word of **A** |
+|SP+0A|  ????  |DI Output (Offset) |
+|SP+0C|  ????  |DS Output (Segment)|
 
 Note that the byte order has been reversed (least significant byte **LSB** first, followed by the most significant byte **MSB**).
 
@@ -196,16 +198,18 @@ Save **BP** and use it as index to the stack. Reserve **40h/64** bytes on the st
 ## Stack after SYS:0696
 
 |Index|Contents                 |
-|-----|-------------------------|
+| :-: |-------------------------|
 |BP-40|(SP Points here)         |
 |BP+00|Old BP                   |
 |BP+02|Return Address (Offset)  |
 |BP+04|Return Address (Segment) |
 |BP+06|Constant Parameter (FFFF)|
 |BP+08|Constant Parameter (1100)|
-|BP+0A|Low Byte of *Real*       |
-|BP+0C|Mid Byte of *Real*       |
-|BP+0E|High Byte of *Real*      |
+|BP+0A|Low Word of *Real*       |
+|BP+0C|Mid Word of *Real*       |
+|BP+0E|High Word of *Real*      |
+|BP+10|Output buffer (Offset)   |
+|BP+12|Output buffer (Segment)  |
 
 ```
 SYS:0699 8B460A        MOV	AX,[BP+0A]
@@ -214,7 +218,7 @@ SYS:069F 8B560E        MOV	DX,[BP+0E]
 SYS:06A2 8B4E06        MOV	CX,[BP+06]
 ```
 
-Loads *Real* number passed on stack to **DX**:**BX**:**AX**. Where **DX** = **High** byte, **BX** = **Mid** byte, and **AX** = **Low** byte. Load parameter into **CX** ([**BP+06**] = **FFFFh/-1**).
+Loads *Real* number passed on stack to **DX**:**BX**:**AX**. Where **DX** = **High** word, **BX** = **Mid** word, and **AX** = **Low** word. Load parameter into **CX** ([**BP+06**] = **FFFFh/-1**).
 
 ```
 SYS:06A5 0BC9          OR	CX,CX
@@ -249,6 +253,11 @@ Call **SYS:0BBD**.
 
 ```
 SYS:06BF C45E10        LES	BX,[BP+10]
+```
+
+Load output buffer address in [**BP+10**] into **ES**:**BX**.
+
+```
 SYS:06C2 8B5608        MOV	DX,[BP+08]
 SYS:06C5 2BD1          SUB	DX,CX
 SYS:06C7 7E05          JLE	06CE
