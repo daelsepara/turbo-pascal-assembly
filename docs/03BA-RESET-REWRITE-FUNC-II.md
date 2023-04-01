@@ -59,7 +59,7 @@ SYS:03D6 C7063C006700  MOV	WORD PTR [InOutRes],0067
 SYS:03DC EB18          JMP	03F6
 ```
 
-Exit with an error **[67/103: File not open](ERROR-CODES.md)**.
+Exit with an error **[67h/103: File not open](ERROR-CODES.md)**.
 
 ```
 SYS:03DE 50            PUSH	AX

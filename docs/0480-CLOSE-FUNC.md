@@ -60,6 +60,6 @@ SYS:0494 33C0          XOR	AX,AX
 SYS:0496 CA0400        RETF	0004
 ```
 
-Return and pop-off parameters from the stack. The **[error code](ERROR-CODES.md)** in **AX**, later stored in **[InOutRes](DATA.md)**.
+Return and pop-off parameters from the stack. The **[error code](ERROR-CODES.md)** in **AX** is later stored in **[InOutRes](DATA.md)**.
 
 See also: [Text File Type](TEXT-FILE-TYPE.md) or go [back](../README.md)

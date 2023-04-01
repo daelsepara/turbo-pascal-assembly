@@ -1,0 +1,70 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00050H 00051H main               CODE
+ 00060H 00F75H 00F16H System             CODE
+ 00F80H 01223H 002A4H DATA               DATA
+ 01230H 0522FH 04000H STACK              STACK
+ 05230H 05230H 00000H HEAP               HEAP
+
+  Address         Publics by Value
+
+ 0000:0000       @
+ 00F8:0002       OvrCodeList
+ 00F8:0004       OvrHeapSize
+ 00F8:0006       OvrDebugPtr
+ 00F8:000A       OvrHeapOrg
+ 00F8:000C       OvrHeapPtr
+ 00F8:000E       OvrHeapEnd
+ 00F8:0010       OvrLoadList
+ 00F8:0012       OvrDosHandle
+ 00F8:0014       OvrEmsHandle
+ 00F8:0016       HeapOrg
+ 00F8:001A       HeapPtr
+ 00F8:001E       HeapEnd
+ 00F8:0022       FreeList
+ 00F8:0026       FreeZero
+ 00F8:002A       HeapError
+ 00F8:002E       ExitProc
+ 00F8:0032       ExitCode
+ 00F8:0034       ErrorAddr
+ 00F8:0038       PrefixSeg
+ 00F8:003A       StackLimit
+ 00F8:003C       InOutRes
+ 00F8:003E       RandSeed
+ 00F8:0042       SelectorInc
+ 00F8:0044       Seg0040
+ 00F8:0046       SegA000
+ 00F8:0048       SegB000
+ 00F8:004A       SegB800
+ 00F8:004C       Test8086
+ 00F8:004D       Test8087
+ 00F8:004E       FileMode
+ 00F8:0052       A
+ 00F8:0058       Input
+ 00F8:0158       Output
+ 00F8:0258       SaveInt00
+ 00F8:025C       SaveInt02
+ 00F8:0260       SaveInt1B
+ 00F8:0264       SaveInt21
+ 00F8:0268       SaveInt23
+ 00F8:026C       SaveInt24
+ 00F8:0270       SaveInt34
+ 00F8:0274       SaveInt35
+ 00F8:0278       SaveInt36
+ 00F8:027C       SaveInt37
+ 00F8:0280       SaveInt38
+ 00F8:0284       SaveInt39
+ 00F8:0288       SaveInt3A
+ 00F8:028C       SaveInt3B
+ 00F8:0290       SaveInt3C
+ 00F8:0294       SaveInt3D
+ 00F8:0298       SaveInt3E
+ 00F8:029C       SaveInt3F
+ 00F8:02A0       SaveInt75
+
+Line numbers for main(PRNTREAL.PAS) segment main
+
+     3 0000:0000     4 0000:000F     5 0000:0021     6 0000:0049
+
+Program entry point at 0000:0000

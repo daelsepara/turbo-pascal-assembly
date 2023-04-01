@@ -20,6 +20,6 @@ SYS:02DF B8CA00        MOV	AX,00CA
 SYS:02E2 E92AFE        JMP	010F
 ```
 
-This prints a runtime error message with error code **[CA/202: Stack overflow error](ERROR-CODES.md)**.
+This prints a runtime error message with error code **[CAh/202: Stack overflow error](ERROR-CODES.md)**.
 
 See also: [SYS:10F](010C-INT00H.md) or Go [Back](../README.md)

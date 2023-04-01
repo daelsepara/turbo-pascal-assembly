@@ -78,7 +78,7 @@ Verify if actual number of bytes written in **AX** (returned after call to **DOS
 SYS:0459 B86500        MOV	AX,0065
 ```
 
-If these do not match return with an code **[65/101: Disk write error](ERROR-CODES.md)**.
+If these do not match return with an code **[65h/101: Disk write error](ERROR-CODES.md)**.
 
 ```
 SYS:045C 1F            POP	DS

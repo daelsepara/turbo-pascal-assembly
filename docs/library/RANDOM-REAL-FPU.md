@@ -83,16 +83,42 @@ SYS:0D80  05 84
 Magic number used bye the random number generator engine (**8405h**/**33797**).
 
 ## Random: *Real* using FPU (II)
+
 ```
 SYS:098E 83EC0A        SUB	SP,+0A
+```
+
+Reserve 10 bytes on the stack.
+
+```
 SYS:0991 8BDC          MOV	BX,SP
+```
+
+Copy offset to this location (**SP**) into **BX**.
+
+```
 SYS:0993 CD3C5B3F      FSTP SS:TBYTE PTR [BX]
 SYS:0997 CD3D          FWAIT
+```
+
+Load 10 bytes from FPU stack into reserved location [**BX**].
+
+```
 SYS:0999 83C402        ADD	SP,+02
+```
+
+Ignore **MSB**
+
+```
 SYS:099C 59            POP	CX
 SYS:099D 5B            POP	BX
 SYS:099E 5A            POP	DX
 SYS:099F 58            POP	AX
+```
+
+Load into **AX**:**DX**:**BX**:**CX**.
+
+```
 SYS:09A0 8BF8          MOV	DI,AX
 SYS:09A2 25FF7F        AND	AX,7FFF
 SYS:09A5 2D7E3F        SUB	AX,3F7E

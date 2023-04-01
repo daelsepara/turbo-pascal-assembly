@@ -81,7 +81,7 @@ SYS:038A C7063C006600  MOV	WORD PTR [InOutRes],0066
 SYS:0390 EB24          JMP	03B6
 ```
 
-Exit with an error **[66/102: File not assigned](ERROR-CODES.md)**.
+Exit with an error **[66h/102: File not assigned](ERROR-CODES.md)**.
 
 ```
 SYS:0392 52            PUSH	DX

@@ -123,13 +123,31 @@ SYS:0539 5A            POP	DX
 SYS:053A 0BD2          OR	DX,DX
 SYS:053C 75C8          JNZ	0506
 SYS:053E C3            RET
+```
+
+```
 SYS:053F C7063C006900  MOV	WORD PTR [InOutRes],0069
 SYS:0545 C3            RET
+```
+
+Return with error error code **[69h/105: File not open for output](../ERROR-CODES.md)**.
+
+```
 SYS:0546 833E3C0000    CMP	WORD PTR [InOutRes],+00
 SYS:054B 7548          JNZ	0595
+```
+
+Check if last operation had any errors.
+
+```
 SYS:054D 26            ES:
 SYS:054E 817F02B2D7    CMP	WORD PTR [BX+02],D7B2
 SYS:0553 7541          JNZ	0596
+```
+
+Check if file/device has been is open for writing. 
+
+```
 SYS:0555 26            ES:
 SYS:0556 8B4F04        MOV	CX,[BX+04]
 SYS:0559 26            ES:
@@ -172,9 +190,14 @@ SYS:0590 58            POP	AX
 SYS:0591 0BC0          OR	AX,AX
 SYS:0593 75C0          JNZ	0555
 SYS:0595 C3            RET
+```
+
+```
 SYS:0596 C7063C006900  MOV	WORD PTR [InOutRes],0069
 SYS:059C C3            RET
 ```
+
+Return with error error code **[69h/105: File not open for output](../ERROR-CODES.md)**.
 
 ```
 SYS:0619 06            PUSH	ES
@@ -486,10 +509,14 @@ Save **DI**. At this point **ES**:**DI** contains the pointer temporary output b
 
 Stack after **SYS**:**0BC3**
 
-|Index|Contents                 |
-|-----|-------------------------|
-|BP-16|Saved DI (SP points here)|
-|BP   |Saved BP                 |
+|Index|Contents                             |
+|-----|-------------------------------------|
+|BP-16|Saved DI (SP points here)            |
+|BP-14|(Temporary buffer)                   |
+|BP-06|(number of digits converted)         |
+|BP-04|(MSB)                                |
+|BP-02|(number of characters representation)|
+|BP   |Saved BP                             |
 
 
 ```
@@ -533,7 +560,7 @@ SYS:0BDF 16            PUSH	SS
 SYS:0BE0 07            POP	ES
 ```
 
-Load **SS**:**BP-14** to **ES**:**DI**.
+Load pointer to reserved area (**SS**:**BP-14**) into **ES**:**DI**.
 
 ```
 SYS:0BE1 E8D100        CALL	0CB5
@@ -570,9 +597,27 @@ SYS:0C16 807AEC39      CMP	BYTE PTR [BP+SI-14],39
 SYS:0C1A 760E          JBE	0C2A
 SYS:0C1C C642EC00      MOV	BYTE PTR [BP+SI-14],00
 SYS:0C20 EBEE          JMP	0C10
+```
+
+```
 SYS:0C22 C746EC3100    MOV	WORD PTR [BP-14],0031
+```
+
+Put **NULL** (**00h**)-terminated string '**1**' into start of the buffer.
+
+```
 SYS:0C27 FF46FA        INC	WORD PTR [BP-06]
+```
+
+Increase number of digits converted.
+
+```
 SYS:0C2A 33F6          XOR	SI,SI
+```
+
+Reset
+
+```
 SYS:0C2C FC            CLD
 SYS:0C2D 8B56FE        MOV	DX,[BP-02]
 SYS:0C30 0BD2          OR	DX,DX
@@ -587,8 +632,16 @@ SYS:0C42 7905          JNS	0C49
 SYS:0C44 B030          MOV	AL,30
 SYS:0C46 AA            STOSB
 SYS:0C47 EB07          JMP	0C50
+```
+
+```
 SYS:0C49 E85D00        CALL	0CA9
 SYS:0C4C AA            STOSB
+```
+
+Load one byte into **AL** on call to **SYS**:**0CA9** and store in **ES**:**DI**.
+
+```
 SYS:0C4D 49            DEC	CX
 SYS:0C4E 79F9          JNS	0C49
 SYS:0C50 0BD2          OR	DX,DX
@@ -603,26 +656,80 @@ SYS:0C5D 4A            DEC	DX
 SYS:0C5E 75F7          JNZ	0C57
 SYS:0C60 4A            DEC	DX
 SYS:0C61 783D          JS	0CA0
+```
+
+```
 SYS:0C63 E84300        CALL	0CA9
 SYS:0C66 AA            STOSB
+```
+
+Load one byte into **AL** on call to **SYS**:**0CA9** and store in **ES**:**DI**.
+
+```
 SYS:0C67 EBF7          JMP	0C60
+```
+
+```
 SYS:0C69 B020          MOV	AL,20
 SYS:0C6B F646FC80      TEST	BYTE PTR [BP-04],80
 SYS:0C6F 7402          JZ	0C73
+```
+
+Prepare ' ' (whitespace) character in **AL**. Check if number is negative.
+
+```
 SYS:0C71 B02D          MOV	AL,2D
+```
+
+Prepare '**-**' character if number is negative.
+
+```
 SYS:0C73 AA            STOSB
+```
+
+Store character in **AL** to **ES**:[**DI**].
+
+```
 SYS:0C74 E83200        CALL	0CA9
 SYS:0C77 AA            STOSB
+```
+
+Load one byte into **AL** on call to **SYS**:**0CA9** and store in **ES**:[**DI**].
+
+```
 SYS:0C78 42            INC	DX
 SYS:0C79 740A          JZ	0C85
+```
+
+```
 SYS:0C7B B02E          MOV	AL,2E
 SYS:0C7D AA            STOSB
+```
+
+Store '**.**' into the buffer at **ES**:[**DI**].
+
+```
 SYS:0C7E E82800        CALL	0CA9
 SYS:0C81 AA            STOSB
+```
+
+Load one byte into **AL** on call to **SYS**:**0CA9** and store in **ES**:[**DI**].
+
+```
 SYS:0C82 42            INC	DX
 SYS:0C83 75F9          JNZ	0C7E
+```
+
+Cycle until all of the significand's digits are stored.
+
+```
 SYS:0C85 B045          MOV	AL,45
 SYS:0C87 AA            STOSB
+```
+
+Store '**E**' into the buffer at **ES**:[**DI**] (**scientific notation**).
+
+```
 SYS:0C88 B02B          MOV	AL,2B
 SYS:0C8A 8B56FA        MOV	DX,[BP-06]
 SYS:0C8D 0BD2          OR	DX,DX
@@ -635,22 +742,56 @@ SYS:0C98 B20A          MOV	DL,0A
 SYS:0C9A F6FA          IDIV	DL
 SYS:0C9C 053030        ADD	AX,3030
 SYS:0C9F AB            STOSW
+```
+
+## Conversion complete
+
+```
 SYS:0CA0 8BCF          MOV	CX,DI
 SYS:0CA2 5F            POP	DI
 SYS:0CA3 2BCF          SUB	CX,DI
+```
+
+Compute actual number of digits converted in **CX**.
+
+```
 SYS:0CA5 8BE5          MOV	SP,BP
 SYS:0CA7 5D            POP	BP
 SYS:0CA8 C3            RET
+```
+
+Remove temporary reserved space by restoring **SP** (using **BP**) then pop off **BP** before returning.
+
+## Load one character from source buffer
+
+```
 SYS:0CA9 8A42EC        MOV	AL,[BP+SI-14]
 SYS:0CAC 46            INC	SI
+```
+
+Copy byte character into **AL** then move pointer (**SI**) forward by one byte.
+
+```
 SYS:0CAD 0AC0          OR	AL,AL
 SYS:0CAF 7503          JNZ	0CB4
+```
+
+Check if empty.
+
+```
 SYS:0CB1 B030          MOV	AL,30
 SYS:0CB3 4E            DEC	SI
+```
+
+Pad with '**0**' if AL is **NULL** then move pointer (**SI**) back by one byte.
+
+```
 SYS:0CB4 C3            RET
 ```
 
-## Convert exponent to ASCII
+Return.
+
+## Convert ***Real*** number to ASCII.
 
 ```
 SYS:0CB5 0AC0          OR	AL,AL
@@ -952,6 +1093,9 @@ Check if signed or unsigned then handle appropriately.
 SYS:0E78 F9            STC
 SYS:0E79 C3            RET
 ```
+
+Return with carry flag set.
+
 
 ```
 SYS:0E7A  81 00 00 00 00 00
