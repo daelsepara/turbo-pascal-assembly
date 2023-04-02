@@ -210,6 +210,8 @@ SYS:0623 A33C00        MOV	[InOutRes],AX
 SYS:0626 C3            RET
 ```
 
+## Convert to ASCII routine
+
 ```
 SYS:0693 55            PUSH	BP
 SYS:0694 8BEC          MOV	BP,SP
@@ -226,13 +228,15 @@ Save **BP** and use it as index to the stack. Reserve **40h/64** bytes on the st
 |BP+00|Old BP                   |
 |BP+02|Return Address (Offset)  |
 |BP+04|Return Address (Segment) |
-|BP+06|Constant Parameter (FFFF)|
-|BP+08|Constant Parameter (1100)|
+|BP+06|**Precision** (FFFFh)   |
+|BP+08|**Width** (0011h)        |
 |BP+0A|Low Word of *Real*       |
 |BP+0C|Mid Word of *Real*       |
 |BP+0E|High Word of *Real*      |
 |BP+10|Output buffer (Offset)   |
 |BP+12|Output buffer (Segment)  |
+
+**Precision** and **Width** sets the desired precision. if **Precision** is a positive number, it will determine the number of digits after the decimal point. 
 
 ```
 SYS:0699 8B460A        MOV	AX,[BP+0A]
@@ -248,17 +252,22 @@ SYS:06A5 0BC9          OR	CX,CX
 SYS:06A7 790E          JNS	06B7
 ```
 
-Check if **CX** is unsigned.
+Check if **CX** is unsigned or a negative number.
 
 ```
 SYS:06A9 B90600        MOV	CX,0006
 SYS:06AC 2B4E08        SUB	CX,[BP+08]
 SYS:06AF 83F9FE        CMP	CX,-02
 SYS:06B2 7E03          JLE	06B7
-SYS:06B4 B9FEFF        MOV	CX,FFFE
 ```
 
 Check if number of characters representation is enough.
+
+```
+SYS:06B4 B9FEFF        MOV	CX,FFFE
+```
+
+If not enough, then set default of width 2 digits (**FFFEh**/**-2**).
 
 ```
 SYS:06B7 8D7EC0        LEA	DI,[BP-40]
@@ -295,6 +304,13 @@ SYS:06D8 8BE5          MOV	SP,BP
 SYS:06DA 5D            POP	BP
 SYS:06DB CA0A00        RETF	000A
 ```
+
+## Digit extaction logic
+
+|Registers|Description                  |Sample value  |              
+|---------|-----------------------------|--------------|
+|DI:SI:CX |Number read from **SYS:0E7A**|0000 0000 0081|
+|DX:BX:AX |Number to be converted       |HHHH MMMM LLLL|
 
 ```
 SYS:0889 E9FC00        JMP	0988
@@ -347,7 +363,13 @@ SYS:08D6 F7E5          MUL	BP
 SYS:08D8 03C1          ADD	AX,CX
 SYS:08DA 83D200        ADC	DX,+00
 SYS:08DD EB7C          JMP	095B
+```
+
+```
 SYS:08DF 90            NOP
+```
+
+```
 SYS:08E0 57            PUSH	DI
 SYS:08E1 56            PUSH	SI
 SYS:08E2 51            PUSH	CX
@@ -403,6 +425,9 @@ SYS:0951 F7660A        MUL	WORD PTR [BP+0A]
 SYS:0954 03C6          ADD	AX,SI
 SYS:0956 13D7          ADC	DX,DI
 SYS:0958 83C40C        ADD	SP,+0C
+```
+
+```
 SYS:095B 93            XCHG	BX,AX
 SYS:095C 59            POP	CX
 SYS:095D 5D            POP	BP
@@ -515,7 +540,7 @@ Stack after **SYS**:**0BC3**
 |BP-14|(Temporary buffer)                   |
 |BP-06|(number of digits converted)         |
 |BP-04|(MSB)                                |
-|BP-02|(number of characters representation)|
+|BP-02|(Precision)                          |
 |BP   |Saved BP                             |
 
 
@@ -527,13 +552,13 @@ SYS:0BCC 83F9F5        CMP	CX,-0B
 SYS:0BCF 7D03          JGE	0BD4
 ```
 
-Check if number of characters representation is enough (at least 11).
+Check if CX is within the limit: **-0Bh** <= **CX** <= **+0Bh**.
 
 ```
 SYS:0BD1 B9F5FF        MOV	CX,FFF5
 ```
 
-Set Default **CX** = **FFF5h**/**-5**.
+Otherwise, set Default **CX** = **FFF5h**/**-11**.
 
 ```
 SYS:0BD4 894EFE        MOV	[BP-02],CX
@@ -573,6 +598,8 @@ SYS:0BE5 07            POP	ES
 
 Restore **ES**:**DI**.
 
+## Start of conversion logic
+
 ```
 SYS:0BE6 894EFA        MOV	[BP-06],CX
 SYS:0BE9 8B76FE        MOV	SI,[BP-02]
@@ -581,12 +608,34 @@ SYS:0BEE 780C          JS	0BFC
 SYS:0BF0 0376FA        ADD	SI,[BP-06]
 SYS:0BF3 46            INC	SI
 SYS:0BF4 7908          JNS	0BFE
+```
+
+```
 SYS:0BF6 C646EC00      MOV	BYTE PTR [BP-14],00
 SYS:0BFA EB2E          JMP	0C2A
+```
+
+Initialize output buffer by marking the first byte with a **NULL**/**00h** byte.
+
+```
 SYS:0BFC F7DE          NEG	SI
+```
+
+Negate **SI** to make it positive.
+
+## Truncation logic
+
+```
 SYS:0BFE 83FE0C        CMP	SI,+0C
 SYS:0C01 7203          JB	0C06
 SYS:0C03 BE0B00        MOV	SI,000B
+```
+
+Limit to **0Ch/11** digits.
+
+## Round-off logic
+
+```
 SYS:0C06 807AEC35      CMP	BYTE PTR [BP+SI-14],35
 SYS:0C0A C642EC00      MOV	BYTE PTR [BP+SI-14],00
 SYS:0C0E 721A          JB	0C2A
@@ -609,13 +658,13 @@ Put **NULL** (**00h**)-terminated string '**1**' into start of the buffer.
 SYS:0C27 FF46FA        INC	WORD PTR [BP-06]
 ```
 
-Increase number of digits converted.
+Increase number of digits to convert.
 
 ```
 SYS:0C2A 33F6          XOR	SI,SI
 ```
 
-Reset
+Reset **SI**.
 
 ```
 SYS:0C2C FC            CLD
@@ -669,6 +718,8 @@ Load one byte into **AL** on call to **SYS**:**0CA9** and store in **ES**:**DI**
 SYS:0C67 EBF7          JMP	0C60
 ```
 
+## Format number to scientific notation.
+
 ```
 SYS:0C69 B020          MOV	AL,20
 SYS:0C6B F646FC80      TEST	BYTE PTR [BP-04],80
@@ -689,6 +740,8 @@ SYS:0C73 AA            STOSB
 
 Store character in **AL** to **ES**:[**DI**].
 
+## Convert first digit to ASCII
+
 ```
 SYS:0C74 E83200        CALL	0CA9
 SYS:0C77 AA            STOSB
@@ -698,8 +751,15 @@ Load one byte into **AL** on call to **SYS**:**0CA9** and store in **ES**:[**DI*
 
 ```
 SYS:0C78 42            INC	DX
+```
+
+Add to count.
+
+```
 SYS:0C79 740A          JZ	0C85
 ```
+
+Check if there are mo more digits to convert.
 
 ```
 SYS:0C7B B02E          MOV	AL,2E
@@ -707,6 +767,8 @@ SYS:0C7D AA            STOSB
 ```
 
 Store '**.**' into the buffer at **ES**:[**DI**].
+
+## Convert significand to ASCII
 
 ```
 SYS:0C7E E82800        CALL	0CA9
@@ -720,7 +782,9 @@ SYS:0C82 42            INC	DX
 SYS:0C83 75F9          JNZ	0C7E
 ```
 
-Cycle until all of the significand's digits are stored.
+Cycle until all of the **significand** **f**'s digits are stored in output buffer.
+
+## Convert Exponent to ASCII and format in scientific notation
 
 ```
 SYS:0C85 B045          MOV	AL,45
@@ -731,20 +795,54 @@ Store '**E**' into the buffer at **ES**:[**DI**] (**scientific notation**).
 
 ```
 SYS:0C88 B02B          MOV	AL,2B
+```
+
+Prepare '**+**' character if number is exponent is positive.
+
+```
 SYS:0C8A 8B56FA        MOV	DX,[BP-06]
 SYS:0C8D 0BD2          OR	DX,DX
 SYS:0C8F 7904          JNS	0C95
+```
+
+Check if exponent is negative (**SF** = **1**, **signed**).
+
+```
 SYS:0C91 B02D          MOV	AL,2D
 SYS:0C93 F7DA          NEG	DX
+```
+
+Prepare '**-**' character since exponent is negative. Negate **DX** to make the exponent positive.
+
+```
 SYS:0C95 AA            STOSB
+```
+
+Store **exponent** sign into the buffer at **ES**:[**DI**].
+
+```
 SYS:0C96 8BC2          MOV	AX,DX
+```
+
+Store exponent in **AX**.
+
+```
 SYS:0C98 B20A          MOV	DL,0A
 SYS:0C9A F6FA          IDIV	DL
+```
+
+Convert exponent in **AL** to base 10 (**DL** = **0Ah**) by doing a signed division of **AL** by **DL**. Quotient in **AL**, remainder in **AH**.
+
+```
 SYS:0C9C 053030        ADD	AX,3030
 SYS:0C9F AB            STOSW
 ```
 
+Convert exponent digits in **AX** to **ASCII** by adding '**00**' to **AX**. Store the converted digits into **ES**:[**DI**].
+
 ## Conversion complete
+
+The conversion is now complete.
 
 ```
 SYS:0CA0 8BCF          MOV	CX,DI
@@ -823,7 +921,7 @@ Clear the sign bit in **DH** (Bit 7).
 SYS:0CC9 50            PUSH	AX
 ```
 
-Preserve AX as it is frequently modified by the arithmetic operations.
+Preserve **AX** as it is frequently modified by the arithmetic operations.
 
 ```
 SYS:0CCA 2C80          SUB	AL,80
@@ -844,7 +942,7 @@ SYS:0CD3 8AC4          MOV	AL,AH
 SYS:0CD5 98            CBW
 ```
 
-Add 5 to AX then move high byte to lower byte then convert to word.
+Add **5** to **AX** then move high byte to lower byte then convert to word.
 
 ```
 SYS:0CD6 8BC8          MOV	CX,AX
@@ -887,6 +985,8 @@ Negate **CX**.
 ```
 SYS:0CE3 E84401        CALL	0E2A
 ```
+
+Check if **CX** is within range/limits on call to **SYS**:**0E2A**.
 
 ```
 SYS:0CE6 5F            POP	DI
@@ -931,10 +1031,25 @@ Convert 12 digits (**SI = 000C**).
 SYS:0D09 8AEE          MOV	CH,DH
 SYS:0D0B B104          MOV	CL,04
 SYS:0D0D D2ED          SHR	CH,CL
+```
+
+Copy digit to convert to ASCII in **DH** to **CH**. Only the upper digit (bits 4-7) are needed.
+
+```
 SYS:0D0F 80C530        ADD	CH,30
 SYS:0D12 26            ES:
 SYS:0D13 882D          MOV	[DI],CH
+```
+
+Convert digit in **CH** to ASCII by adding it '**0**' (**30h**/**48**) and storing in **ES**:[**DI**].
+
+```
 SYS:0D15 80E60F        AND	DH,0F
+```
+
+Clear upper bits (4-7) in **DH**.
+
+```
 SYS:0D18 52            PUSH	DX
 SYS:0D19 53            PUSH	BX
 SYS:0D1A 50            PUSH	AX
@@ -962,6 +1077,8 @@ SYS:0D3E 59            POP	CX
 SYS:0D3F C3            RET
 ```
 
+## SYS:0E2A Range/Limit checks
+
 ```
 SYS:0E2A 80F9DA        CMP	CL,DA
 SYS:0E2D 7C49          JL	0E78
@@ -982,7 +1099,7 @@ SYS:0E35 53            PUSH	BX
 SYS:0E36 50            PUSH	AX
 ```
 
-Save number.
+Save number **DX**:**BX**:**AX**.
 
 ```
 SYS:0E37 0AC9          OR	CL,CL
@@ -1096,7 +1213,6 @@ SYS:0E79 C3            RET
 
 Return with carry flag set.
 
-
 ```
 SYS:0E7A  81 00 00 00 00 00
 ```
@@ -1107,6 +1223,8 @@ SYS:0EB8 7449          JZ	0F03
 ```
 
 Check if **exponent** = **00h**.
+
+## Preliminary conversion
 
 ```
 SYS:0EBA 51            PUSH	CX
@@ -1147,7 +1265,12 @@ SYS:0EFD 8AC1          MOV	AL,CL
 SYS:0EFF 0403          ADD	AL,03
 SYS:0F01 5E            POP	SI
 SYS:0F02 59            POP	CX
+```
+
+```
 SYS:0F03 C3            RET
 ```
+
+Return.
 
 Go [Back](../../README.md)
