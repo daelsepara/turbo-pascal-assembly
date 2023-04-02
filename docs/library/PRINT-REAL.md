@@ -1217,6 +1217,8 @@ Return with carry flag set.
 SYS:0E7A  81 00 00 00 00 00
 ```
 
+## Conversion adjustments
+
 ```
 SYS:0EB6 0AC0          OR	AL,AL
 SYS:0EB8 7449          JZ	0F03
@@ -1224,13 +1226,28 @@ SYS:0EB8 7449          JZ	0F03
 
 Check if **exponent** = **00h**.
 
-## Preliminary conversion
+## Preliminary adjustment
 
 ```
 SYS:0EBA 51            PUSH	CX
 SYS:0EBB 56            PUSH	SI
+```
+
+Preserve **CX** and **SI**.
+
+```
 SYS:0EBC 80CE80        OR	DH,80
+```
+
+Set sign bit.
+
+```
 SYS:0EBF 8AC8          MOV	CL,AL
+```
+
+Copy exponent int **CL**.
+
+```
 SYS:0EC1 32C0          XOR	AL,AL
 SYS:0EC3 52            PUSH	DX
 SYS:0EC4 53            PUSH	BX
