@@ -73,6 +73,8 @@ CODE:0044 9A91027607    CALL	SYS:0291
 
 These three calls are used to print the *Real* number. We shall walkthrough each of these calls.
 
+## I/O Result Check (I)
+
 ```
 SYS:0291 833E3C0000    CMP	WORD PTR [InOutRes],+00
 SYS:0296 7501          JNZ	0299
@@ -81,14 +83,26 @@ SYS:0299 A13C00        MOV	AX,[InOutRes]
 SYS:029C E970FE        JMP	010F
 ```
 
-**SYS:0291** checks whether the printing of the output generated any error. If so, it prints a Runtime error then exits.
+**SYS:0291** checks whether the printing of the output generated any error. If so, it prints a Runtime error then exits on the jump to **SYS**:**010F**.
+
+## I/O Result check (II)
 
 ```
 SYS:04F7 833E3C0000    CMP	WORD PTR [InOutRes],+00
 SYS:04FC 7540          JNZ	053E
+```
+
+Check if the last operation generated any error. Exit immediately if there was an error.
+
+```
 SYS:04FE 26            ES:
 SYS:04FF 817F02B2D7    CMP	WORD PTR [BX+02],D7B2
 SYS:0504 7539          JNZ	053F
+```
+
+Verify that **Output** was opened for output. Generate an error code if not then exit.
+
+```
 SYS:0506 26            ES:
 SYS:0507 8B4F04        MOV	CX,[BX+04]
 SYS:050A 26            ES:
@@ -96,20 +110,60 @@ SYS:050B 8B7F08        MOV	DI,[BX+08]
 SYS:050E 2BCF          SUB	CX,DI
 SYS:0510 2BD1          SUB	DX,CX
 SYS:0512 7304          JNB	0518
+```
+
+Check if buffer has enough room.
+
+```
 SYS:0514 03CA          ADD	CX,DX
 SYS:0516 33D2          XOR	DX,DX
+```
+
+Make adjustments.
+
+```
 SYS:0518 06            PUSH	ES
+```
+
+Save **ES**.
+
+```
 SYS:0519 26            ES:
 SYS:051A C4770C        LES	SI,[BX+0C]
 SYS:051D 03FE          ADD	DI,SI
+```
+
+Get pointer to buffer into **ES**:**DI** (adjusted using **SI**).
+
+```
 SYS:051F B020          MOV	AL,20
 SYS:0521 FC            CLD
 SYS:0522 F3            REPZ
 SYS:0523 AA            STOSB
+```
+
+Clear buffer (fill with whitespace (' ') = **20h**/**32**).
+
+```
 SYS:0524 2BFE          SUB	DI,SI
+```
+
+Adjust pointer to reflect the number of characters to copy.
+
+```
 SYS:0526 07            POP	ES
+```
+
+Restore **ES**.
+
+```
 SYS:0527 26            ES:
 SYS:0528 897F08        MOV	[BX+08],DI
+```
+
+Set **Output**'s **[BufPos](../TEXT-FILE-TYPE.md)**.
+
+```
 SYS:052B 26            ES:
 SYS:052C 3B7F04        CMP	DI,[BX+04]
 SYS:052F 7509          JNZ	053A
@@ -199,16 +253,40 @@ SYS:059C C3            RET
 
 Return with error error code **[69h/105: File not open for output](../ERROR-CODES.md)**.
 
+## Call to Output I/O
+
 ```
 SYS:0619 06            PUSH	ES
 SYS:061A 53            PUSH	BX
+```
+
+Save registers **ES**:**BX**.
+
+```
 SYS:061B 26            ES:
 SYS:061C FF5F14        CALL	FAR [BX:InOutFunc]
+```
+
+Call **Output**'s I/O handler.
+
+```
 SYS:061F 0BC0          OR	AX,AX
 SYS:0621 7403          JZ	0626
+```
+
+Check if the last operation generated any errors.
+
+```
 SYS:0623 A33C00        MOV	[InOutRes],AX
+```
+
+Record the result of the last operation.
+
+```
 SYS:0626 C3            RET
 ```
+
+Because it returns with a **NEAR RET**, it can only be called from within the system library.
 
 ## Convert to ASCII routine
 
@@ -291,10 +369,23 @@ Load output buffer address in [**BP+10**] into **ES**:**BX**.
 
 ```
 SYS:06C2 8B5608        MOV	DX,[BP+08]
+```
+
+Load required **precision** into DX.
+
+```
 SYS:06C5 2BD1          SUB	DX,CX
 SYS:06C7 7E05          JLE	06CE
+```
+
+Check if all digits have been converted.
+
+```
 SYS:06C9 51            PUSH	CX
 SYS:06CA E82AFE        CALL	04F7
+```
+
+```
 SYS:06CD 59            POP	CX
 SYS:06CE 8BC1          MOV	AX,CX
 SYS:06D0 8D76C0        LEA	SI,[BP-40]
@@ -1000,14 +1091,25 @@ SYS:0CE8 3C81          CMP	AL,81
 SYS:0CEA 7304          JNB	0CF0
 ```
 
-Check exponent in **AL**.
+Check exponent in **AL** if below the biased value (**80h** and below).
 
 ```
 SYS:0CEC E8C701        CALL	0EB6
 ```
 
+Adjust the number in **DX**:**BX**:**AX** on call to **SYS**:**0EB6**.
+
 ```
 SYS:0CEF 49            DEC	CX
+```
+
+Adjust CX further.
+
+## Digit extraction and ASCII
+
+This subroutine extracts digits into the maximum precision (12 digits) and stores them into a temporary buffer.
+
+```
 SYS:0CF0 51            PUSH	CX
 SYS:0CF1 80CE80        OR	DH,80
 SYS:0CF4 B184          MOV	CL,84
@@ -1053,6 +1155,11 @@ Clear upper bits (4-7) in **DH**.
 SYS:0D18 52            PUSH	DX
 SYS:0D19 53            PUSH	BX
 SYS:0D1A 50            PUSH	AX
+```
+
+Save current number on the stack.
+
+```
 SYS:0D1B D1E0          SHL	AX,1
 SYS:0D1D D1D3          RCL	BX,1
 SYS:0D1F D1D2          RCL	DX,1
@@ -1068,14 +1175,36 @@ SYS:0D2E 13D1          ADC	DX,CX
 SYS:0D30 D1E0          SHL	AX,1
 SYS:0D32 D1D3          RCL	BX,1
 SYS:0D34 D1D2          RCL	DX,1
+```
+
+This entire sequence multiplies the **DX**:**BX**:**AX** by 10 in place. It does this first by shifting **DX**:**BX**:**AX** twice to the left, with bit 7 of **AX** and **BX** carrying over to **BX** and **DX** through the **CF** flag. Next the number preserved on the stack is added to **DX**:**BX**:**AX**, through successive pops of **CX** then adding it to **AX**, **BX**, and then **DX** with overflows (if any) from **AX**+**CX** and **BX**+**CX**, carrying over to **BX**, and **DX**.
+
+```
 SYS:0D36 47            INC	DI
 SYS:0D37 4E            DEC	SI
+```
+
+Move the index pointer **ES**:**DI** to the next location then decrease the counter in **SI**.
+
+```
 SYS:0D38 75CF          JNZ	0D09
+```
+
+Repeat the process on the next digit if there are any left.
+
+```
 SYS:0D3A 26            ES:
 SYS:0D3B C60500        MOV	BYTE PTR [DI],00
+```
+
+**NULL** (**00h**) terminate the output buffer at **ES**:[**DI**].
+
+```
 SYS:0D3E 59            POP	CX
 SYS:0D3F C3            RET
 ```
+
+Restore CX then return. Because it returns with a **NEAR RET**, it can only be called from within the system library.
 
 ## SYS:0E2A Range/Limit checks
 
@@ -1176,6 +1305,8 @@ SYS:0E62 FEC9          DEC	CL
 SYS:0E64 75F9          JNZ	0E5F
 ```
 
+Make adjustments to the **DX**:**BX**:**AX** on a call to **SYS**:**0EB6**.
+
 ```
 SYS:0E66 8BC8          MOV	CX,AX
 SYS:0E68 8BF3          MOV	SI,BX
@@ -1188,7 +1319,7 @@ Copy **DX**:**BX**:**AX** to **DI**:**SI**:**CX**.
 SYS:0E6C 9D            POPF
 ```
 
-Restore Flags.
+Restore Flags (saved in **SYS**:**0E39**).
 
 ```
 SYS:0E6D 58            POP	AX
@@ -1217,7 +1348,9 @@ Return with carry flag set.
 SYS:0E7A  81 00 00 00 00 00
 ```
 
-## Conversion adjustments
+## Preliminary adjustments before conversion
+
+This subroutine is used to make adjustments to the number so that it is in a proper format.
 
 ```
 SYS:0EB6 0AC0          OR	AL,AL
@@ -1225,8 +1358,6 @@ SYS:0EB8 7449          JZ	0F03
 ```
 
 Check if **exponent** = **00h**.
-
-## Preliminary adjustment
 
 ```
 SYS:0EBA 51            PUSH	CX
@@ -1249,9 +1380,19 @@ Copy exponent int **CL**.
 
 ```
 SYS:0EC1 32C0          XOR	AL,AL
+```
+
+Clear exponent.
+
+```
 SYS:0EC3 52            PUSH	DX
 SYS:0EC4 53            PUSH	BX
 SYS:0EC5 50            PUSH	AX
+```
+
+Save number on the stack.
+
+```
 SYS:0EC6 D1EA          SHR	DX,1
 SYS:0EC8 D1DB          RCR	BX,1
 SYS:0ECA D1D8          RCR	AX,1
@@ -1264,30 +1405,82 @@ SYS:0ED5 5E            POP	SI
 SYS:0ED6 13DE          ADC	BX,SI
 SYS:0ED8 5E            POP	SI
 SYS:0ED9 13D6          ADC	DX,SI
+```
+
+This entire sequence divides **DX**:**BX**:**AX** by 3. It does this first by shifting **DX**:**BX**:**AX** twice to the right, with bit 0's of **DX** and **BX** carrying over to **BX** and **AX** through the **CF** flag. The number preserved on the stack is then added to **DX**:**BX**:**AX**, through successive pops of **SI** then adding it to **AX**, **BX**, and then **DX** with successive overflows (if any) from **AX**+**SI** and **BX**+**SI**, carrying over to **BX**, and **DX**.
+
+```
 SYS:0EDB 730B          JNB	0EE8
+```
+
+Chec if the operation triggered a '**carry**'.
+
+```
 SYS:0EDD D1DA          RCR	DX,1
 SYS:0EDF D1DB          RCR	BX,1
 SYS:0EE1 D1D8          RCR	AX,1
 SYS:0EE3 80C101        ADD	CL,01
+```
+
+Shift to the right (including the carry over in **CF**) then increase the exponent number in CL.
+
+```
 SYS:0EE6 7219          JB	0F01
+```
+
+Check if there is still an overflow in CL then exit.
+
+```
 SYS:0EE8 058000        ADD	AX,0080
 SYS:0EEB 83D300        ADC	BX,+00
 SYS:0EEE 83D200        ADC	DX,+00
+```
+
+Fix the exponent then carry over any overflows into **BX** and **DX**.
+
+```
 SYS:0EF1 7307          JNB	0EFA
+```
+
+Check if there are lingering overflows require another adjustment.
+
+```
 SYS:0EF3 D1DA          RCR	DX,1
 SYS:0EF5 80C101        ADD	CL,01
+```
+
+Make space for the sign bit by shifting **DX** to the right once and adjusting the exponent in **CL**.
+
+```
 SYS:0EF8 7207          JB	0F01
+```
+
+If the operation still produced a carry, then it's possible that the number is badly formatted, out of range or inccorect. If so, nothing can be done further now.
+
+```
 SYS:0EFA 80E67F        AND	DH,7F
+```
+
+Clear sign bit.
+
+```
 SYS:0EFD 8AC1          MOV	AL,CL
 SYS:0EFF 0403          ADD	AL,03
+```
+
+Copy the exponent in **CL** back to **AL** then adjust by 3 to account for the divide by 3 operation above.
+
+```
 SYS:0F01 5E            POP	SI
 SYS:0F02 59            POP	CX
 ```
+
+Restore **CX** and **SI**.
 
 ```
 SYS:0F03 C3            RET
 ```
 
-Return.
+Because it returns with a **NEAR RET**, it can only be called from within the system library.
 
 Go [Back](../../README.md)

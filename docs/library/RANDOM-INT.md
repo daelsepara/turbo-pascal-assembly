@@ -16,7 +16,6 @@ Call **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)**.
 |SP+02|Return Address (SEGMENT)|
 |SP+04|*Int* parameter         |
 
-
 ```
 SYS:0583 8BDC          MOV	BX,SP
 SYS:0585 8BCA          MOV	CX,DX
