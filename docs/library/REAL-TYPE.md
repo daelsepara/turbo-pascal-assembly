@@ -2,7 +2,7 @@
 
 Represents the number:
 
-+/- **significand** * 2^**exponent**
+(-1)^s * 1.**significand** * 2^**exponent**
 
 *Real* is a 6-byte (48-bit) representation of a number *v*
 

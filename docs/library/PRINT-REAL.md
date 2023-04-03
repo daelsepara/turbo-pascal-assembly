@@ -20,7 +20,6 @@ TPC.EXE -GS -GP -GD -$D+ -$E- -$N- MAIN
 ```
 
 ## Main Program
-
 ```
 A := 0.3141592654E01;
 WriteLn(A);
@@ -34,7 +33,7 @@ CODE:0015 C7065400A2DA  MOV	WORD PTR [0054],DAA2
 CODE:001B C70656000F49  MOV	WORD PTR [0056],490F
 ```
 
-The *Real* variable **A** is stored in **DATA**:[0052] and occupies 6 bytes. **490FDAA29282h** is the 54-bit representation of **0.3141592654E01** (PI ~ 9 digits after the decimal) (see: [***Real* Type**](REAL-TYPE.md)).
+The *Real* variable **A** is stored in **DATA**:[0052] and occupies 6 bytes. **490FDAA29282h** is the 48-bit representation of **0.3141592654E01** (PI ~ 9 digits after the decimal) (see: [***Real* Type**](REAL-TYPE.md)).
 
 ```
 CODE:0021 BF5801        MOV	DI,Output
@@ -49,21 +48,21 @@ CODE:0036 B8FFFF        MOV	AX,FFFF
 CODE:0039 50            PUSH	AX
 ```
 
-These parameters are pased onto the stack for the successive calls to the system library. Notice that the higher bytes of the number (**A**) are passed first before the lower bytes. **AX** = **0011h/17** characters are used to represent the number (1 for the sign, 4 for the exponent, and 12 for the digits including the decimal point). Another parameter **AX** = **FFFFh** is pushed to the stack. This is the maximum limit.
+These parameters are pased onto the stack for the successive calls to the system library. Notice that the higher bytes of the number (**A**) are passed first before the lower bytes. **AX** = **0011h/17** characters are used to represent the number (1 for the sign, 4 for the exponent, and 12 for the digits including the decimal point). Another parameter **AX** = **FFFFh** is pushed to the stack. 
 
 ## Stack after CODE:0039
 
 |Index|Contents|Description        |
 |-----| :----: |-------------------|
 |SP   |  FFFF  |Constant Parameter |
-|SP+02|  1100  |Constant Parameter |
-|SP+04|  8292  |Low Word of **A**  |
-|SP+06|  A2DA  |Mid Word of **A**  |
-|SP+08|  0F49  |High Word of **A** |
+|SP+02|  0011  |Constant Parameter |
+|SP+04|  9282  |Low Word of **A**  |
+|SP+06|  DAA2  |Mid Word of **A**  |
+|SP+08|  490F  |High Word of **A** |
 |SP+0A|  ????  |DI Output (Offset) |
 |SP+0C|  ????  |DS Output (Segment)|
 
-Note that the byte order has been reversed (least significant byte **LSB** first, followed by the most significant byte **MSB**).
+Note that the byte order is actually stored reversed (least significant byte **LSB** first, followed by the most significant byte **MSB**) in memory.
 
 ```
 CODE:003A 9A93067607    CALL	SYS:0693
@@ -306,7 +305,7 @@ Save **BP** and use it as index to the stack. Reserve **40h/64** bytes on the st
 |BP+00|Old BP                   |
 |BP+02|Return Address (Offset)  |
 |BP+04|Return Address (Segment) |
-|BP+06|**Precision** (FFFFh)   |
+|BP+06|**Precision** (FFFFh)    |
 |BP+08|**Width** (0011h)        |
 |BP+0A|Low Word of *Real*       |
 |BP+0C|Mid Word of *Real*       |
@@ -314,7 +313,7 @@ Save **BP** and use it as index to the stack. Reserve **40h/64** bytes on the st
 |BP+10|Output buffer (Offset)   |
 |BP+12|Output buffer (Segment)  |
 
-**Precision** and **Width** sets the desired precision. if **Precision** is a positive number, it will determine the number of digits after the decimal point. 
+**Precision** and **Width** are used to set the desired precision. If **Precision** is a positive number, it will determine the number of digits after the decimal point. 
 
 ```
 SYS:0699 8B460A        MOV	AX,[BP+0A]
@@ -359,7 +358,7 @@ Point **ES**:**DI** to reserved **40h**/**64** bytes on the stack.
 SYS:06BC E8FE04        CALL	0BBD
 ```
 
-Call **SYS:0BBD**.
+Call start of conversion routine in **SYS:0BBD**.
 
 ```
 SYS:06BF C45E10        LES	BX,[BP+10]
@@ -371,7 +370,7 @@ Load output buffer address in [**BP+10**] into **ES**:**BX**.
 SYS:06C2 8B5608        MOV	DX,[BP+08]
 ```
 
-Load required **precision** into DX.
+Load required **width** into DX.
 
 ```
 SYS:06C5 2BD1          SUB	DX,CX
@@ -875,7 +874,7 @@ SYS:0C83 75F9          JNZ	0C7E
 
 Cycle until all of the **significand** **f**'s digits are stored in output buffer.
 
-## Convert Exponent to ASCII and format in scientific notation
+## Convert Exponent to ASCII
 
 ```
 SYS:0C85 B045          MOV	AL,45
