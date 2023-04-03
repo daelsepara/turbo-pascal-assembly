@@ -28,20 +28,20 @@ WriteLn(A);
 Translates to the following:
 
 ```
-CODE:000F C70652008292  MOV	WORD PTR [0052],9282
-CODE:0015 C7065400A2DA  MOV	WORD PTR [0054],DAA2
-CODE:001B C70656000F49  MOV	WORD PTR [0056],490F
+CODE:000F C70652008292  MOV	WORD PTR [A.Low],9282
+CODE:0015 C7065400A2DA  MOV	WORD PTR [A.Mid],DAA2
+CODE:001B C70656000F49  MOV	WORD PTR [A.High],490F
 ```
 
-The *Real* variable **A** is stored in **DATA**:[0052] and occupies 6 bytes. **490FDAA29282h** is the 48-bit representation of **0.3141592654E01** (PI ~ 9 digits after the decimal) (see: [***Real* Type**](REAL-TYPE.md)).
+The *Real* variable **A** occupies 6 bytes. **490FDAA29282h** is the 48-bit representation of **0.3141592654E01** (PI ~ 9 digits after the decimal) (see: [***Real* Type**](REAL-TYPE.md)).
 
 ```
 CODE:0021 BF5801        MOV	DI,Output
 CODE:0024 1E            PUSH	DS
 CODE:0025 57            PUSH	DI
-CODE:0026 FF365600      PUSH	[0056]
-CODE:002A FF365400      PUSH	[0054]
-CODE:002E FF365200      PUSH	[0052]
+CODE:0026 FF365600      PUSH	[A.High]
+CODE:002A FF365400      PUSH	[A.Mid]
+CODE:002E FF365200      PUSH	[A.Low]
 CODE:0032 B81100        MOV	AX,0011
 CODE:0035 50            PUSH	AX
 CODE:0036 B8FFFF        MOV	AX,FFFF
