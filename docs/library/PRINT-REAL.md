@@ -541,6 +541,9 @@ SYS:0981 8AC1          MOV	AL,CL
 SYS:0983 32F5          XOR	DH,CH
 SYS:0985 D0ED          SHR	CH,1
 SYS:0987 C3            RET
+```
+
+```
 SYS:0988 33C0          XOR	AX,AX
 SYS:098A 8BD8          MOV	BX,AX
 SYS:098C 8BD0          MOV	DX,AX
