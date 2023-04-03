@@ -72,7 +72,7 @@ Call on Pascal **Str()** function to convert ***Real*** variable **A** to a ***s
 Str(A, B);
 ```
 
-Compiles to the:
+Compiles to:
 
 ```
 CODE:0021 FF365400      PUSH	[A.High]
@@ -117,6 +117,10 @@ SYS:0039 A10200        MOV	AX,[PrefixSeg:0002]
 SYS:003C A32000        MOV	[HeapEnd],AX
 SYS:003F C7062A00D600  MOV	WORD PTR [HeapError.Offset],00D6
 SYS:0045 8C0E2C00      MOV	[HeapError.Segment],CS
+```
+
+## Save Interrupt Vectors
+```
 SYS:0049 BF5603        MOV	DI,OFFSET SaveInt00
 SYS:004C BE3902        MOV	SI,0239
 SYS:004F B91300        MOV	CX,0013
@@ -130,6 +134,10 @@ SYS:005A 891D          MOV	[DI],BX
 SYS:005C 8C4502        MOV	[DI+02],ES
 SYS:005F 83C704        ADD	DI,+04
 SYS:0062 E2EF          LOOP	0053
+```
+
+## Modify Interrupt Vectors
+```
 SYS:0064 1E            PUSH	DS
 SYS:0065 0E            PUSH	CS
 SYS:0066 1F            POP	DS
@@ -322,7 +330,7 @@ SYS:0199 0E            PUSH	CS
 SYS:019A E82102        CALL	03BE
 ```
 
-## Interrupt Vectors Restore
+## Restore Interrupt Vectors
 ```
 SYS:019D BF5603        MOV	DI,OFFSET SaveInt00
 SYS:01A0 BE3902        MOV	SI,0239
@@ -438,17 +446,24 @@ SYS:0270  79 72 69 67 68 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
 SYS:0280  39 32 20 42 6F 72 6C 61-6E 64                     92 Borland
 ```
 
+## Clear I/O Result
 ```
 SYS:028A 33C0          XOR	AX,AX
 SYS:028C 87063C00      XCHG	AX,[InOutRes]
 SYS:0290 CB            RETF
+```
 
+## Check I/O Result
+```
 SYS:0291 833E3C0000    CMP	WORD PTR [InOutRes],+00
 SYS:0296 7501          JNZ	0299
 SYS:0298 CB            RETF
-
 SYS:0299 A13C00        MOV	AX,[InOutRes]
 SYS:029C E970FE        JMP	010F
+```
+
+## Range check
+```
 SYS:029F 8BF4          MOV	SI,SP
 SYS:02A1 36            SS:
 SYS:02A2 8E4402        MOV	ES,[SI+02]
@@ -467,11 +482,22 @@ SYS:02BA 26            ES:
 SYS:02BB 3B4504        CMP	AX,[DI+04]
 SYS:02BE 7701          JA	02C1
 SYS:02C0 CB            RETF
+```
 
+## Range Error
+```
 SYS:02C1 B8C900        MOV	AX,00C9
 SYS:02C4 E948FE        JMP	010F
+```
+
+## Arithmetic Overflow Error
+```
 SYS:02C7 B8D700        MOV	AX,00D7
 SYS:02CA E942FE        JMP	010F
+```
+
+## Check Stack
+```
 SYS:02CD 050002        ADD	AX,0200
 SYS:02D0 720D          JB	02DF
 SYS:02D2 2BC4          SUB	AX,SP
@@ -480,7 +506,6 @@ SYS:02D6 F7D8          NEG	AX
 SYS:02D8 3B063A00      CMP	AX,[StackLimit]
 SYS:02DC 7201          JB	02DF
 SYS:02DE CB            RETF
-
 SYS:02DF B8CA00        MOV	AX,00CA
 SYS:02E2 E92AFE        JMP	010F
 ```
@@ -541,6 +566,7 @@ SYS:0335 1F            POP	DS
 SYS:0336 CA0800        RETF	0008
 ```
 
+## Unknown code block
 ```
 SYS:0339 8BDC          MOV	BX,SP
 SYS:033B 36            SS:
@@ -565,12 +591,13 @@ SYS:035E 89450A        MOV	[DI+0A],AX
 SYS:0361 CA0A00        RETF	000A
 ```
 
-## Entry point for Reset()
+## Entry point for Reset
 ```
 SYS:0364 BAB1D7        MOV	DX,D7B1
 SYS:0367 EB08          JMP	0371
 ```
-## Entry point for Rewrite()
+
+## Entry point for Rewrite
 ```
 SYS:0369 BAB2D7        MOV	DX,D7B2
 SYS:036C EB03          JMP	0371
@@ -640,7 +667,7 @@ SYS:03D6 C7063C006700  MOV	WORD PTR [InOutRes],0067
 SYS:03DC EB18          JMP	03F6
 ```
 
-## Perform I/O 
+## Perform I/O
 ```
 SYS:03DE 50            PUSH	AX
 SYS:03DF BB1400        MOV	BX,0014
@@ -940,6 +967,7 @@ SYS:0608 8BD7          MOV	DX,DI
 SYS:060A C3            RET
 ```
 
+## Adjust MSB and Exponent
 ```
 SYS:060B D1DA          RCR	DX,1
 SYS:060D FEC1          INC	CL
@@ -973,13 +1001,48 @@ SYS:063C D1D3          RCL	BX,1
 SYS:063E D1D2          RCL	DX,1
 SYS:0640 FEC9          DEC	CL
 SYS:0642 75F2          JNZ	0636
+```
+
+## Jump station en route to setting **DX**:**BX**:**AX** to zero
+
+```
 SYS:0644 E9FC00        JMP	0743
+```
+
+## Step 7b
+This is step 7b of the conversion. At this point:
+- **DI**:**SI**:**CX** holds the adjusted ***Real*** number obtained from **SYS:0C35-0C70**.
+- **DX**:**BX**:**AX** holds the ***Real*** number being converted.
+
+For the number we are trying to convert, following number is loaded into **DI**:**SI**:**CX** = **000000000081h**.
+
+```
 SYS:0647 0AC0          OR	AL,AL
 SYS:0649 74F9          JZ	0644
+```
+
+Return with **DX**:**BX**:**AX** = ***0*** if the **exponent** in **AL** is 0.
+
+```
 SYS:064B 0AC9          OR	CL,CL
 SYS:064D 74F5          JZ	0644
+```
+
+Return with **DX**:**BX**:**AX** = ***0*** if the **exponent** in **AL** is 0.
+
+```
 SYS:064F 55            PUSH	BP
+```
+
+Save **BP** which keeps track of the parameters and immediate results as well as locations to the temporary buffers.
+
+```
 SYS:0650 8BEA          MOV	BP,DX
+```
+
+Save **DX** into **BP**.
+
+```
 SYS:0652 33D7          XOR	DX,DI
 SYS:0654 81E20080      AND	DX,8000
 SYS:0658 86D0          XCHG	DL,AL
@@ -1100,6 +1163,8 @@ SYS:0740 D0ED          SHR	CH,1
 SYS:0742 C3            RET
 ```
 
+## Clear number
+
 ```
 SYS:0743 33C0          XOR	AX,AX
 SYS:0745 8BD8          MOV	BX,AX
@@ -1107,9 +1172,20 @@ SYS:0747 8BD0          MOV	DX,AX
 SYS:0749 C3            RET
 ```
 
+## Step 7a
+
+This is step 7a of the conversion. At this point:
+- **DI**:**SI**:**CX** holds the adjusted ***Real*** number obtained from **SYS:0C35-0C70**.
+- **DX**:**BX**:**AX** holds the ***Real*** number being converted.
+
 ```
 SYS:074A 0AC0          OR	AL,AL
 SYS:074C 74F5          JZ	0743
+```
+
+Return with the number **DX**:**BX**:**AX** set to 0 if the exponent in **AL** is **0**.
+
+```
 SYS:074E 55            PUSH	BP
 SYS:074F 8BEA          MOV	BP,DX
 SYS:0751 33D7          XOR	DX,DI
@@ -1420,25 +1496,67 @@ SYS:0976 F8            CLC
 SYS:0977 C3            RET
 ```
 
+## Conversion - Step 2
+
+This is step 2 of the conversion. At this point:
+- **ES**:**DI** points to the temporary buffer
+- **DX**:**BX**:**AX** holds the ***Real*** number being converted
+- **CX** holds the desired precision.
+
 ```
 SYS:0978 55            PUSH	BP
 SYS:0979 8BEC          MOV	BP,SP
 SYS:097B 83EC14        SUB	SP,+14
+```
+
+Reserve **14h/20** bytes in the stack and setup BP as index to the items on the stack.
+
+```
 SYS:097E 57            PUSH	DI
+```
+
+Preserve **DI**.
+
+```
 SYS:097F 83F90B        CMP	CX,+0B
 SYS:0982 7E03          JLE	0987
 SYS:0984 B90B00        MOV	CX,000B
 SYS:0987 83F9F5        CMP	CX,-0B
 SYS:098A 7D03          JGE	098F
 SYS:098C B9F5FF        MOV	CX,FFF5
+```
+
+Limits the precision to **000Bh**/**12** (or **FFF5h**/**-12**).
+
+```
 SYS:098F 894EFE        MOV	[BP-02],CX
 SYS:0992 8876FC        MOV	[BP-04],DH
+```
+
+Record the final **precision** in **SS**:[**BP-02**] and the numbers' **MSB** (most significant byte) in **SS**:[**BP-04**].
+
+```
 SYS:0995 06            PUSH	ES
 SYS:0996 57            PUSH	DI
+```
+
+Once more, **ES**:**DI** onto the stack.
+
+```
 SYS:0997 8D7EEC        LEA	DI,[BP-14]
 SYS:099A 16            PUSH	SS
 SYS:099B 07            POP	ES
+```
+
+Point **ES**:**DI** to the 20 bytes reserved earlier (at **SS**:[**BP-14**]).
+
+```
 SYS:099C E8D100        CALL	0A70
+```
+
+Proceed to the next step of the conversion (at **SYS:0A70**).
+
+```
 SYS:099F 5F            POP	DI
 SYS:09A0 07            POP	ES
 SYS:09A1 894EFA        MOV	[BP-06],CX
@@ -1547,9 +1665,21 @@ SYS:0A6E 4E            DEC	SI
 SYS:0A6F C3            RET
 ```
 
+## Conversion - Step 3
+
+This is step 3 of the conversion. At this point:
+- **ES**:**DI** points to the temporary buffer
+- **DX**:**BX**:**AX** holds the ***Real*** number being converted
+- **CX** holds the desired precision.
+
 ```
 SYS:0A70 0AC0          OR	AL,AL
 SYS:0A72 750D          JNZ	0A81
+```
+
+Proceed to the next step (at **SYS:0A81**) if the exponent is non-zero.
+
+```
 SYS:0A74 B90600        MOV	CX,0006
 SYS:0A77 B83030        MOV	AX,3030
 SYS:0A7A FC            CLD
@@ -1560,9 +1690,28 @@ SYS:0A7F AA            STOSB
 SYS:0A80 C3            RET
 ```
 
+Since the exponent is zero, as per the rules of the [***Real***-data type](REAL-TYPE.md), the value is zero. This entire section of the code fills the buffer with 12 **0**'s (ASCII **30h**).
+
+## Conversion - Step 4
+
+This is step 4 the conversion. At this point:
+- **ES**:**DI** points to the temporary buffer
+- **DX**:**BX**:**AX** holds the ***Real*** number being converted
+- **CX** holds the desired precision.
+
 ```
 SYS:0A81 80E67F        AND	DH,7F
+```
+
+Clear the sign flag (bit 7 of the number's **MSB**).
+
+```
 SYS:0A84 50            PUSH	AX
+```
+
+Save the exponent in **AX** onto the stack.
+
+```
 SYS:0A85 2C80          SUB	AL,80
 SYS:0A87 B44D          MOV	AH,4D
 SYS:0A89 F6EC          IMUL	AH
@@ -1570,14 +1719,44 @@ SYS:0A8B 050500        ADD	AX,0005
 SYS:0A8E 8AC4          MOV	AL,AH
 SYS:0A90 98            CBW
 SYS:0A91 8BC8          MOV	CX,AX
+```
+
+Calculate needed adjustments to the exponent into **CX**.
+
+```
 SYS:0A93 58            POP	AX
+```
+
+Restore **AX** to the saved value (**exponent**)  in the stack.
+
+```
 SYS:0A94 83F9D9        CMP	CX,-27
 SYS:0A97 7501          JNZ	0A9A
 SYS:0A99 41            INC	CX
+```
+
+Check if CX needs further adjustment (if equal to **FFD9h**/**-27**).
+
+```
 SYS:0A9A 51            PUSH	CX
 SYS:0A9B 57            PUSH	DI
+```
+
+Save **CX** and **DI**.
+
+```
 SYS:0A9C F7D9          NEG	CX
+```
+
+Reverse the sign of **CX**.
+
+```
 SYS:0A9E E84401        CALL	0BE5
+```
+
+Proceed to the next step in the conversion (at **SYS:0BE5**).
+
+```
 SYS:0AA1 5F            POP	DI
 SYS:0AA2 59            POP	CX
 SYS:0AA3 3C81          CMP	AL,81
@@ -1756,67 +1935,199 @@ SYS:0BE2 73C5          JNB	0BA9
 SYS:0BE4 C3            RET
 ```
 
+## Conversion - Step 5
+
+This is step 5 of the conversion. At this point:
+- **ES**:**DI** points to the temporary buffer
+- **DX**:**BX**:**AX** holds the ***Real*** number being converted
+- **CX** adjusted exponent.
+
 ```
 SYS:0BE5 80F9DA        CMP	CL,DA
 SYS:0BE8 7C49          JL	0C33
 SYS:0BEA 80F926        CMP	CL,26
 SYS:0BED 7F44          JG	0C33
+```
+
+Return immediately if adjusted exponent is not in the range **DAh**/**-38** <= **CX** <= **26h**/**38**.
+
+```
 SYS:0BEF 52            PUSH	DX
 SYS:0BF0 53            PUSH	BX
 SYS:0BF1 50            PUSH	AX
+```
+
+Save the number.
+
+```
 SYS:0BF2 0AC9          OR	CL,CL
 SYS:0BF4 9C            PUSHF
+```
+
+Check exponent (**CL**) then save the results (in **Flags**) to stack.
+
+```
 SYS:0BF5 7902          JNS	0BF9
 SYS:0BF7 F6D9          NEG	CL
+```
+
+If exponent is negative then make it positive (reverse the sign).
+
+```
 SYS:0BF9 8AD9          MOV	BL,CL
 SYS:0BFB 80E3FC        AND	BL,FC
+```
+
+Copy the exponent in **BL** and clear bits 0-1.
+
+```
 SYS:0BFE 8AFB          MOV	BH,BL
 SYS:0C00 D0EB          SHR	BL,1
+```
+
+Copy **BL** to **BH** then shift **BL** to the right once.
+
+```
 SYS:0C02 02DF          ADD	BL,BH
 SYS:0C04 32FF          XOR	BH,BH
 SYS:0C06 8DBF350C      LEA	DI,[BX+0C35]
+```
+
+Calculate lookup index to number table in **SYS:0C35**.
+
+```
 SYS:0C0A 2E            CS:
 SYS:0C0B 8B05          MOV	AX,[DI]
 SYS:0C0D 2E            CS:
 SYS:0C0E 8B5D02        MOV	BX,[DI+02]
 SYS:0C11 2E            CS:
 SYS:0C12 8B5504        MOV	DX,[DI+04]
+```
+
+Load ***Real*** number in **ES**:[**DI**] to **DX**:**BX**:**AX**.
+
+```
 SYS:0C15 80E103        AND	CL,03
 SYS:0C18 7407          JZ	0C21
+```
+
+Clear top bits (2-7) of the exponent in **CL**. Check if **DX**:**BX**:**AX** requires adjustment (based on the exponent in **CL**).
+
+```
 SYS:0C1A E85400        CALL	0C71
+```
+
+If adjustments are needed go to step 6 (**SYS:0C71**) and do so.
+
+```
 SYS:0C1D FEC9          DEC	CL
 SYS:0C1F 75F9          JNZ	0C1A
+```
+
+Keep adjusting while **CL** is non-zero.
+
+```
 SYS:0C21 8BC8          MOV	CX,AX
 SYS:0C23 8BF3          MOV	SI,BX
 SYS:0C25 8BFA          MOV	DI,DX
+```
+
+Copy the number in **DX**:**BX**:**AX** to **DI**:**SI**:**CX**.
+
+```
 SYS:0C27 9D            POPF
+```
+
+Restore flags.
+
+```
 SYS:0C28 58            POP	AX
 SYS:0C29 5B            POP	BX
 SYS:0C2A 5A            POP	DX
+```
+
+Restore the number **DX**:**BX**:**AX**
+
+```
 SYS:0C2B 7803          JS	0C30
+```
+
+Check the result (that was saved in **SYS:0BF4**). If the exponent is a negative, proceed to step 7a on **SYS:074A**
+
+```
 SYS:0C2D E917FA        JMP	0647
+```
+
+Otherwise proceed to step 7b in **SYS:0647**.
+
+```
 SYS:0C30 E917FB        JMP	074A
+```
+
+Jump to step 7a in **SYS:074A**.
+
+## Number out of range
+
+```
 SYS:0C33 F9            STC
 SYS:0C34 C3            RET
 ```
 
 ## Data Block (SYS:0C35-0C70)
+
+Table of numbers
+
 ```
-SYS:0C35                 81 00 00-00 00 00 8E 00 00 00 40
-SYS:0C40  1C 9B 00 00 20 BC 3E A8-00 10 A5 D4 68 B6 04 BF
-SYS:0C50  C9 1B 0E C3 AC C5 EB 78-2D D0 CD CE 1B C2 53 DE
-SYS:0C60  F9 78 39 3F 01 EB 2B A8-AD C5 1D F8 C9 7B CE 97
-SYS:0C70  40
+SYS:0C35  81 00 00 00 00 00
+SYS:0C3B  8E 00 00 00 40 1C
+SYS:0C41  9B 00 00 20 BC 3E
+SYS:0C47  A8 00 10 A5 D4 68
+SYS:0C4D  B6 04 BF C9 1B 0E
+SYS:0C53  C3 AC C5 EB 78 2D
+SYS:0C59  D0 CD CE 1B C2 53
+SYS:0C5F  DE F9 78 39 3F 01
+SYS:0C65  EB 2B A8 AD C5 1D
+SYS:0C6B  F8 C9 7B CE 97 40
 ```
+
+## Conversion - Step 6 (Conversion Adjustments)
+
+This is step 6 of the conversion. At this point:
+- **DX**:**BX**:**AX** holds the ***Real*** number being converted
 
 ```
 SYS:0C71 0AC0          OR	AL,AL
 SYS:0C73 7449          JZ	0CBE
+```
+
+Return immediately if exponent (in **AL**) is ***0***.
+
+```
 SYS:0C75 51            PUSH	CX
 SYS:0C76 56            PUSH	SI
+```
+
+Save **CX** and **SI**.
+
+```
 SYS:0C77 80CE80        OR	DH,80
+```
+
+Set the sign bit of the **MSB** (bit 7 in **DH**).
+
+```
 SYS:0C7A 8AC8          MOV	CL,AL
+```
+
+Copy the exponent in **AL** to **CL**.
+
+```
 SYS:0C7C 32C0          XOR	AL,AL
+```
+
+Clear exponent in **AL**.
+
+```
 SYS:0C7E 52            PUSH	DX
 SYS:0C7F 53            PUSH	BX
 SYS:0C80 50            PUSH	AX
@@ -1832,46 +2143,127 @@ SYS:0C90 5E            POP	SI
 SYS:0C91 13DE          ADC	BX,SI
 SYS:0C93 5E            POP	SI
 SYS:0C94 13D6          ADC	DX,SI
+```
+
+This entire sequence adjusts the number by scaling **DX**:**BX**:**AX** by **5/4** or (**1.25**).
+
+```
 SYS:0C96 730B          JNB	0CA3
+```
+
+Check if further adjustments are needed on an overflow.
+
+```
 SYS:0C98 D1DA          RCR	DX,1
 SYS:0C9A D1DB          RCR	BX,1
 SYS:0C9C D1D8          RCR	AX,1
 SYS:0C9E 80C101        ADD	CL,01
 SYS:0CA1 7219          JB	0CBC
+```
+
+Shift **DX**:**BX**:**AX** to the right by 1 then increment exponent in **CL**. If this results in a overflow in the exponent, return immediately.
+
+```
 SYS:0CA3 058000        ADD	AX,0080
 SYS:0CA6 83D300        ADC	BX,+00
 SYS:0CA9 83D200        ADC	DX,+00
 SYS:0CAC 7307          JNB	0CB5
+```
+
+Bias the exponent in **AL**. Check if further adjustments are needed on overflow.
+
+```
 SYS:0CAE D1DA          RCR	DX,1
 SYS:0CB0 80C101        ADD	CL,01
 SYS:0CB3 7207          JB	0CBC
+```
+
+Shift **DX** to the right by 1 then increment the exponent in **CL**. If this causes an overflow then return immediately.
+
+```
 SYS:0CB5 80E67F        AND	DH,7F
 SYS:0CB8 8AC1          MOV	AL,CL
 SYS:0CBA 0403          ADD	AL,03
+```
+
+If there were no adjustments after **SYS:0CA9** (or **SYS:0CB0**), then the net effect of this code is to actually multiply **DX**:**BX**:**AX** by 10.
+
+```
 SYS:0CBC 5E            POP	SI
 SYS:0CBD 59            POP	CX
 SYS:0CBE C3            RET
 ```
 
+## Conversion - Step 1 (Entry Point)
+
+This is the entrypoint to **Str**(***Real***, ***String***)
+
 ```
 SYS:0CBF 55            PUSH	BP
 SYS:0CC0 8BEC          MOV	BP,SP
 SYS:0CC2 83EC40        SUB	SP,+40
+```
+
+Reserve **40h**/**64** bytes on the stack. **BP** will be used as index to the items on the stack.
+
+### Stack after SYS:0CC2
+
+|Index|Contents                 |
+| :-: |-------------------------|
+|BP-40|(SP Points here)         |
+|BP+00|Old BP                   |
+|BP+02|Return Address (Offset)  |
+|BP+04|Return Address (Segment) |
+|BP+06|Buffer length (00FFh)    |
+|BP+08|Output buffer (Offset)   |
+|BP+0A|Output buffer (Segment)  |
+|BP+0C|**Precision** (FFFFh)    |
+|BP+0E|**Width** (0011h)        |
+|BP+10|Low Word of *Real*       |
+|BP+12|Mid Word of *Real*       |
+|BP+14|High Word of *Real*      |
+
+```
 SYS:0CC5 8B4610        MOV	AX,[BP+10]
 SYS:0CC8 8B5E12        MOV	BX,[BP+12]
 SYS:0CCB 8B5614        MOV	DX,[BP+14]
+```
+
+Load the ***Real*** number from the stack into **DX**:**BX**:**AX**.
+
+```
 SYS:0CCE 8B4E0C        MOV	CX,[BP+0C]
+```
+
+Load precision from the stack into **CX**.
+
+```
 SYS:0CD1 0BC9          OR	CX,CX
 SYS:0CD3 790E          JNS	0CE3
+```
+
+If **CX** is a positive number, then the precision is fixed, proceed to the next step of the conversion.
+
+```
 SYS:0CD5 B90600        MOV	CX,0006
 SYS:0CD8 2B4E0E        SUB	CX,[BP+0E]
 SYS:0CDB 83F9FE        CMP	CX,-02
 SYS:0CDE 7E03          JLE	0CE3
 SYS:0CE0 B9FEFF        MOV	CX,FFFE
+```
+
+This checks if the desired precision (= **FFFFh** max) compared to the width of the representation is enough. It sets the minimum to **2** (**FFFEh/-02**) digits.
+
+```
 SYS:0CE3 8D7EC0        LEA	DI,[BP-40]
 SYS:0CE6 16            PUSH	SS
 SYS:0CE7 07            POP	ES
 SYS:0CE8 E88DFC        CALL	0978
+```
+
+Point **ES**:**DI** to the temporary buffer reserved earlier (at **SS**:[**BP-40**]). Move to the next part of the conversion (**SYS:0978**).
+
+```
 SYS:0CEB 1E            PUSH	DS
 SYS:0CEC 8BF7          MOV	SI,DI
 SYS:0CEE 16            PUSH	SS
@@ -1906,6 +2298,7 @@ SYS:0D1E 5D            POP	BP
 SYS:0D1F CA1000        RETF	0010
 ```
 
+## String operation
 ```
 SYS:0D22 55            PUSH	BP
 SYS:0D23 8BEC          MOV	BP,SP
