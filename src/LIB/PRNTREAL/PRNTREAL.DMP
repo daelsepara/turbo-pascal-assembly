@@ -303,14 +303,14 @@ SYS:0236 CD21          INT	21
 SYS:0238 C3            RET
 
 SYS:0239                             00 02 1B 21 23 24 34
-SYS:0240  35 36 37 38 39 3A 3B 3C-3D 3E 3F 75
+SYS:0240  35 36 37 38 39 3A 3B 3C 3D 3E 3F 75
 SYS:024C                                      52 75 6E 74               Runt
-SYS:0250  69 6D 65 20 65 72 72 6F-72 20 00                  ime error .
+SYS:0250  69 6D 65 20 65 72 72 6F 72 20 00                  ime error .
 SYS:025B                                   20 61 74 20 00               at .
 SYS:0260  2E                                                .
 SYS:0261     0D 0A
 SYS:0263           00
-SYS:0264              50 6F 72 74-69 6F 6E 73 20 43 6F 70   ....Portions Cop
+SYS:0264              50 6F 72 74-69 6F 6E 73 20 43 6F 70       Portions Cop
 SYS:0270  79 72 69 67 68 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
 SYS:0280  39 32 20 42 6F 72 6C 61-6E 64                     92 Borland
 
@@ -1833,37 +1833,12 @@ SYS:0E75 E917FB        JMP	098F
 SYS:0E78 F9            STC
 SYS:0E79 C3            RET
 
-SYS:0E7A  81 00 00 00 00 00
+SYS:0E7A                                81 00 00 00 00 00
+SYS:0E80  8E 00 00 00 40 1C 9B 00 00 20 BC 3E A8 00 10 A5
+SYS:0E90  D4 68 B6 04 BF C9 1B 0E C3 AC C5 EB 78 2D D0 CD
+SYS:0EA0  CE 1B C2 53 DE F9 78 39 3F 01 EB 2B A8 AD C5 1D
+SYS:0EB0  F8 C9 7B CE 97 40
 
-SYS:0E80 8E00          MOV	ES,[BX+SI]
-SYS:0E82 0000          ADD	[BX+SI],AL
-SYS:0E84 40            INC	AX
-SYS:0E85 1C9B          SBB	AL,9B
-SYS:0E87 0000          ADD	[BX+SI],AL
-SYS:0E89 20BC3EA8      AND	[SI+A83E],BH
-SYS:0E8D 0010          ADD	[BX+SI],DL
-SYS:0E8F A5            MOVSW
-SYS:0E90 D468          AAM	68
-SYS:0E92 B604          MOV	DH,04
-SYS:0E94 BFC91B        MOV	DI,1BC9
-SYS:0E97 0E            PUSH	CS
-SYS:0E98 C3            RET
-SYS:0E99 AC            LODSB
-SYS:0E9A C5EB          LDS	BP,BX
-SYS:0E9C 782D          JS	0ECB
-SYS:0E9E D0CD          ROR	CH,1
-SYS:0EA0 CE            INTO
-SYS:0EA1 1BC2          SBB	AX,DX
-SYS:0EA3 53            PUSH	BX
-SYS:0EA4 DEF9          	FDIVP	ST(1),ST
-SYS:0EA6 7839          JS	0EE1
-SYS:0EA8 3F            AAS
-SYS:0EA9 01EB          ADD	BX,BP
-SYS:0EAB 2BA8ADC5      SUB	BP,[BX+SI+C5AD]
-SYS:0EAF 1DF8C9        SBB	AX,C9F8
-SYS:0EB2 7BCE          JPO	0E82
-SYS:0EB4 97            XCHG	DI,AX
-SYS:0EB5 40            INC	AX
 SYS:0EB6 0AC0          OR	AL,AL
 SYS:0EB8 7449          JZ	0F03
 SYS:0EBA 51            PUSH	CX

@@ -1343,8 +1343,13 @@ SYS:0E79 C3            RET
 
 Return with carry flag set.
 
+## Datablock (SYS:0E7A-0EB5)
 ```
-SYS:0E7A  81 00 00 00 00 00
+SYS:0E7A                                81 00 00 00 00 00
+SYS:0E80  8E 00 00 00 40 1C 9B 00-00 20 BC 3E A8 00 10 A5
+SYS:0E90  D4 68 B6 04 BF C9 1B 0E-C3 AC C5 EB 78 2D D0 CD
+SYS:0EA0  CE 1B C2 53 DE F9 78 39-3F 01 EB 2B A8 AD C5 1D
+SYS:0EB0  F8 C9 7B CE 97 40
 ```
 
 ## Preliminary adjustments before conversion
