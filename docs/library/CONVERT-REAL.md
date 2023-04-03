@@ -1511,6 +1511,15 @@ SYS:097B 83EC14        SUB	SP,+14
 
 Reserve **14h/20** bytes in the stack and setup BP as index to the items on the stack.
 
+### Stack after SYS:097B
+|Index|Contents                   |
+| :-: |---------------------------|
+|BP-14|(SP Points here)           |
+|BP-06|Adjusted Precision/Exponent|
+|BP-04|MSB                        |
+|BP-02|Precision/Exponent         |
+|BP+00|Old BP                     |
+
 ```
 SYS:097E 57            PUSH	DI
 ```
