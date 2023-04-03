@@ -118,4 +118,6 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
 
   - [Real Type](docs/library/REAL-TYPE.md)
 
+  - [Convert Real Number to String](docs/library/CONVERT-REAL.md)
+
   - [Print Real Number](docs/library/PRINT-REAL.md)

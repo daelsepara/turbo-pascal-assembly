@@ -22,7 +22,6 @@ TPC.EXE -GS -GP -GD -$D+ -$E- -$N- MAIN
 ## Main Program
 ```
 A := 0.3141592654E01;
-WriteLn(A);
 ```
 
 Translates to the following:

@@ -1,0 +1,71 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 0004AH 0004BH main               CODE
+ 00050H 00DB6H 00D67H System             CODE
+ 00DC0H 01161H 003A2H DATA               DATA
+ 01170H 0516FH 04000H STACK              STACK
+ 05170H 05170H 00000H HEAP               HEAP
+
+  Address         Publics by Value
+
+ 0000:0000       @
+ 00DC:0002       OvrCodeList
+ 00DC:0004       OvrHeapSize
+ 00DC:0006       OvrDebugPtr
+ 00DC:000A       OvrHeapOrg
+ 00DC:000C       OvrHeapPtr
+ 00DC:000E       OvrHeapEnd
+ 00DC:0010       OvrLoadList
+ 00DC:0012       OvrDosHandle
+ 00DC:0014       OvrEmsHandle
+ 00DC:0016       HeapOrg
+ 00DC:001A       HeapPtr
+ 00DC:001E       HeapEnd
+ 00DC:0022       FreeList
+ 00DC:0026       FreeZero
+ 00DC:002A       HeapError
+ 00DC:002E       ExitProc
+ 00DC:0032       ExitCode
+ 00DC:0034       ErrorAddr
+ 00DC:0038       PrefixSeg
+ 00DC:003A       StackLimit
+ 00DC:003C       InOutRes
+ 00DC:003E       RandSeed
+ 00DC:0042       SelectorInc
+ 00DC:0044       Seg0040
+ 00DC:0046       SegA000
+ 00DC:0048       SegB000
+ 00DC:004A       SegB800
+ 00DC:004C       Test8086
+ 00DC:004D       Test8087
+ 00DC:004E       FileMode
+ 00DC:0050       A
+ 00DC:0056       B
+ 00DC:0156       Input
+ 00DC:0256       Output
+ 00DC:0356       SaveInt00
+ 00DC:035A       SaveInt02
+ 00DC:035E       SaveInt1B
+ 00DC:0362       SaveInt21
+ 00DC:0366       SaveInt23
+ 00DC:036A       SaveInt24
+ 00DC:036E       SaveInt34
+ 00DC:0372       SaveInt35
+ 00DC:0376       SaveInt36
+ 00DC:037A       SaveInt37
+ 00DC:037E       SaveInt38
+ 00DC:0382       SaveInt39
+ 00DC:0386       SaveInt3A
+ 00DC:038A       SaveInt3B
+ 00DC:038E       SaveInt3C
+ 00DC:0392       SaveInt3D
+ 00DC:0396       SaveInt3E
+ 00DC:039A       SaveInt3F
+ 00DC:039E       SaveInt75
+
+Line numbers for main(CONVREAL.PAS) segment main
+
+     4 0000:0000     5 0000:000F     6 0000:0021     7 0000:0043
+
+Program entry point at 0000:0000
