@@ -94,7 +94,7 @@ Check if the last operation generated any error. Exit immediately if there was a
 
 ```
 SYS:04FE 26            ES:
-SYS:04FF 817F02B2D7    CMP	WORD PTR [BX+02],D7B2
+SYS:04FF 817F02B2D7    CMP	WORD PTR [BX+02],fmOutput
 SYS:0504 7539          JNZ	053F
 ```
 
@@ -193,7 +193,7 @@ Check if last operation had any errors.
 
 ```
 SYS:054D 26            ES:
-SYS:054E 817F02B2D7    CMP	WORD PTR [BX+02],D7B2
+SYS:054E 817F02B2D7    CMP	WORD PTR [BX+02],fmOutput
 SYS:0553 7541          JNZ	0596
 ```
 
