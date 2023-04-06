@@ -926,7 +926,7 @@ SYS:05A8 33C7          XOR	AX,DI
 SYS:05AA 58            POP	AX
 ```
 
-Resture **AX** (saved in **SYS:05A0**).
+Restore **AX** (saved in **SYS:05A0**).
 
 ```
 SYS:05AB 9C            PUSHF
@@ -1043,12 +1043,17 @@ SYS:0611 F9            STC
 SYS:0612 C3            RET
 ```
 
-If the result wraps CL back to 0, then return with CF set (**SYS:0611**) otherwise continue to **SYS:05FC**.
+If the result wraps **CL** back to **0**, then return with CF set (**SYS:0611**) otherwise continue to **SYS:05FC**.
 
 ```
 SYS:0613 2BC1          SUB	AX,CX
 SYS:0615 1BDE          SBB	BX,SI
 SYS:0617 1BD7          SBB	DX,DI
+```
+
+Subtract **DI**:**SI**:**CX** from **DX**:**BX**:**AX**.
+
+```
 SYS:0619 8BCD          MOV	CX,BP
 SYS:061B 5D            POP	BP
 SYS:061C 7310          JNB	062E
@@ -1075,7 +1080,7 @@ SYS:0640 FEC9          DEC	CL
 SYS:0642 75F2          JNZ	0636
 ```
 
-Shift **DX**:**BX**:**AX** left once then decrease the exponent in **CL**. This has the same effect just shifting the significand but preserving the overall magnitiude of the number, i.e. ```(A * 2) * 2^-1```.
+Multiply **DX**:**BX**:**AX** 2 then decrease the exponent in **CL**. This has the same effect just shifting the significand but preserving the overall magnitiude of the number, i.e. ```(A * 2) * 2^-1```. If CL drops to zero, then set **DX**:**BX**:**AX** to 0 instead. 
 
 ## Jump point en route to setting **DX**:**BX**:**AX** to zero
 
