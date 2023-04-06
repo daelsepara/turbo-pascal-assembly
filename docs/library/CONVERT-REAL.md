@@ -1883,6 +1883,8 @@ This entire sequence multiplies the number by **10**. It does this first by push
 |```A += A'```|Add the saved number using **ADD/ADC** to carry over the bits, i.e. ```A = A * 5``` |
 |```A *= 2``` |Multiply by 2 shifting to the left once, i.e. ```A = (A * 5) * 2 = A * 10```        |
 
+This is done in this manner so that the multiplication is done in place instead of using **MUL**/**IMUL** then preserving and swapping in and out of **DX** and **AX** regulary. It is more efficient this way.
+
 ```
 SYS:0AF1 47            INC	DI
 SYS:0AF2 4E            DEC	SI
