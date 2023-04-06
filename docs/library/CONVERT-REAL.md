@@ -1678,24 +1678,73 @@ SYS:09B5 EB2E          JMP	09E5
 SYS:09B7 F7DE          NEG	SI
 SYS:09B9 83FE0C        CMP	SI,+0C
 SYS:09BC 7203          JB	09C1
+```
+
+### Round off up to **0Bh**/**11** digits
+```
 SYS:09BE BE0B00        MOV	SI,000B
+```
+
+Move pointer (in **SI**) to end of the string.
+
+```
 SYS:09C1 807AEC35      CMP	BYTE PTR [BP+SI-14],35
 SYS:09C5 C642EC00      MOV	BYTE PTR [BP+SI-14],00
 SYS:09C9 721A          JB	09E5
+```
+
+Check if digit is below **'5'**/**35h**.
+
+```
 SYS:09CB 4E            DEC	SI
+```
+
+Move pointer **SI** one digit to one byte to the left (of the string).
+
+```
 SYS:09CC 780F          JS	09DD
+```
+
+Check if the sign (of **SI**) changes, i.e. if it is already on the first digit (after the decimal point).
+
+```
 SYS:09CE FE42EC        INC	BYTE PTR [BP+SI-14]
+```
+
+Round up the digit at this location.
+
+```
 SYS:09D1 807AEC39      CMP	BYTE PTR [BP+SI-14],39
 SYS:09D5 760E          JBE	09E5
 SYS:09D7 C642EC00      MOV	BYTE PTR [BP+SI-14],00
 SYS:09DB EBEE          JMP	09CB
+```
+
+Check if the digit is below or equal to **'9'**/**39h**. If the value of the byte at this location is greater than **'9'** mark it as **NULL** then repeat the operation. Otherwise, the round up operation is complete.
+
+```
 SYS:09DD C746EC3100    MOV	WORD PTR [BP-14],0031
 SYS:09E2 FF46FA        INC	WORD PTR [BP-06]
+```
+
+Round up the number to **1**. Increase the precision/exponent in **SS**:[**BP-06**].
+
+```
 SYS:09E5 33F6          XOR	SI,SI
 SYS:09E7 FC            CLD
+```
+
+Reset the index (in **SI**) to 0.
+
+```
 SYS:09E8 8B56FE        MOV	DX,[BP-02]
 SYS:09EB 0BD2          OR	DX,DX
 SYS:09ED 7835          JS	0A24
+```
+
+Retrieve the exponent from **SS**:[**BP-02**] and check if it is signed.
+
+```
 SYS:09EF F646FC80      TEST	BYTE PTR [BP-04],80
 SYS:09F3 7403          JZ	09F8
 SYS:09F5 B02D          MOV	AL,2D
@@ -1725,42 +1774,127 @@ SYS:0A1C 783D          JS	0A5B
 SYS:0A1E E84300        CALL	0A64
 SYS:0A21 AA            STOSB
 SYS:0A22 EBF7          JMP	0A1B
+```
+
+```
 SYS:0A24 B020          MOV	AL,20
 SYS:0A26 F646FC80      TEST	BYTE PTR [BP-04],80
 SYS:0A2A 7402          JZ	0A2E
+```
+
+Check if the number is negative (using the **MSB** stored at **SS**:[**BP-04**]). If it is positive, set a whitespace (20h) character in **AL**.
+
+```
 SYS:0A2C B02D          MOV	AL,2D
+```
+
+The number is negative, set a **'-'**/**2Dh** character in **AL** instead.
+
+```
 SYS:0A2E AA            STOSB
+```
+
+Store the sign in output buffer buffer.
+
+```
 SYS:0A2F E83200        CALL	0A64
 SYS:0A32 AA            STOSB
+```
+
+Retrieve next digit and store in buffer (on the call to **SYS:0A64**).
+
+```
 SYS:0A33 42            INC	DX
 SYS:0A34 740A          JZ	0A40
+```
+
+Increase character count **DX** and check if all the digits (before the decimal point) have been stored in **ES**:**DI**.
+
+```
 SYS:0A36 B02E          MOV	AL,2E
 SYS:0A38 AA            STOSB
+```
+
+Store the decimal point **'.'**/**2Eh**.
+
+```
 SYS:0A39 E82800        CALL	0A64
 SYS:0A3C AA            STOSB
 SYS:0A3D 42            INC	DX
 SYS:0A3E 75F9          JNZ	0A39
+```
+
+Retrieve the next digits then store it.
+
+```
 SYS:0A40 B045          MOV	AL,45
 SYS:0A42 AA            STOSB
+```
+
+Store the **'E'**/**45h** or character (for the scientific notation).
+
+```
 SYS:0A43 B02B          MOV	AL,2B
 SYS:0A45 8B56FA        MOV	DX,[BP-06]
 SYS:0A48 0BD2          OR	DX,DX
 SYS:0A4A 7904          JNS	0A50
+```
+
+Prepare the **'+'**/**2B** character. Retrieve the exponent in **DX** from **SS**:[**BP-06**]. Test whetherthe exponent is positive.
+
+```
 SYS:0A4C B02D          MOV	AL,2D
 SYS:0A4E F7DA          NEG	DX
+```
+
+Preepare **'+'**/**2D** character and negate the exponent in **DX** because the exponent was negative.
+
+```
 SYS:0A50 AA            STOSB
+```
+
+Store this sign at the oputput buffer.
+
+```
 SYS:0A51 8BC2          MOV	AX,DX
 SYS:0A53 B20A          MOV	DL,0A
 SYS:0A55 F6FA          IDIV	DL
+```
+
+Move the exponent to **AX**. Convert the exponent in **AL** by doing a signed division of **AL** by **DL**. The quotient will be stored in **AL** while the remainder is stored in **AH**.
+
+```
 SYS:0A57 053030        ADD	AX,3030
+```
+
+Convert both bytes of the result in **AX** into ASCII.
+
+```
 SYS:0A5A AB            STOSW
+```
+
+Store **AX** into the output buffer. Because the remainder is in **AX**, storing the word will actually store **AL** first then followed by **AH** next.
+
+```
 SYS:0A5B 8BCF          MOV	CX,DI
 SYS:0A5D 5F            POP	DI
 SYS:0A5E 2BCF          SUB	CX,DI
+```
+
+Compute for the number of characters rendered in **CX** by computing for **CX-DI**.
+
+```
 SYS:0A60 8BE5          MOV	SP,BP
+```
+
+Restore SP (modified in **SYS:097B**).
+
+```
 SYS:0A62 5D            POP	BP
 SYS:0A63 C3            RET
 ```
+
+Restore **BP** then return.
 
 ### Retrieve next character from buffer
 ```
