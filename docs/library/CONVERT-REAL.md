@@ -1874,16 +1874,14 @@ SYS:0AED D1D3          RCL	BX,1
 SYS:0AEF D1D2          RCL	DX,1
 ```
 
-This entire sequence multiplies the number by **10**. It does this first by pushing all the current number on to the stack.
+This entire sequence multiplies the number by **10**. It does this first by pushing all the current number on to the stack. In detail:
 
-
-|      Step   |Description                                                                      |
-| :---------: |---------------------------------------------------------------------------------|
-|```A' = A``` |Save number on the stack                                                         |
-|```A *= 4``` |Multiply by 4 by shifting left twice using SHL and RCL to carry over the bits    |
-|```A += A'```|Add the number saved on stackusing ADD/ADC to carry over the bits, i.e. A = A * 5|
-|```A *= 2``` |Multiply by 2, i.e. ```A = (A * 5) * 2 = A * 10```                               |
-
+|Step         |Effect                                                                              |
+|-------------|------------------------------------------------------------------------------------|
+|```A' = A``` |Save number on the stack                                                            |
+|```A *= 4``` |Multiply by 4 by shifting left twice using **SHL/RCL** to carry over the bits       |
+|```A += A'```|Add the number saved on stackusing **ADD/ADC** to carry over the bits (```A *= 5```)|
+|```A *= 2``` |Multiply by 2 shifting to the left once, i.e. ```A = (A * 5) * 2 = A * 10```        |
 
 ```
 SYS:0AF1 47            INC	DI
@@ -1910,6 +1908,9 @@ Restore **CX** (saved in **SYS**:**0AAB**).
 SYS:0AFA C3            RET
 ```
 
+Return
+
+## String Operation (I)
 ```
 SYS:0AFB 55            PUSH	BP
 SYS:0AFC 8BEC          MOV	BP,SP
@@ -2461,7 +2462,7 @@ SYS:0D1F CA1000        RETF	0010
 
 Restore BP and pop off **10h**/**16** bytes from the stack (**8** parameters) upon return.
 
-## String operation
+## String operation (II)
 ```
 SYS:0D22 55            PUSH	BP
 SYS:0D23 8BEC          MOV	BP,SP
