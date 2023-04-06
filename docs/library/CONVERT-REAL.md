@@ -906,13 +906,29 @@ SYS:0597 F6D8          NEG	AL
 SYS:0599 3C29          CMP	AL,29
 SYS:059B 7367          JNB	0604
 SYS:059D 86C1          XCHG	AL,CL
+```
+
+```
 SYS:059F 55            PUSH	BP
 SYS:05A0 50            PUSH	AX
+```
+
+Save **BP** and **AX**.
+
+```
 SYS:05A1 8AE6          MOV	AH,DH
 SYS:05A3 80E480        AND	AH,80
 SYS:05A6 8BE8          MOV	BP,AX
 SYS:05A8 33C7          XOR	AX,DI
+```
+
+```
 SYS:05AA 58            POP	AX
+```
+
+Resture **AX** (saved in **SYS:05A0**).
+
+```
 SYS:05AB 9C            PUSHF
 SYS:05AC B000          MOV	AL,00
 SYS:05AE 80CE80        OR	DH,80
@@ -932,33 +948,77 @@ SYS:05C9 EBEA          JMP	05B5
 ```
 SYS:05CB 0AC9          OR	CL,CL
 SYS:05CD 740A          JZ	05D9
+```
+
+## Adjust Number and Exponent
+```
 SYS:05CF D1EA          SHR	DX,1
 SYS:05D1 D1DB          RCR	BX,1
 SYS:05D3 D1D8          RCR	AX,1
 SYS:05D5 FEC9          DEC	CL
+```
+
+This shifts the **MSW** in **DX** by one power of two (to the right) and adjust the exponent **CL**, i.e **DX**:**BX**:**AX** * 2^(**-1**), **CL** = **CL - 1**.
+
+```
 SYS:05D7 75F6          JNZ	05CF
 SYS:05D9 9D            POPF
 SYS:05DA 7837          JS	0613
+```
+
+```
 SYS:05DC 03C1          ADD	AX,CX
 SYS:05DE 13DE          ADC	BX,SI
 SYS:05E0 13D7          ADC	DX,DI
+```
+
+Add **DI**:**SI**:**CX** to **DX**:**BX**:**AX** (handle all carries). 
+
+```
 SYS:05E2 8BCD          MOV	CX,BP
 SYS:05E4 5D            POP	BP
+```
+
+Transfer **BP** to **CX** then restore **BP** (saved in **SYS:059F**).
+
+```
 SYS:05E5 730A          JNB	05F1
+```
+
+Check if there was an overflow in **SYS:05E0** then adjust.
+
+```
 SYS:05E7 D1DA          RCR	DX,1
 SYS:05E9 D1DB          RCR	BX,1
 SYS:05EB D1D8          RCR	AX,1
 SYS:05ED FEC1          INC	CL
+```
+
+Shifts **DX**:**BX**:**AX** to the right once but compensate for it by increasing **CL**.
+
+```
 SYS:05EF 7420          JZ	0611
+```
+
+If adjustment in **CL** causes the value to wrap around to 0, then return immediately with carry flag set (**SYS:0611**).
+
+```
 SYS:05F1 058000        ADD	AX,0080
 SYS:05F4 83D300        ADC	BX,+00
 SYS:05F7 83D200        ADC	DX,+00
 SYS:05FA 720F          JB	060B
+```
+
+Test if exponent in **AX** causes an overflow.
+
+```
 SYS:05FC 8AC1          MOV	AL,CL
 SYS:05FE 80E67F        AND	DH,7F
 SYS:0601 0AF5          OR	DH,CH
 SYS:0603 C3            RET
 ```
+
+Copy the adjusted exponent in **CL** to **AL**. Clear the sign bit in **DH** then copy over the adjusted **MSB** in **CH** to **DH**. Return.
 
 ```
 SYS:0604 8BC1          MOV	AX,CX
@@ -967,14 +1027,23 @@ SYS:0608 8BD7          MOV	DX,DI
 SYS:060A C3            RET
 ```
 
-## Adjust MSB and Exponent
+Copy the adjusted number in DI:SI:CX to **DX**:**BX**:**AX** then return.
+
+## Adjust MSW and Exponent
 ```
 SYS:060B D1DA          RCR	DX,1
 SYS:060D FEC1          INC	CL
+```
+
+This shifts the **MSW** in **DX** by one power of two (to the right) but compensates for it in **CL**, i.e **DX** * 2^(**CL - 1**) * 2^(**CL + 1**). 
+
+```
 SYS:060F 75EB          JNZ	05FC
 SYS:0611 F9            STC
 SYS:0612 C3            RET
 ```
+
+If the result wraps CL back to 0, then return with CF set (**SYS:0611**) otherwise continue to **SYS:05FC**.
 
 ```
 SYS:0613 2BC1          SUB	AX,CX
@@ -996,6 +1065,9 @@ SYS:0632 0BF8          OR	DI,AX
 SYS:0634 74CD          JZ	0603
 SYS:0636 0AF6          OR	DH,DH
 SYS:0638 78B7          JS	05F1
+```
+
+```
 SYS:063A D1E0          SHL	AX,1
 SYS:063C D1D3          RCL	BX,1
 SYS:063E D1D2          RCL	DX,1
@@ -1003,7 +1075,9 @@ SYS:0640 FEC9          DEC	CL
 SYS:0642 75F2          JNZ	0636
 ```
 
-## Jump station en route to setting **DX**:**BX**:**AX** to zero
+Shift **DX**:**BX**:**AX** left once then decrease the exponent in **CL**. This has the same effect just shifting the significand but preserving the overall magnitiude of the number, i.e. ```(A * 2) * 2^-1```.
+
+## Jump point en route to setting **DX**:**BX**:**AX** to zero
 
 ```
 SYS:0644 E9FC00        JMP	0743
@@ -1572,11 +1646,30 @@ SYS:09A0 07            POP	ES
 
 Restore **ES**:**DI** (saved in **SYS**:**0995**)
 
+## Step 9 - Round off
+
+This routine will perform any rounding-off on the converted digits stored **SS**:[**BP-14**]
+
 ```
 SYS:09A1 894EFA        MOV	[BP-06],CX
+```
+
+Save adjusted precision in **CX** to stack without modifying **BP**.
+
+```
 SYS:09A4 8B76FE        MOV	SI,[BP-02]
+```
+
+Retrieve original **precision** stored previously on the stack (saved in **SYS:098F**).
+
+```
 SYS:09A7 0BF6          OR	SI,SI
 SYS:09A9 780C          JS	09B7
+```
+
+Check if **SI** is signed / negative.
+
+```
 SYS:09AB 0376FA        ADD	SI,[BP-06]
 SYS:09AE 46            INC	SI
 SYS:09AF 7908          JNS	09B9
@@ -1669,6 +1762,7 @@ SYS:0A62 5D            POP	BP
 SYS:0A63 C3            RET
 ```
 
+### Retrieve next character from buffer
 ```
 SYS:0A64 8A42EC        MOV	AL,[BP+SI-14]
 SYS:0A67 46            INC	SI
@@ -1678,6 +1772,8 @@ SYS:0A6C B030          MOV	AL,30
 SYS:0A6E 4E            DEC	SI
 SYS:0A6F C3            RET
 ```
+
+This subroutine retrieves one byte from the buffer and store it into **AL**. If it is empty, it store **'0'**/**30h** into **AL** instead. The index to the buffer is moved to the next location.
 
 ## Conversion - Step 3
 
@@ -1792,7 +1888,9 @@ SYS:0AAB 51            PUSH	CX
 
 Save **CX** (precision).
 
-## Conversion to ASCII (I)
+## Step 8 - Conversion to ASCII
+
+### Conversion to ASCII (I)
 
 This routine is the entry point for the actual conversion to ASCII. At this point, **DX**:**BX**:**AX** is in the normalized form after undergoing previous adjustments.
 
@@ -1821,7 +1919,7 @@ SYS:0ABF 75F6          JNZ	0AB7
 
 This shifts the number **DX**:**BX**:**AH**:**00h** to the right one bit at a time.
 
-## Conversion to ASCII (II)
+### Conversion to ASCII (II)
 
 This routine does the actual conversion to ASCII. At this point **DX**:**BX**:**AH:00h** contains the final normalized form of the the number (without the exponent). In the final normalized form, the upper bits (bit **4-7**) of **DH** should already contain the first 'digit' in base 10.
 
@@ -1910,7 +2008,7 @@ Restore **CX** (saved in **SYS**:**0AAB**).
 SYS:0AFA C3            RET
 ```
 
-Return
+Return.
 
 ## String Operation (I)
 ```
