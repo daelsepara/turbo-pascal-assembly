@@ -1784,31 +1784,76 @@ SYS:0AA7 E8C701        CALL	0C71
 SYS:0AAA 49            DEC	CX
 ```
 
+If the number needs further adjustment call **SYS**:**0C71** then decrease the **precsion**.
+
 ```
 SYS:0AAB 51            PUSH	CX
 ```
 
-Save **CX**.
+Save **CX** (precision).
+
+## Conversion to ASCII (I)
+
+This routine is the entry point for the actual conversion to ASCII. At this point, **DX**:**BX**:**AX** is in the normalized form after undergoing previous adjustments.
 
 ```
 SYS:0AAC 80CE80        OR	DH,80
+```
+
+Set the sign-bit (**bit 7**) in **DH**.
+
+```
 SYS:0AAF B184          MOV	CL,84
 SYS:0AB1 2AC8          SUB	CL,AL
 SYS:0AB3 B000          MOV	AL,00
 SYS:0AB5 740A          JZ	0AC1
+```
+
+Check if **DX**:**BX**:**AX** needs to be shifted right based on the exponent in **AL**. The amount of shifts are computed and stored in **CL**. Shifting will only be done on the significand (excluding **AL**, hence it is cleared prior).
+
+```
 SYS:0AB7 D1EA          SHR	DX,1
 SYS:0AB9 D1DB          RCR	BX,1
 SYS:0ABB D1D8          RCR	AX,1
 SYS:0ABD FEC9          DEC	CL
 SYS:0ABF 75F6          JNZ	0AB7
+```
+
+This shifts the number **DX**:**BX**:**AH**:**00h** to the right one bit at a time.
+
+## Conversion to ASCII (II)
+
+This routine does the actual conversion to ASCII. At this point **DX**:**BX**:**AH:00h** contains the final normalized form of the the number (without the exponent). In the final normalized form, the upper bits (bit **4-7**) of **DH** should already contain the first 'digit' in base 10.
+
+```
 SYS:0AC1 BE0C00        MOV	SI,000C
+```
+
+Convert up to **0Ch**/**12** digits.
+
+```
 SYS:0AC4 8AEE          MOV	CH,DH
 SYS:0AC6 B104          MOV	CL,04
 SYS:0AC8 D2ED          SHR	CH,CL
+```
+
+Get the upper bits of the number (in **DH**) into **CH**.
+
+```
 SYS:0ACA 80C530        ADD	CH,30
 SYS:0ACD 26            ES:
 SYS:0ACE 882D          MOV	[DI],CH
+```
+
+Convert the base digit in **CH** to ASCII by adding it to '**0**'/**30h**.
+
+```
 SYS:0AD0 80E60F        AND	DH,0F
+```
+
+Clear the upper bits of the number.
+
+```
 SYS:0AD3 52            PUSH	DX
 SYS:0AD4 53            PUSH	BX
 SYS:0AD5 50            PUSH	AX
@@ -1827,12 +1872,33 @@ SYS:0AE9 13D1          ADC	DX,CX
 SYS:0AEB D1E0          SHL	AX,1
 SYS:0AED D1D3          RCL	BX,1
 SYS:0AEF D1D2          RCL	DX,1
+```
+
+This entire sequence multiplies the number by **10**. It does this first by pushing all the current number on to the stack.
+
+
+|      Step   |Description                                                                      |
+| :---------: |---------------------------------------------------------------------------------|
+|```A' = A``` |Save number on the stack                                                         |
+|```A *= 4``` |Multiply by 4 by shifting left twice using SHL and RCL to carry over the bits    |
+|```A += A'```|Add the number saved on stackusing ADD/ADC to carry over the bits, i.e. A = A * 5|
+|```A *= 2``` |Multiply by 2, i.e. ```A = (A * 5) * 2 = A * 10```                               |
+
+
+```
 SYS:0AF1 47            INC	DI
 SYS:0AF2 4E            DEC	SI
 SYS:0AF3 75CF          JNZ	0AC4
+```
+
+Move the buffer pointer (**DI**) then decrease the count (**SI**). Repeat the process until all digits have been converted.
+
+```
 SYS:0AF5 26            ES:
 SYS:0AF6 C60500        MOV	BYTE PTR [DI],00
 ```
+
+**NULL** (**00h**) terminate the ASCII string conversion.
 
 ```
 SYS:0AF9 59            POP	CX
@@ -2221,7 +2287,7 @@ SYS:0CB8 8AC1          MOV	AL,CL
 SYS:0CBA 0403          ADD	AL,03
 ```
 
-If there were no adjustments after **SYS:0CA9** (or **SYS:0CB0**), then the net effect of this code is to actually multiply **DX**:**BX**:**AX** by **10** (**5/4** * **2**^**3** => **5** * **8** / **4** => **5** * **2** => **10**).
+If there were no adjustments after **SYS:0CA9** (or **SYS:0CB0**), then the net effect of this code is to actually multiply **DX**:**BX**:**AX** by **10** (**5/4** in the **significand**, **2**^**3**/**8** at the **exponent** in **AL**).
 
 ```
 SYS:0CBC 5E            POP	SI
@@ -2296,16 +2362,36 @@ SYS:0CE7 07            POP	ES
 SYS:0CE8 E88DFC        CALL	0978
 ```
 
-Point **ES**:**DI** to the temporary buffer reserved earlier (at **SS**:[**BP-40**]). Move to the next part of the conversion (**SYS:0978**).
+Point **ES**:**DI** to the temporary buffer reserved earlier (**SS**:[**BP-40**]). Move to the next part of the conversion (**SYS:0978**).
 
 ```
 SYS:0CEB 1E            PUSH	DS
 SYS:0CEC 8BF7          MOV	SI,DI
 SYS:0CEE 16            PUSH	SS
 SYS:0CEF 1F            POP	DS
+```
+
+Set **DS**:**SI** to the temporary buffer (**SS**[**BP-40**]).
+
+```
 SYS:0CF0 C47E08        LES	DI,[BP+08]
+```
+
+Set **ES**:**DI** to the **Output buffer** (passed on the stack on the call to **Str** function).
+
+```
 SYS:0CF3 8B5606        MOV	DX,[BP+06]
+```
+
+Load the **Output buffer** length into **DX**.
+
+```
 SYS:0CF6 8B460E        MOV	AX,[BP+0E]
+```
+
+Load the **Width** parameter (passed on the stack on the call to **Str** function) into **AX**.
+
+```
 SYS:0CF9 3BC2          CMP	AX,DX
 SYS:0CFB 7E02          JLE	0CFF
 SYS:0CFD 8BC2          MOV	AX,DX
@@ -2315,23 +2401,65 @@ SYS:0D03 8BCA          MOV	CX,DX
 SYS:0D05 3BC1          CMP	AX,CX
 SYS:0D07 7D02          JGE	0D0B
 SYS:0D09 8BC1          MOV	AX,CX
+```
+
+Compute for **AX** (string length of the conversion) and **CX** (precision).
+
+```
 SYS:0D0B FC            CLD
 SYS:0D0C AA            STOSB
+```
+
+Since **Output buffer** is a Pascal-string, store the length (**AL**) into the first byte (**Byte 0**).
+
+```
 SYS:0D0D 2BC1          SUB	AX,CX
 SYS:0D0F 7408          JZ	0D19
+```
+
+Check if there are digits to copy. If there is none, fill **Output buffer** **NULL** (**00h**) on **SYS**:**0D19**.
+
+```
 SYS:0D11 51            PUSH	CX
 SYS:0D12 8BC8          MOV	CX,AX
+```
+
+Preserve **CX** then copy the width in **AX** (less **CX** in **SYS**:**0D0D**).
+
+```
 SYS:0D14 B020          MOV	AL,20
 SYS:0D16 F3            REPZ
 SYS:0D17 AA            STOSB
+```
+
+Left-pad the **Output buffer** (fill with whitespace character **20h**).
+
+```
 SYS:0D18 59            POP	CX
 SYS:0D19 F3            REPZ
 SYS:0D1A A4            MOVSB
+```
+
+Restore **CX** (precision of the string conversion) then copy the digits from **DS**:**SI** to **ES**:**DI**.
+
+```
 SYS:0D1B 1F            POP	DS
+```
+
+Restore **DS** (saved in **SYS**:**0CEB**).
+
+```
 SYS:0D1C 8BE5          MOV	SP,BP
+```
+
+Restore **SP** (modified in **SYS**:**0CC2**). This *"removes"* any space it has reserved on the stack.
+
+```
 SYS:0D1E 5D            POP	BP
 SYS:0D1F CA1000        RETF	0010
 ```
+
+Restore BP and pop off **10h**/**16** bytes from the stack (**8** parameters) upon return.
 
 ## String operation
 ```
