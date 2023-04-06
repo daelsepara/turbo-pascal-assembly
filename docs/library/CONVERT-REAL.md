@@ -1119,13 +1119,33 @@ Save **DX** into **BP**.
 ```
 SYS:0652 33D7          XOR	DX,DI
 SYS:0654 81E20080      AND	DX,8000
+```
+
+Complement the sign bit in **DI** into **DX**. Clear all the bits except for the sign bit in **DX**.
+
+```
 SYS:0658 86D0          XCHG	DL,AL
 SYS:065A 02D1          ADD	DL,CL
 SYS:065C 12F0          ADC	DH,AL
 SYS:065E 8AC8          MOV	CL,AL
+```
+
+Copy the exponent in **AL** into **DL**. Add the exponent in **CL** to **DL**. Add the overflow in **SYS**:**065A** to **DH**. Clear **CL**.
+
+```
 SYS:0660 81CD0080      OR	BP,8000
 SYS:0664 81CF0080      OR	DI,8000
+```
+
+Set the sign bits of **BP** and **DI**.
+
+```
 SYS:0668 52            PUSH	DX
+```
+
+Save **DX**.
+
+```
 SYS:0669 0AE4          OR	AH,AH
 SYS:066B 7504          JNZ	0671
 SYS:066D 0BDB          OR	BX,BX
@@ -1163,13 +1183,54 @@ SYS:069D 51            PUSH	CX
 SYS:069E 55            PUSH	BP
 SYS:069F 53            PUSH	BX
 SYS:06A0 50            PUSH	AX
+```
+
+Save both numbers **DI**:**SI**:**CX** and **BP**:**BX**:**AX**.
+
+### Stack after SYS:06A0
+|Index|Contents|
+|-----|--------|
+|BP   |AX      |
+|BP+02|BX      |
+|BP+04|BP      |
+|BP+06|CX      |
+|BP+08|SI      |
+|BP+0A|DI      |
+|BP+0C|DI      |
+
+```
 SYS:06A1 8BEC          MOV	BP,SP
+```
+
+Point **BP** to top of stack (**SP**).
+
+```
 SYS:06A3 33C9          XOR	CX,CX
+```
+
+Clear **CX**.
+
+```
 SYS:06A5 8A4601        MOV	AL,[BP+01]
+```
+
+Load **AH** (from the stack) into **AL**.
+
+```
 SYS:06A8 F66607        MUL	BYTE PTR [BP+07]
+```
+
+Multiply **CH** (from stack) to **AL** and store in **AL**.
+
+```
 SYS:06AB 8BF0          MOV	SI,AX
 SYS:06AD 8BF9          MOV	DI,CX
 SYS:06AF 8BD9          MOV	BX,CX
+```
+
+Clear **BX**, **SI**, **DI** (**CX** = 0 from **SYS:06A3**).
+
+```
 SYS:06B1 8B4600        MOV	AX,[BP+00]
 SYS:06B4 F76608        MUL	WORD PTR [BP+08]
 SYS:06B7 03F0          ADD	SI,AX
