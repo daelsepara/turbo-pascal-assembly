@@ -1880,7 +1880,7 @@ This entire sequence multiplies the number by **10**. It does this first by push
 |-------------|------------------------------------------------------------------------------------|
 |```A' = A``` |Save number on the stack                                                            |
 |```A *= 4``` |Multiply by 4 by shifting left twice using **SHL/RCL** to carry over the bits       |
-|```A += A'```|Add the number saved on stackusing **ADD/ADC** to carry over the bits (```A *= 5```)|
+|```A += A'```|Add the saved number using **ADD/ADC** to carry over the bits, i.e. ```A = A * 5``` |
 |```A *= 2``` |Multiply by 2 shifting to the left once, i.e. ```A = (A * 5) * 2 = A * 10```        |
 
 ```
