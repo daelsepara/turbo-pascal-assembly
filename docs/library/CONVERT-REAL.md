@@ -1028,7 +1028,7 @@ SYS:064B 0AC9          OR	CL,CL
 SYS:064D 74F5          JZ	0644
 ```
 
-Return with **DX**:**BX**:**AX** = ***0*** if the **exponent** in **AL** is 0.
+Return with **DX**:**BX**:**AX** = ***0*** if the **exponent** in **CL** is 0.
 
 ```
 SYS:064F 55            PUSH	BP
@@ -1568,6 +1568,11 @@ Proceed to the next step of the conversion (at **SYS:0A70**).
 ```
 SYS:099F 5F            POP	DI
 SYS:09A0 07            POP	ES
+```
+
+Restore **ES**:**DI** (saved in **SYS**:**0995**)
+
+```
 SYS:09A1 894EFA        MOV	[BP-06],CX
 SYS:09A4 8B76FE        MOV	SI,[BP-02]
 SYS:09A7 0BF6          OR	SI,SI
@@ -1768,11 +1773,24 @@ Proceed to the next step in the conversion (at **SYS:0BE5**).
 ```
 SYS:0AA1 5F            POP	DI
 SYS:0AA2 59            POP	CX
+```
+
+Restore **CX** and **DI** (saved in **SYS**:**0A9A**).
+
+```
 SYS:0AA3 3C81          CMP	AL,81
 SYS:0AA5 7304          JNB	0AAB
 SYS:0AA7 E8C701        CALL	0C71
 SYS:0AAA 49            DEC	CX
+```
+
+```
 SYS:0AAB 51            PUSH	CX
+```
+
+Save **CX**.
+
+```
 SYS:0AAC 80CE80        OR	DH,80
 SYS:0AAF B184          MOV	CL,84
 SYS:0AB1 2AC8          SUB	CL,AL
@@ -1814,7 +1832,15 @@ SYS:0AF2 4E            DEC	SI
 SYS:0AF3 75CF          JNZ	0AC4
 SYS:0AF5 26            ES:
 SYS:0AF6 C60500        MOV	BYTE PTR [DI],00
+```
+
+```
 SYS:0AF9 59            POP	CX
+```
+
+Restore **CX** (saved in **SYS**:**0AAB**).
+
+```
 SYS:0AFA C3            RET
 ```
 
@@ -2195,7 +2221,7 @@ SYS:0CB8 8AC1          MOV	AL,CL
 SYS:0CBA 0403          ADD	AL,03
 ```
 
-If there were no adjustments after **SYS:0CA9** (or **SYS:0CB0**), then the net effect of this code is to actually multiply **DX**:**BX**:**AX** by 10.
+If there were no adjustments after **SYS:0CA9** (or **SYS:0CB0**), then the net effect of this code is to actually multiply **DX**:**BX**:**AX** by **10** (**5/4** * **2**^**3** => **5** * **8** / **4** => **5** * **2** => **10**).
 
 ```
 SYS:0CBC 5E            POP	SI
