@@ -1876,12 +1876,12 @@ SYS:0AEF D1D2          RCL	DX,1
 
 This entire sequence multiplies the number by **10**. It does this first by pushing all the current number on to the stack. In detail:
 
-|Step         |Effect                                                                              |
-|-------------|------------------------------------------------------------------------------------|
-|```A' = A``` |Save number on the stack                                                            |
-|```A *= 4``` |Multiply by 4 by shifting left twice using **SHL/RCL** to carry over the bits       |
-|```A += A'```|Add the saved number using **ADD/ADC** to carry over the bits, i.e. ```A = A * 5``` |
-|```A *= 2``` |Multiply by 2 shifting to the left once, i.e. ```A = (A * 5) * 2 = A * 10```        |
+|Step         |Effect                                                                               |
+|-------------|-------------------------------------------------------------------------------------|
+|```A' = A``` |Save number on the stack                                                             |
+|```A *= 4``` |Multiply by 4 (shift left x 2 with **SHL/RCL** to carry over bits), i.e. ```A = 4A```|
+|```A += A'```|Add the saved number using **ADD/ADC** to carry over the bits, i.e. ```A = 4A + A``` |
+|```A *= 2``` |Multiply by 2 shifting to the left once, i.e. ```A = 2(4A + A) = 10A```              |
 
 This is done in this manner so that the multiplication is done in place instead of using **MUL**/**IMUL** then preserving and swapping in and out of **DX** and **AX** regulary. It is more efficient this way.
 
