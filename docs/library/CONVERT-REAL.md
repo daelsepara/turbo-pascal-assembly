@@ -426,7 +426,7 @@ SYS0240:  35 36 37 38 39 3A 3B 3C-3D 3E 3F 75
 ```
 
 ## SYS:024C Runtime error strings
-```nasm
+```
 SYS024C:                                      52 75 6E 74               Runt
 SYS0250:  69 6D 65 20 65 72 72 6F-72 20 00 20 61 74 20 00   ime error   at  
 SYS0260:  2E
@@ -1652,6 +1652,7 @@ SYS097B: SUB SP,+14
 Reserve **14h/20** bytes in the stack and setup BP as index to the items on the stack.
 
 ### Stack after SYS:097B
+
 |Index|Contents                   |
 | :-: |---------------------------|
 |BP-14|(SP Points here)           |
