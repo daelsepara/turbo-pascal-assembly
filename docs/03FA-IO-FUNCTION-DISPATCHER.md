@@ -14,53 +14,53 @@ This is the I/O Function Dispatcher for a **[File](TEXT-FILE-TYPE.md)**. It is c
 These offsets are the are actually offsets to **[File record](TEXT-FILE-TYPE.md)**.
 
 ```nasm
-SYS:03FA 06            PUSH	ES
-SYS:03FB 57            PUSH	DI
+SYS03FA: 06            PUSH	ES
+SYS03FB: 57            PUSH	DI
 ```
 
 Save **ES**:**DI** on the stack.
 
 ```nasm
-SYS:03FC 06            PUSH	ES
-SYS:03FD 57            PUSH	DI
+SYS03FC: 06            PUSH	ES
+SYS03FD: 57            PUSH	DI
 ```
 
 Pass pointer to **[File](TEXT-FILE-TYPE.md)** in **ES**:**DI** to the function.
 
 ```nasm
-SYS:03FE 26            ES:
-SYS:03FF FF19          CALL	FAR [BX+DI]
+SYS03FE: 26            ES:
+SYS03FF: FF19          CALL	FAR [BX+DI]
 ```
 
 Make a far pointer to the function determined by **ES**:[**DI+BX**] (see table above).
 
 ```nasm
-SYS:0401 0BC0          OR	AX,AX
+SYS0401: 0BC0          OR	AX,AX
 ```
 
 Check if the I/O functions generated an error code in **AX**.
 
 ```nasm
-SYS:0403 7403          JZ	0408
+SYS0403: 7403          JZ	0408
 ```
 
 Return to caller immediately if there were no errors.
 
 ```nasm
-SYS:0405 A33C00        MOV	[InOutRes],AX
+SYS0405: A33C00        MOV	[InOutRes],AX
 ```
 
 Record the error code in **[InOutRes](DATA.md)**.
 
 ```nasm
-SYS:0408 5F            POP	DI
-SYS:0409 07            POP	ES
+SYS0408: 5F            POP	DI
+SYS0409: 07            POP	ES
 ```
 
 Upon returning from the I/O functions, the parameters passed to it, i.e. **ES**:**DI** were popped-off from the stack. At this point, after restoring **ES**:**DI**, the stack is already balanced.
 
 ```nasm
-SYS:040A C3            RET
+SYS040A: C3            RET
 ```
 
 Return to caller. Because it returns with a **NEAR RET**, it can only be called from within the system library.

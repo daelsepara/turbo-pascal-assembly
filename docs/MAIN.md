@@ -47,14 +47,14 @@ Refer to **[MAIN.MAP](MAIN-MAP.md)** to see where these values are obtained.
 ## Source code
 
 ```nasm
-CODE:0000 9A00007007    CALL	SYS:0000
+CODE0000: 9A00007007    CALL	SYS:0000
 ```
 
 Initialize System Library: **[SYS:0000 System Library Initialization](0000-INIT.md)**
 
 ```nasm
-CODE:0005 55            PUSH	BP
-CODE:0006 89E5          MOV	BP,SP
+CODE0005: 55            PUSH	BP
+CODE0006: 89E5          MOV	BP,SP
 ```
 
 Probably like other compiled high-level languages, Turbo Pascal has a lot of stack manipulation. This sequence of statements PUSH BP/MOV BP, SP is like a defining signature of compiled code. It's likely that the main program is a callable function and receives parameters (e.g. argc, argv) on the stack right next to the return code. It is also possible that the loader or the parent program did a **FAR JMP** to **CODE:0000**. 
@@ -62,21 +62,21 @@ Probably like other compiled high-level languages, Turbo Pascal has a lot of sta
 BP is used often to address these parameters on the stack. In most cases Turbo Pascal compiler takes special care of BP and SP, while playing fast and loose with the other registers.
 
 ```nasm
-CODE:0008 31C0          XOR	AX,AX
-CODE:000A 9ACD027007    CALL	SYS:02CD
+CODE0008: 31C0          XOR	AX,AX
+CODE000A: 9ACD027007    CALL	SYS:02CD
 ```
 
 Checks the size of the stack with a call to **[SYS:02CD Check Stack](02CD-CHECK-STACK.md)**. Exits with an error message if stack size is not sufficient or it is below the minimum.
 
 ```nasm
-CODE:000F 5D            POP	BP
+CODE000F: 5D            POP	BP
 ```
 
 This balances the stack from **PUSH BP/MOV BP, SP** above. Again, this seems to be a defining feature of compiled code.
 
 ```nasm
-CODE:0010 31C0          XOR	AX,AX
-CODE:0012 9A16017007    CALL	SYS:0116
+CODE0010: 31C0          XOR	AX,AX
+CODE0012: 9A16017007    CALL	SYS:0116
 ```
 
 Call **[SYS:0116 Ctrl-C / Int 23h Handler / Program Exit](0113-CTRL-C-HANDLER.md)**. **AX** contains the **[ExitCode](DATA.md)**. **AX** = 0 means there were no errors encountered.

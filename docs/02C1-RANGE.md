@@ -1,8 +1,8 @@
 # 02C1 Range check error
 
 ```nasm
-SYS:02C1 B8C900        MOV	AX,00C9
-SYS:02C4 E948FE        JMP	010F
+SYS02C1: B8C900        MOV	AX,00C9
+SYS02C4: E948FE        JMP	010F
 ```
 
 This prints a runtime error message with error code **[C9h/201: Range check error](ERROR-CODES.md)**.

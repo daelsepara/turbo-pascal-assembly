@@ -1,16 +1,16 @@
 # 0263 0263 Empty string and Hidden Copyright string
 
 ```
-SYS:0263           00
+SYS0263:           00
 ```
 
 This NULL (00h) byte character at **SYS:0263** is a Pascal "**empty string**". Pascal strings are byte arrays where the first byte is the length. This **empty string** is used in the initialization of **[Input](0088-INIT-INPUT.md)** and **[Output](009C-INIT-OUTPUT.md)**.
 
 
 ```
-SYS:0264              50 6F 72 74-69 6F 6E 73 20 43 6F 70       Portions Cop
-SYS:0270  79 72 69 67 68 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
-SYS:0280  39 32 20 42 6F 72 6C 61-6E 64                     92 Borland
+SYS0264:              50 6F 72 74-69 6F 6E 73 20 43 6F 70       Portions Cop
+SYS0270:  79 72 69 67 68 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
+SYS0280:  39 32 20 42 6F 72 6C 61-6E 64                     92 Borland
 ```
 
 The other bytes **SYS:0264-0289** that looks like a copyright string is not used and is never visibile.
