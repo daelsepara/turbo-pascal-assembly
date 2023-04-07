@@ -29,47 +29,47 @@ These registers are set upon entry to this handler:
 |SP+1C|Original Caller's Flags register          |
 
 ```nasm
-SYS00DB: FB            STI
+SYS00DB: STI
 ```
 
 Enable interrupts.
 
 ```nasm
-SYS00DC: 83C406        ADD	SP,+06
-SYS00DF: 58            POP	AX
+SYS00DC: ADD SP,+06
+SYS00DF: POP AX
 ```
 
 Adjust stack and get original caller's **AX** register.
 
 ```nasm
-SYS00E0: 83E71F        AND	DI,+1F
-SYS00E3: 81C79600      ADD	DI,0096
+SYS00E0: AND DI,+1F
+SYS00E3: ADD DI,0096
 ```
 
 Adjust error code (clear upper bits 5-15) and add 150 (96h) ???.
 
 ```nasm
-SYS00E7: 80FC39        CMP	AH,39
-SYS00EA: 7303          JNB	00EF
+SYS00E7: CMP AH,39
+SYS00EA: JNB 00EF
 ```
 
 Determine which **DOS** service was called when critical error occured. Check if any action can be made to address this.
 
 ```nasm
-SYS00EC: BFFFFF        MOV	DI,FFFF
+SYS00EC: MOV DI,FFFF
 ```
 
 Set **DI** = -1 (FFFFh), i.e. error in **DOS** service cannot be handled (??).
 
 ```nasm
-SYS00EF: 57            PUSH	DI
+SYS00EF: PUSH DI
 ```
 
 Set original caller's AX by pushing **DI** to the stack.
 
 ```nasm
-SYS00F0: B454          MOV	AH,54
-SYS00F2: CD21          INT	21
+SYS00F0: MOV AH,54
+SYS00F2: INT 21
 ```
 
 Get read-after-write verify flag **DOS INT 21h AH = 54h**.
@@ -82,33 +82,33 @@ On return:
 It seems that the result is unused.
 
 ```nasm
-SYS00F4: 8BEC          MOV	BP,SP
+SYS00F4: MOV BP,SP
 ```
 
 Use **BP** to address the stack.
 
 ```nasm
-SYS00F6: 804E1601      OR	BYTE PTR [BP+16],01
+SYS00F6: OR BYTE PTR [BP+16],01
 ```
 
 Set original caller's **CF** flag to 1.
 
 ```nasm
-SYS00FA: 58            POP	AX
-SYS00FB: 5B            POP	BX
-SYS00FC: 59            POP	CX
-SYS00FD: 5A            POP	DX
-SYS00FE: 5E            POP	SI
-SYS00FF: 5F            POP	DI
-SYS0100: 5D            POP	BP
-SYS0101: 1F            POP	DS
-SYS0102: 07            POP	ES
+SYS00FA: POP AX
+SYS00FB: POP BX
+SYS00FC: POP CX
+SYS00FD: POP DX
+SYS00FE: POP SI
+SYS00FF: POP DI
+SYS0100: POP BP
+SYS0101: POP DS
+SYS0102: POP ES
 ```
 
 Restore all registers to original caller's.
 
 ```nasm
-SYS0103: CF            IRET
+SYS0103: IRET
 ```
 
 Return to original caller.

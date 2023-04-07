@@ -9,8 +9,8 @@ TPC.EXE -GS -GP -GD -$D+ -$E- -$N+ MAIN
 ## Random: *Real* using FPU
 
 ```nasm
-CODE0019: 9A270D7407    CALL	SYS:0D27
-CODE001E: 9A8E097407    CALL	SYS:098E
+CODE0019: CALL SYS:0D27
+CODE001E: CALL SYS:098E
 ```
 
 Random(*Real*) is composed of two separate calls to **System Library** subroutines (**SYS:0D27**) and (**SYS:098E**). The results (***Real***, 6 bytes) is returned in **DX**:**BX**:**AX** where:
@@ -20,19 +20,19 @@ Random(*Real*) is composed of two separate calls to **System Library** subroutin
 
 ## Random: *Real* using FPU (I)
 ```nasm
-SYS0D27: E82000        CALL	0D4A
+SYS0D27: CALL 0D4A
 ```
 
 Call random number generator engine at **SYS:0D4A**.
 
 ```nasm
-SYS0D2A: CD3C9F06480D  FILD CS:WORD PTR [0D48]
-SYS0D30: CD37063E00    FILD DWORD PTR [RandSeed]
-SYS0D35: CD3C9806440D  FADD CS:DWORD PTR [0D44]
-SYS0D3A: CD35FD        FSCALE
-SYS0D3E: CD39D9        FSTP ST(1)
-SYS0D41: CD3D          FWAIT
-SYS0D43: CB            RETF
+SYS0D2A: FILD CS:WORD PTR [0D48]
+SYS0D30: FILD DWORD PTR [RandSeed]
+SYS0D35: FADD CS:DWORD PTR [0D44]
+SYS0D3A: FSCALE
+SYS0D3E: FSTP ST(1)
+SYS0D41: FWAIT
+SYS0D43: RETF
 ```
 
 ## DWORD in SYS:0D44
@@ -50,29 +50,29 @@ SYS0D48:  E0 FF
 This is the same random number generator engine (see: **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)** for analysis). The location of this routine has been displaced due to inclusion of additional routines in the **System Library**.
 
 ```nasm
-SYS0D4A: A13E00        MOV	AX,[RandSeed.Low]
-SYS0D4D: 8B1E4000      MOV	BX,[RandSeed.High]
-SYS0D51: 8BC8          MOV	CX,AX
-SYS0D53: 2E            CS:
-SYS0D54: F726800D      MUL	WORD PTR [0D80]
-SYS0D58: D1E1          SHL	CX,1
-SYS0D5A: D1E1          SHL	CX,1
-SYS0D5C: D1E1          SHL	CX,1
-SYS0D5E: 02E9          ADD	CH,CL
-SYS0D60: 03D1          ADD	DX,CX
-SYS0D62: 03D3          ADD	DX,BX
-SYS0D64: D1E3          SHL	BX,1
-SYS0D66: D1E3          SHL	BX,1
-SYS0D68: 03D3          ADD	DX,BX
-SYS0D6A: 02F3          ADD	DH,BL
-SYS0D6C: B105          MOV	CL,05
-SYS0D6E: D3E3          SHL	BX,CL
-SYS0D70: 02F3          ADD	DH,BL
-SYS0D72: 050100        ADD	AX,0001
-SYS0D75: 83D200        ADC	DX,+00
-SYS0D78: A33E00        MOV	[RandSeed.Low],AX
-SYS0D7B: 89164000      MOV	[RandSeed.High],DX
-SYS0D7F: C3            RET
+SYS0D4A: MOV AX,[RandSeed.Low]
+SYS0D4D: MOV BX,[RandSeed.High]
+SYS0D51: MOV CX,AX
+SYS0D53: CS:
+SYS0D54: MUL WORD PTR [0D80]
+SYS0D58: SHL CX,1
+SYS0D5A: SHL CX,1
+SYS0D5C: SHL CX,1
+SYS0D5E: ADD CH,CL
+SYS0D60: ADD DX,CX
+SYS0D62: ADD DX,BX
+SYS0D64: SHL BX,1
+SYS0D66: SHL BX,1
+SYS0D68: ADD DX,BX
+SYS0D6A: ADD DH,BL
+SYS0D6C: MOV CL,05
+SYS0D6E: SHL BX,CL
+SYS0D70: ADD DH,BL
+SYS0D72: ADD AX,0001
+SYS0D75: ADC DX,+00
+SYS0D78: MOV [RandSeed.Low],AX
+SYS0D7B: MOV [RandSeed.High],DX
+SYS0D7F: RET
 ```
 
 ## WORD in SYS:0D80
@@ -85,64 +85,64 @@ Magic number used bye the random number generator engine (**8405h**/**33797**).
 ## Random: *Real* using FPU (II)
 
 ```nasm
-SYS098E: 83EC0A        SUB	SP,+0A
+SYS098E: SUB SP,+0A
 ```
 
 Reserve 10 bytes on the stack.
 
 ```nasm
-SYS0991: 8BDC          MOV	BX,SP
+SYS0991: MOV BX,SP
 ```
 
 Copy offset to this location (**SP**) into **BX**.
 
 ```nasm
-SYS0993: CD3C5B3F      FSTP SS:TBYTE PTR [BX]
-SYS0997: CD3D          FWAIT
+SYS0993: FSTP SS:TBYTE PTR [BX]
+SYS0997: FWAIT
 ```
 
 Load 10 bytes from FPU stack into reserved location [**BX**].
 
 ```nasm
-SYS0999: 83C402        ADD	SP,+02
+SYS0999: ADD SP,+02
 ```
 
 Ignore **MSB**
 
 ```nasm
-SYS099C: 59            POP	CX
-SYS099D: 5B            POP	BX
-SYS099E: 5A            POP	DX
-SYS099F: 58            POP	AX
+SYS099C: POP CX
+SYS099D: POP BX
+SYS099E: POP DX
+SYS099F: POP AX
 ```
 
 Load into **AX**:**DX**:**BX**:**CX**.
 
 ```nasm
-SYS09A0: 8BF8          MOV	DI,AX
-SYS09A2: 25FF7F        AND	AX,7FFF
-SYS09A5: 2D7E3F        SUB	AX,3F7E
-SYS09A8: 761A          JBE	09C4
-SYS09AA: 0AE4          OR	AH,AH
-SYS09AC: 7521          JNZ	09CF
-SYS09AE: 8AE5          MOV	AH,CH
-SYS09B0: D0E1          SHL	CL,1
-SYS09B2: 80D400        ADC	AH,00
-SYS09B5: 83D300        ADC	BX,+00
-SYS09B8: 83D200        ADC	DX,+00
-SYS09BB: 720E          JB	09CB
-SYS09BD: D1E2          SHL	DX,1
-SYS09BF: D1E7          SHL	DI,1
-SYS09C1: D1DA          RCR	DX,1
-SYS09C3: CB            RETF
-SYS09C4: 33C0          XOR	AX,AX
-SYS09C6: 33DB          XOR	BX,BX
-SYS09C8: 33D2          XOR	DX,DX
-SYS09CA: CB            RETF
-SYS09CB: FEC0          INC	AL
-SYS09CD: 75EE          JNZ	09BD
-SYS09CF: B8CD00        MOV	AX,00CD
-SYS09D2: E93AF7        JMP	010F
+SYS09A0: MOV DI,AX
+SYS09A2: AND AX,7FFF
+SYS09A5: SUB AX,3F7E
+SYS09A8: JBE 09C4
+SYS09AA: OR AH,AH
+SYS09AC: JNZ 09CF
+SYS09AE: MOV AH,CH
+SYS09B0: SHL CL,1
+SYS09B2: ADC AH,00
+SYS09B5: ADC BX,+00
+SYS09B8: ADC DX,+00
+SYS09BB: JB 09CB
+SYS09BD: SHL DX,1
+SYS09BF: SHL DI,1
+SYS09C1: RCR DX,1
+SYS09C3: RETF
+SYS09C4: XOR AX,AX
+SYS09C6: XOR BX,BX
+SYS09C8: XOR DX,DX
+SYS09CA: RETF
+SYS09CB: INC AL
+SYS09CD: JNZ 09BD
+SYS09CF: MOV AX,00CD
+SYS09D2: JMP 010F
 ```
 
 See also: [RandSeed](../DATA.md), [SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md) or go [back](../../README.md)

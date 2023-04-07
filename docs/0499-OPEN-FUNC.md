@@ -4,7 +4,7 @@ This is the Open([**File**](TEXT-FILE-TYPE.md)) function. It assumes that **[Fil
 
 
 ```nasm
-SYS0499: 8BDC          MOV	BX,SP
+SYS0499: MOV BX,SP
 ```
 
 Use **BX** to address items on the stack. Upon entry into this subroutine, the stack looks as follows:
@@ -17,27 +17,27 @@ Use **BX** to address items on the stack. Upon entry into this subroutine, the s
 |BX+06|Pointer to File/Text Record Data (SEGMENT)|
 
 ```nasm
-SYS049B: 1E            PUSH	DS
+SYS049B: PUSH DS
 ```
 
 Save **DS** as it will be modified later.
 
 ```nasm
-SYS049C: 36            SS:
-SYS049D: C57F04        LDS	DI,[BX+04]
+SYS049C: SS:
+SYS049D: LDS DI,[BX+04]
 ```
 
 Load pointer to **[File](TEXT-FILE-TYPE.md)** into **DS**:**DI**.
 
 ```nasm
-SYS04A0: 33C9          XOR	CX,CX
-SYS04A2: 890D          MOV	[DI:Handle],CX
+SYS04A0: XOR CX,CX
+SYS04A2: MOV [DI:Handle],CX
 ```
 
 Set **[File](TEXT-FILE-TYPE.md)**'s **[Handle](TEXT-FILE-TYPE.md)** to 0 (**[STDIN](DOS-STANDARD-HANDLES.md)**).
 
 ```nasm
-SYS04A4: B8003D        MOV	AX,3D00
+SYS04A4: MOV AX,3D00
 ```
 
 Prepare to open **[File](TEXT-FILE-TYPE.md)** using **DOS INT 21h AH = 3Dh** service with parameters:
@@ -48,28 +48,28 @@ Prepare to open **[File](TEXT-FILE-TYPE.md)** using **DOS INT 21h AH = 3Dh** ser
   - 02h read/write
 
 ```nasm
-SYS04A7: 817D02B1D7    CMP	WORD PTR [DI:Mode],fmInput
-SYS04AC: 740D          JZ	04BB
+SYS04A7: CMP WORD PTR [DI:Mode],fmInput
+SYS04AC: JZ 04BB
 ```
 
 Check if **[File (Mode](TEXT-FILE-TYPE.md)** is to be opened using **[Reset()](FILE-MODES.md)**.
 
 ```nasm
-SYS04AE: B002          MOV	AL,02
-SYS04B0: FF05          INC	WORD PTR [DI:Handle]
+SYS04AE: MOV AL,02
+SYS04B0: INC WORD PTR [DI:Handle]
 ```
 
 Otherwise, set access mode to read/write and set **[File](TEXT-FILE-TYPE.md)**'s **[Handle](TEXT-FILE-TYPE.md)** to 1 (**[STDOUT](DOS-STANDARD-HANDLES.md)**) by adding 1 [**DI**].
 
 ```nasm
-SYS04B2: 817D02B3D7    CMP	WORD PTR [DI:Mode],fmInOut
-SYS04B7: 7402          JZ	04BB
+SYS04B2: CMP WORD PTR [DI:Mode],fmInOut
+SYS04B7: JZ 04BB
 ```
 
 Check if **[File (Mode)](TEXT-FILE-TYPE.md)** is to be opened using **[Reset() and Rewrite()](FILE-MODES.md)**.
 
 ```nasm
-SYS04B9: B43C          MOV	AH,3C
+SYS04B9: MOV AH,3C
 ```
 
 Prepare to create the file using **DOS INT 21h AH = 3Ch** service with parameters:
@@ -77,115 +77,115 @@ Prepare to create the file using **DOS INT 21h AH = 3Ch** service with parameter
 - **CX** = File attribute
 
 ```nasm
-SYS04BB: 807D3000      CMP	BYTE PTR [DI:Name],00
-SYS04BF: 7409          JZ	04CA
+SYS04BB: CMP BYTE PTR [DI:Name],00
+SYS04BF: JZ 04CA
 ```
 
 If the filename is empty, there is no need to call the **DOS** service indicated in **AH**. The empty string indicates that this is either **[Input](DATA.md)** or **[Output](DATA.md)**.
 
 ```nasm
-SYS04C1: 8D5530        LEA	DX,[DI:Name]
-SYS04C4: CD21          INT	21
+SYS04C1: LEA DX,[DI:Name]
+SYS04C4: INT 21
 ```
 
 Load the pointer to the **[File](TEXT-FILE-TYPE.md)**'s **[Name](TEXT-FILE-TYPE.md)** into **DS**:**DX**. **DS** was already set in **SYS:04A2** above. Call on the **DOS** service indicated in **AH**.
 
 ```nasm
-SYS04C6: 725A          JB	0522
+SYS04C6: JB 0522
 ```
 
 On error, return immediately with a non-zero **[error code](ERROR-CODES.md)** in AX (to be stored later in **[InOutRes](DATA.md)**).
 
 ```nasm
-SYS04C8: 8905          MOV	[DI:Handle],AX
+SYS04C8: MOV [DI:Handle],AX
 ```
 
 Upon success of the call to the **DOS** service, **AX** contains the handle of the openend / created file. Copy **AX** in **[File](TEXT-FILE-TYPE.md)**'s **[Handle](TEXT-FILE-TYPE.md)**.
 
 ```nasm
-SYS04CA: B80B04        MOV	AX,040B
-SYS04CD: BA7007        MOV	DX,SYS
-SYS04D0: 33C9          XOR	CX,CX
-SYS04D2: 33DB          XOR	BX,BX
-SYS04D4: 817D02B1D7    CMP	WORD PTR [DI:Mode],fmInput
-SYS04D9: 742F          JZ	050A
+SYS04CA: MOV AX,040B
+SYS04CD: MOV DX,SYS
+SYS04D0: XOR CX,CX
+SYS04D2: XOR BX,BX
+SYS04D4: CMP WORD PTR [DI:Mode],fmInput
+SYS04D9: JZ 050A
 ```
 
 Set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** to **[SYS:040B Read Function](040B-READ-FUNC.md)** then check if **[File](TEXT-FILE-TYPE.md)** was opened with **[Reset()](FILE-MODES.md)**.
 
 ```nasm
-SYS04DB: 8B1D          MOV	BX,[DI:Handle]
-SYS04DD: B80044        MOV	AX,4400
-SYS04E0: CD21          INT	21
+SYS04DB: MOV BX,[DI:Handle]
+SYS04DD: MOV AX,4400
+SYS04E0: INT 21
 ```
 
 Get device information using **DOS INT 21h AX = 4400h** service with parameter **BX** = File handle. It returns device information in **DX**.
 
 ```nasm
-SYS04E2: F6C280        TEST	DL,80
-SYS04E5: B86004        MOV	AX,0460
-SYS04E8: BA7007        MOV	DX,SYS
-SYS04EB: 8BC8          MOV	CX,AX
-SYS04ED: 8BDA          MOV	BX,DX
-SYS04EF: 7514          JNZ	0505
+SYS04E2: TEST DL,80
+SYS04E5: MOV AX,0460
+SYS04E8: MOV DX,SYS
+SYS04EB: MOV CX,AX
+SYS04ED: MOV BX,DX
+SYS04EF: JNZ 0505
 ```
 
 If **[File](TEXT-FILE-TYPE.md)** is a character device (80h), set its **[InOutFunc and FlushFunc](TEXT-FILE-TYPE.md)** to **[SYS:0460 Write Function](0460-WRITE-FUNC.md)**.
 
 
 ```nasm
-SYS04F1: 817D02B3D7    CMP	WORD PTR [DI:Mode],fmInOut
-SYS04F6: 7503          JNZ	04FB
-SYS04F8: E82B00        CALL	0526
+SYS04F1: CMP WORD PTR [DI:Mode],fmInOut
+SYS04F6: JNZ 04FB
+SYS04F8: CALL 0526
 ```
 
 Check if **[File (Mode)](TEXT-FILE-TYPE.md)** was opened using **[Reset() and Rewrite()](FILE-MODES.md)** [move file pointer](0526-OPEN-FUNC-II.md) to end of the file.
 
 ```nasm
-SYS04FB: B83B04        MOV	AX,043B
-SYS04FE: BA7007        MOV	DX,SYS
-SYS0501: 33C9          XOR	CX,CX
-SYS0503: 33DB          XOR	BX,BX
+SYS04FB: MOV AX,043B
+SYS04FE: MOV DX,SYS
+SYS0501: XOR CX,CX
+SYS0503: XOR BX,BX
 ```
 
 Set **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** to **[SYS:43B Write to File Function](043B-WRITE-TO-FILE-FUNC.md)**.
 
 ```nasm
-SYS0505: C74502B2D7    MOV	WORD PTR [DI:Mode],fmOutput
+SYS0505: MOV WORD PTR [DI:Mode],fmOutput
 ```
 
 Mark the **[File](TEXT-FILE-TYPE.md)** as opened using **[Rewrite()](FILE-MODES.md)**.
 
 ```nasm
-SYS050A: 894514        MOV	[DI:InOutFunc.Offset],AX
-SYS050D: 895516        MOV	[DI:InOutFunc.Segment],DX
-SYS0510: 894D18        MOV	[DI:FlushFunc.Offset],CX
-SYS0513: 895D1A        MOV	[DI:FlushFunc.Segment],BX
+SYS050A: MOV [DI:InOutFunc.Offset],AX
+SYS050D: MOV [DI:InOutFunc.Segment],DX
+SYS0510: MOV [DI:FlushFunc.Offset],CX
+SYS0513: MOV [DI:FlushFunc.Segment],BX
 ```
 
 Set up the handlers for **[File](TEXT-FILE-TYPE.md)**'s **[InOutFunc](TEXT-FILE-TYPE.md)** and **[FlushFunc](TEXT-FILE-TYPE.md)**. **DX**:**AX**, **BX**:**CX**, at this point contains the correct pointers to the subroutines.
 
 ```nasm
-SYS0516: C7451C8004    MOV	WORD PTR [DI:CloseFunc.Offset],0480
-SYS051B: C7451E7007    MOV	WORD PTR [DI:CloseFunc.Segment],SYS
+SYS0516: MOV WORD PTR [DI:CloseFunc.Offset],0480
+SYS051B: MOV WORD PTR [DI:CloseFunc.Segment],SYS
 ```
 
 Set up the handler for **[File](TEXT-FILE-TYPE.md)**'s **[CloseFunc](TEXT-FILE-TYPE.md)** to **[SYS:0480 Close Function](0480-CLOSE-FUNC.md)**.
 
 ```nasm
-SYS0520: 33C0          XOR	AX,AX
+SYS0520: XOR AX,AX
 ```
 
 Set I/O result in **[InOutRes](DATA.md)** to 0 on success.
 
 ```nasm
-SYS0522: 1F            POP	DS
+SYS0522: POP DS
 ```
 
 Restores **DS** (Saved in **SYS:049B**).
 
 ```nasm
-SYS0523: CA0400        RETF	0004
+SYS0523: RETF 0004
 ```
 
 Return and pop-off parameter from the stack. The **[error code](ERROR-CODES.md)** in **AX**, later stored in **[InOutRes](DATA.md)**.

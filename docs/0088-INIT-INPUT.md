@@ -8,28 +8,28 @@ Reset (Input);
 ```
 
 ```nasm
-SYS0088: B85000        MOV	AX,Input
-SYS008B: 1E            PUSH	DS
-SYS008C: 50            PUSH	AX
-SYS008D: 1E            PUSH	DS
-SYS008E: 50            PUSH	AX
+SYS0088: MOV AX,Input
+SYS008B: PUSH DS
+SYS008C: PUSH AX
+SYS008D: PUSH DS
+SYS008E: PUSH AX
 ```
 
 Push pointer to **[Input](TEXT-FILE-TYPE.md)** twice. The first one is for **[SYS:0364 Reset Function](0364-RESET-REWRITE-FUNC.md)**, the second one for **[SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md)**.
 
 ```nasm
-SYS008F: B86302        MOV	AX,SYS:0263
-SYS0092: 0E            PUSH	CS
-SYS0093: 50            PUSH	AX
-SYS0094: 0E            PUSH	CS
-SYS0095: E84E02        CALL	02E6
+SYS008F: MOV AX,SYS:0263
+SYS0092: PUSH CS
+SYS0093: PUSH AX
+SYS0094: PUSH CS
+SYS0095: CALL 02E6
 ```
 
 Assigns empty string **[''](0263-DATA-COPYRIGHT.md)** in **[SYS:0263](0263-DATA-COPYRIGHT.md)** to **[Input](TEXT-FILE-TYPE.md)** on a call to **[SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md)**.
 
 ```nasm
-SYS0098: 0E            PUSH	CS
-SYS0099: E8C802        CALL	0364
+SYS0098: PUSH CS
+SYS0099: CALL 0364
 ```
 
 Calls **[SYS:0364 Reset Function](0364-RESET-REWRITE-FUNC.md)** and use **[Input](TEXT-FILE-TYPE.md)**'s **[OpenFunc](TEXT-FILE-TYPE.md)** to open it. Continues to **[SYS:009C Initialize Output File](009C-INIT-OUTPUT.md)**.

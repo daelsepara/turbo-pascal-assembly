@@ -11,53 +11,53 @@ Upon entry the stack looks like this:
 
 
 ```nasm
-SYS0480: 8BDC          MOV	BX,SP
+SYS0480: MOV BX,SP
 ```
 
 Use **BX** to address items in the stack.
 
 ```nasm
-SYS0482: 36            SS:
-SYS0483: C47F04        LES	DI,[BX+04]
+SYS0482: SS:
+SYS0483: LES DI,[BX+04]
 ```
 
 Loads the pointer to the **[File](TEXT-FILE-TYPE.md)** into **ES**:**DI**.
 
 ```nasm
-SYS0486: 26            ES:
-SYS0487: 8B1D          MOV	BX,[DI:Handle]
+SYS0486: ES:
+SYS0487: MOV BX,[DI:Handle]
 ```
 
 Loads the (**[Handle](TEXT-FILE-TYPE.md)**) in **[File](TEXT-FILE-TYPE.md)** into **BX**.
 
 ```nasm
-SYS0489: 83FB04        CMP	BX,+04
-SYS048C: 7606          JBE	0494
+SYS0489: CMP BX,+04
+SYS048C: JBE 0494
 ```
 
 Check if **[Handle](TEXT-FILE-TYPE.md)** is a **[standard handle](DOS-STANDARD-HANDLES.md)** provided by **DOS** and return immediately if it is.
 
 ```nasm
-SYS048E: B43E          MOV	AH,3E
-SYS0490: CD21          INT	21
+SYS048E: MOV AH,3E
+SYS0490: INT 21
 ```
 
 Close file handle using **DOS INT 21h AH = 3Eh** service with parameter **BX** = File handle.
 
 ```nasm
-SYS0492: 7202          JB	0496
+SYS0492: JB 0496
 ```
 
 Exit with a **[DOS Error code](ERROR-CODES.md)** in **AX** if an error occured.
 
 ```nasm
-SYS0494: 33C0          XOR	AX,AX
+SYS0494: XOR AX,AX
 ```
 
 **AX** = 0 (No errors).
 
 ```nasm
-SYS0496: CA0400        RETF	0004
+SYS0496: RETF 0004
 ```
 
 Return and pop-off parameters from the stack. The **[error code](ERROR-CODES.md)** in **AX** is later stored in **[InOutRes](DATA.md)**.

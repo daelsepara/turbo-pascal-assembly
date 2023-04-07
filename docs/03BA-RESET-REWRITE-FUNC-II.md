@@ -1,20 +1,20 @@
 # 03BA Reset/Rewrite Function (II)
 
 ```nasm
-SYS03BA: B000          MOV	AL,00
-SYS03BC: EB02          JMP	03C0
+SYS03BA: MOV AL,00
+SYS03BC: JMP 03C0
 ```
 
 Entry point using using DOS Read-Only Access Code (00h).
 
 ```nasm
-SYS03BE: B001          MOV	AL,01
+SYS03BE: MOV AL,01
 ```
 
 Entry point using using DOS Write-Only Access Code (01h).
 
 ```nasm
-SYS03C0: 55            PUSH	BP
+SYS03C0: PUSH BP
 ```
 
 Use **BP** to index items on the stack.
@@ -32,68 +32,68 @@ Upon entering this subroutine from any of the entry points: **SYS:03BA Read-Only
 |BP+08|Pointer to File/Text Record Data (SEGMENT)|
 
 ```nasm
-SYS03C1: 8BEC          MOV	BP,SP
-SYS03C3: C47E06        LES	DI,[BP+06]
+SYS03C1: MOV BP,SP
+SYS03C3: LES DI,[BP+06]
 ```
 
 Loads the pointer to the **[File](TEXT-FILE-TYPE.md)** into **ES**:**DI**.
 
 ```nasm
-SYS03C6: 26            ES:
-SYS03C7: 817D02B1D7    CMP	WORD PTR [DI:Mode],fmInput
-SYS03CC: 7418          JZ	03E6
+SYS03C6: ES:
+SYS03C7: CMP WORD PTR [DI:Mode],fmInput
+SYS03CC: JZ 03E6
 ```
 
 Checks if **[File](TEXT-FILE-TYPE.md)** was opened using **[Reset()](FILE-MODES.md)**.
 
 ```nasm
-SYS03CE: 26            ES:
-SYS03CF: 817D02B2D7    CMP	WORD PTR [DI:Mode],fmOutput
-SYS03D4: 7408          JZ	03DE
+SYS03CE: ES:
+SYS03CF: CMP WORD PTR [DI:Mode],fmOutput
+SYS03D4: JZ 03DE
 ```
 
 Checks if **[File](TEXT-FILE-TYPE.md)** was opened using **[Rewrite()](FILE-MODES.md)**.
 
 ```nasm
-SYS03D6: C7063C006700  MOV	WORD PTR [InOutRes],0067
-SYS03DC: EB18          JMP	03F6
+SYS03D6: MOV WORD PTR [InOutRes],0067
+SYS03DC: JMP 03F6
 ```
 
 Exit with an error **[67h/103: File not open](ERROR-CODES.md)**.
 
 ```nasm
-SYS03DE: 50            PUSH	AX
-SYS03DF: BB1400        MOV	BX,0014
-SYS03E2: E81500        CALL	03FA
-SYS03E5: 58            POP	AX
+SYS03DE: PUSH AX
+SYS03DF: MOV BX,0014
+SYS03E2: CALL 03FA
+SYS03E5: POP AX
 ```
 
 Call **[BX = 0014 InOutFunc()](TEXT-FILE-TYPE.md)** using **[SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md)**. This is used to flush the buffer, i.e. write any bytes still left in the buffer.
 
 ```nasm
-SYS03E6: 0AC0          OR	AL,AL
-SYS03E8: 740C          JZ	03F6
+SYS03E6: OR AL,AL
+SYS03E8: JZ 03F6
 ```
 
 If **[Mode](FILE-MODES.md)** = **[fmInput](FILE-MODES.md)** and Access is **Read-Only** the return success, otherwise check for errors on **[Mode](FILE-MODES.md)** = **[fmOutput](FILE-MODES.md)**.
 
 ```nasm
-SYS03EA: BB1C00        MOV	BX,001C
-SYS03ED: E80A00        CALL	03FA
+SYS03EA: MOV BX,001C
+SYS03ED: CALL 03FA
 ```
 
 Close the **[File](TEXT-FILE-TYPE.md)** on errors with a call to its **[BX = 001C CloseFunc()](TEXT-FILE-TYPE.md)** using **[SYS:03FA I/O Function Dispatcher](03FA-IO-FUNCTION-DISPATCHER.md)**.
 
 ```nasm
-SYS03F0: 26            ES:
-SYS03F1: C74502B0D7    MOV	WORD PTR [DI:Mode],fmClosed
+SYS03F0: ES:
+SYS03F1: MOV WORD PTR [DI:Mode],fmClosed
 ```
 
 Mark **[File](TEXT-FILE-TYPE.md)** as **[fmClosed](FILE-MODES.md)**.
 
 ```nasm
-SYS03F6: 5D            POP	BP
-SYS03F7: CA0400        RETF	0004
+SYS03F6: POP BP
+SYS03F7: RETF 0004
 ```
 
 Return to caller and pop-off parameters.

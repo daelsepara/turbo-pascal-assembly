@@ -1,9 +1,9 @@
 # 0104 Overlay manager not installed
 
 ```nasm
-SYS0104: B8D000        MOV	AX,00D0
-SYS0107: 83C406        ADD	SP,+06
-SYS010A: EB03          JMP	010F
+SYS0104: MOV AX,00D0
+SYS0107: ADD SP,+06
+SYS010A: JMP 010F
 ```
 
 This prints a runtime error message with error code **[D0h/208: Overlay manager not installed](ERROR-CODES.md)**.

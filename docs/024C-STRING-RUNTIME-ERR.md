@@ -1,9 +1,9 @@
 # 024C Runtime error strings
 
 ```
-SYS024C:                                      52 75 6E 74               Runt
-SYS0250:  69 6D 65 20 65 72 72 6F-72 20 00 20 61 74 20 00   ime error . at .
-SYS0260:  2E 0D 0A 00                                       ...
+SYS024C:                        52 75 6E 74               Runt
+SYS0250: 5 72 72 6F-72 20 00 20 61 74 20 00   ime error . at .
+SYS0260:                                      ...
 ```
 
 This is the string that is used to print the error code. It contains three parts:
