@@ -33,7 +33,7 @@ SYS0211: CALL 0232
 SYS0214: POP AX
 ```
 
-This converts the result in **AL** to ASCII by adding 30h ('0') and calling **[SYS:0232 Print Digits](0218-PRINT-DIGITS.md)** to print it.
+This converts the result in **AL** to ASCII by adding 30h ('0') and calling **[SYS:0232 Print Digits](0232-PRINT-CHAR.md)** to print it.
 
 ```nasm
 SYS0215: MOV AL,AH
