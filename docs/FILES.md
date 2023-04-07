@@ -6,7 +6,7 @@ This is the Turbo pascal program that does nothing. It is compiled with Turbo Pa
 
 The source is compiled using the following commands:
 
-```
+```cmd
 TPC.EXE -GS -GP -GD -$D+ MAIN
 ```
 ... to produce an executable named **MAIN.EXE**

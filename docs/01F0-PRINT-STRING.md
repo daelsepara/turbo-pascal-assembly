@@ -2,7 +2,7 @@
 
 Print a NULL-terminated string whose address is in [BX]. This is used by the system library to print internal strings and error messages.
 
-```
+```nasm
 SYS:01F0 2E            CS:
 SYS:01F1 8A07          MOV	AL,[BX]
 SYS:01F3 0AC0          OR	AL,AL

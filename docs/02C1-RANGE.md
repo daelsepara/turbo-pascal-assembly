@@ -1,6 +1,6 @@
 # 02C1 Range check error
 
-```
+```nasm
 SYS:02C1 B8C900        MOV	AX,00C9
 SYS:02C4 E948FE        JMP	010F
 ```

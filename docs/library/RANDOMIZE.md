@@ -2,7 +2,7 @@
 
 Initializes the built-in random generator with a random value.
 
-```
+```nasm
 SYS:0615 B42C          MOV	AH,2C
 SYS:0617 CD21          INT	21
 ```
@@ -15,7 +15,7 @@ Upon return:
 - **DH** = seconds (0 to 59)
 - **DL** = hundreds of a second (0 to 99)
 
-```
+```nasm
 SYS:0619 890E3E00      MOV	[RandSeed.Low],CX
 SYS:061D 89164000      MOV	[RandSeed.High],DX
 SYS:0621 CB            RETF

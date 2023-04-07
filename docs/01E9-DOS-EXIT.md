@@ -1,6 +1,6 @@
 # 01E9 DOS Exit
 
-```
+```nasm
 SYS:01E9 A13200        MOV	AX,[ExitCode]
 SYS:01EC B44C          MOV	AH,4C
 SYS:01EE CD21          INT	21

@@ -2,13 +2,13 @@
 
 Returns a random number (***Real*** type, 6-bytes) in the range **0.0** <= ***X*** < **1.0**.
 
-```
+```nasm
 SYS:059D E83D00        CALL	05DD
 ```
 
 Call **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)**.
 
-```
+```nasm
 SYS:05A0 93            XCHG	BX,AX
 SYS:05A1 B88000        MOV	AX,0080
 SYS:05A4 B92000        MOV	CX,0020

@@ -1,6 +1,6 @@
 # MAIN.PAS
 
-```
+```pascal
 program main;
         begin
         end.

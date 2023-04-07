@@ -2,7 +2,7 @@
 
 Checks whether the program's stack size is sufficient.
 
-```
+```nasm
 SYS:02CD 050002        ADD	AX,0200
 SYS:02D0 720D          JB	02DF
 SYS:02D2 2BC4          SUB	AX,SP
@@ -15,7 +15,7 @@ SYS:02DE CB            RETF
 
 Usually, **[StackLimit](DATA.md)** = 0000h, i.e. unlimited. In this case, stack overflow error only happens when **AX** > **SP - 4** ( = size of return address ). Because this is a **FAR RET**, it can be called from anywhere.
 
-```
+```nasm
 SYS:02DF B8CA00        MOV	AX,00CA
 SYS:02E2 E92AFE        JMP	010F
 ```

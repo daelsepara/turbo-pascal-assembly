@@ -3,7 +3,7 @@
 Converts a ***Real*** number to a string.
 
 This is a disassembly of the Pascal Program:
-```
+```pascal
 program main;
         var A: Real;
         var B: String;
@@ -16,12 +16,12 @@ end program;
 
 It was compiled with x87 emulation and x87 code disabled using:
 
-```
+```cmd
 TPC.EXE -GS -GP -GD -$D+ -$E- -$N- MAIN
 ```
 
 ## Complete Disassembly of the Main Program
-```
+```nasm
 CODE:0000 9A00007507    CALL	SYS:0000
 CODE:0005 55            PUSH	BP
 CODE:0006 89E5          MOV	BP,SP
@@ -52,13 +52,13 @@ CODE:0046 9A16017507    CALL	SYS:0116
 
 Assign a ***Real*** value to **A**.
 
-```
+```pascal
 A := 0.3141592654E01;
 ```
 
 Compiles to:
 
-```
+```nasm
 CODE:000F C70650008292  MOV	WORD PTR [A.Low],9282
 CODE:0015 C7065200A2DA  MOV	WORD PTR [A.Mid],DAA2
 CODE:001B C70654000F49  MOV	WORD PTR [A.High],490F
@@ -68,13 +68,13 @@ CODE:001B C70654000F49  MOV	WORD PTR [A.High],490F
 
 Call on Pascal **Str()** function to convert ***Real*** variable **A** to a ***string*** in **B**.
 
-```
+```pascal
 Str(A, B);
 ```
 
 Compiles to:
 
-```
+```nasm
 CODE:0021 FF365400      PUSH	[A.High]
 CODE:0025 FF365200      PUSH	[A.Mid]
 CODE:0029 FF365000      PUSH	[A.Low]
@@ -91,7 +91,7 @@ CODE:003E 9ABF0C7507    CALL	SYS:0CBF
 ```
 
 ## Initialize System Library
-```
+```nasm
 SYS:0000 BA4C08        MOV	DX,DATA
 SYS:0003 8EDA          MOV	DS,DX
 SYS:0005 8C063800      MOV	[PrefixSeg],ES
@@ -120,7 +120,7 @@ SYS:0045 8C0E2C00      MOV	[HeapError.Segment],CS
 ```
 
 ## Save Interrupt Vectors
-```
+```nasm
 SYS:0049 BF5603        MOV	DI,OFFSET SaveInt00
 SYS:004C BE3902        MOV	SI,0239
 SYS:004F B91300        MOV	CX,0013
@@ -137,7 +137,7 @@ SYS:0062 E2EF          LOOP	0053
 ```
 
 ## Modify Interrupt Vectors
-```
+```nasm
 SYS:0064 1E            PUSH	DS
 SYS:0065 0E            PUSH	CS
 SYS:0066 1F            POP	DS
@@ -156,7 +156,7 @@ SYS:0085 CD21          INT	21
 ```
 
 ## Input and Output File/Device Initialization
-```
+```nasm
 SYS:0087 1F            POP	DS
 SYS:0088 B85601        MOV	AX,OFFSET Input
 SYS:008B 1E            PUSH	DS
@@ -186,7 +186,7 @@ SYS:00B0 CB            RETF
 ```
 
 ## Determine CPU type
-```
+```nasm
 SYS:00B1 33C0          XOR	AX,AX
 SYS:00B3 9C            PUSHF
 SYS:00B4 5B            POP	BX
@@ -212,13 +212,13 @@ SYS:00D5 C3            RET
 ```
 
 ## Heap Error Handler
-```
+```nasm
 SYS:00D6 33C0          XOR	AX,AX
 SYS:00D8 CA0200        RETF	0002
 ```
 
 ## INT 24h Critical Error Handler
-```
+```nasm
 SYS:00DB FB            STI
 SYS:00DC 83C406        ADD	SP,+06
 SYS:00DF 58            POP	AX
@@ -245,14 +245,14 @@ SYS:0103 CF            IRET
 ```
 
 ## INT 3Fh Overlay Manager Handler
-```
+```nasm
 SYS:0104 B8D000        MOV	AX,00D0
 SYS:0107 83C406        ADD	SP,+06
 SYS:010A EB03          JMP	010F
 ```
 
 ## INT 00h Handler
-```
+```nasm
 SYS:010C B8C800        MOV	AX,00C8
 SYS:010F 59            POP	CX
 SYS:0110 5B            POP	BX
@@ -260,7 +260,7 @@ SYS:0111 EB07          JMP	011A
 ```
 
 ## INT 23h CTRL-C Handler and Exit Routine Entry Point
-```
+```nasm
 SYS:0113 B8FF00        MOV	AX,00FF
 SYS:0116 33C9          XOR	CX,CX
 SYS:0118 33DB          XOR	BX,BX
@@ -317,7 +317,7 @@ SYS:018A CB            RETF
 ```
 
 ## Flush Input and Output File/Device
-```
+```nasm
 SYS:018B B85601        MOV	AX,OFFSET Input
 SYS:018E 1E            PUSH	DS
 SYS:018F 50            PUSH	AX
@@ -331,7 +331,7 @@ SYS:019A E82102        CALL	03BE
 ```
 
 ## Restore Interrupt Vectors
-```
+```nasm
 SYS:019D BF5603        MOV	DI,OFFSET SaveInt00
 SYS:01A0 BE3902        MOV	SI,0239
 SYS:01A3 B91300        MOV	CX,0013
@@ -349,7 +349,7 @@ SYS:01B5 E2F0          LOOP	01A7
 ```
 
 ## Exit
-```
+```nasm
 SYS:01B7 A13400        MOV	AX,[ErrorAddr.Offset]
 SYS:01BA 0B063600      OR	AX,[ErrorAddr.Segment]
 SYS:01BE 7429          JZ	01E9
@@ -373,7 +373,7 @@ SYS:01EE CD21          INT	21
 ```
 
 ## Print string directly to console
-```
+```nasm
 SYS:01F0 2E            CS:
 SYS:01F1 8A07          MOV	AL,[BX]
 SYS:01F3 0AC0          OR	AL,AL
@@ -385,7 +385,7 @@ SYS:01FD C3            RET
 ```
 
 ## Print character/digit directly to console
-```
+```nasm
 SYS:01FE B164          MOV	CL,64
 SYS:0200 E80700        CALL	020A
 SYS:0203 B10A          MOV	CL,0A
@@ -426,7 +426,7 @@ SYS:0240  35 36 37 38 39 3A 3B 3C-3D 3E 3F 75
 ```
 
 ## SYS:024C Runtime error strings
-```
+```nasm
 SYS:024C                                      52 75 6E 74               Runt
 SYS:0250  69 6D 65 20 65 72 72 6F-72 20 00                  ime error
 SYS:025B                                   20 61 74 20 00               at
@@ -447,14 +447,14 @@ SYS:0280  39 32 20 42 6F 72 6C 61-6E 64                     92 Borland
 ```
 
 ## Clear I/O Result
-```
+```nasm
 SYS:028A 33C0          XOR	AX,AX
 SYS:028C 87063C00      XCHG	AX,[InOutRes]
 SYS:0290 CB            RETF
 ```
 
 ## Check I/O Result
-```
+```nasm
 SYS:0291 833E3C0000    CMP	WORD PTR [InOutRes],+00
 SYS:0296 7501          JNZ	0299
 SYS:0298 CB            RETF
@@ -463,7 +463,7 @@ SYS:029C E970FE        JMP	010F
 ```
 
 ## Range check
-```
+```nasm
 SYS:029F 8BF4          MOV	SI,SP
 SYS:02A1 36            SS:
 SYS:02A2 8E4402        MOV	ES,[SI+02]
@@ -485,19 +485,19 @@ SYS:02C0 CB            RETF
 ```
 
 ## Range Error
-```
+```nasm
 SYS:02C1 B8C900        MOV	AX,00C9
 SYS:02C4 E948FE        JMP	010F
 ```
 
 ## Arithmetic Overflow Error
-```
+```nasm
 SYS:02C7 B8D700        MOV	AX,00D7
 SYS:02CA E942FE        JMP	010F
 ```
 
 ## Check Stack
-```
+```nasm
 SYS:02CD 050002        ADD	AX,0200
 SYS:02D0 720D          JB	02DF
 SYS:02D2 2BC4          SUB	AX,SP
@@ -516,7 +516,7 @@ SYS:02E5  BA
 ```
 
 ## Open File Function
-```
+```nasm
 SYS:02E6 33D2          XOR	DX,DX
 SYS:02E8 8BDC          MOV	BX,SP
 SYS:02EA 1E            PUSH	DS
@@ -567,7 +567,7 @@ SYS:0336 CA0800        RETF	0008
 ```
 
 ## Unknown code block
-```
+```nasm
 SYS:0339 8BDC          MOV	BX,SP
 SYS:033B 36            SS:
 SYS:033C C47F0A        LES	DI,[BX+0A]
@@ -592,19 +592,19 @@ SYS:0361 CA0A00        RETF	000A
 ```
 
 ## Entry point for Reset
-```
+```nasm
 SYS:0364 BAB1D7        MOV	DX,fmInput
 SYS:0367 EB08          JMP	0371
 ```
 
 ## Entry point for Rewrite
-```
+```nasm
 SYS:0369 BAB2D7        MOV	DX,fmOutput
 SYS:036C EB03          JMP	0371
 ```
 
 ## Common code for Reset/Rewrite
-```
+```nasm
 SYS:036E BAB3D7        MOV	DX,fmInOut
 SYS:0371 55            PUSH	BP
 SYS:0372 8BEC          MOV	BP,SP
@@ -635,7 +635,7 @@ SYS:03A5 89450A        MOV	[DI:BufEnd],AX
 ```
 
 ## Open File
-```
+```nasm
 SYS:03A8 BB1000        MOV	BX,0010
 SYS:03AB E84C00        CALL	03FA
 SYS:03AE 7406          JZ	03B6
@@ -646,13 +646,13 @@ SYS:03B7 CA0400        RETF	0004
 ```
 
 ## Entry point for I/O Function Call
-```
+```nasm
 SYS:03BA B000          MOV	AL,00
 SYS:03BC EB02          JMP	03C0
 ```
 
 ## Entry point for I/O Function Call
-```
+```nasm
 SYS:03BE B001          MOV	AL,01
 SYS:03C0 55            PUSH	BP
 SYS:03C1 8BEC          MOV	BP,SP
@@ -668,7 +668,7 @@ SYS:03DC EB18          JMP	03F6
 ```
 
 ## Perform I/O
-```
+```nasm
 SYS:03DE 50            PUSH	AX
 SYS:03DF BB1400        MOV	BX,0014
 SYS:03E2 E81500        CALL	03FA
@@ -678,7 +678,7 @@ SYS:03E8 740C          JZ	03F6
 ```
 
 ## Close File
-```
+```nasm
 SYS:03EA BB1C00        MOV	BX,001C
 SYS:03ED E80A00        CALL	03FA
 SYS:03F0 26            ES:
@@ -688,7 +688,7 @@ SYS:03F7 CA0400        RETF	0004
 ```
 
 ## I/O Function Call Dispatcher
-```
+```nasm
 SYS:03FA 06            PUSH	ES
 SYS:03FB 57            PUSH	DI
 SYS:03FC 06            PUSH	ES
@@ -704,7 +704,7 @@ SYS:040A C3            RET
 ```
 
 ## InOutFunc Handler (I)
-```
+```nasm
 SYS:040B 8BDC          MOV	BX,SP
 SYS:040D 1E            PUSH	DS
 SYS:040E 36            SS:
@@ -731,7 +731,7 @@ SYS:0439 EBEE          JMP	0429
 ```
 
 ## InOutFunc Handler (II)
-```
+```nasm
 SYS:043B 8BDC          MOV	BX,SP
 SYS:043D 1E            PUSH	DS
 SYS:043E 36            SS:
@@ -754,7 +754,7 @@ SYS:045D CA0400        RETF	0004
 ```
 
 ## InOutFunc Handler (III)
-```
+```nasm
 SYS:0460 8BDC          MOV	BX,SP
 SYS:0462 1E            PUSH	DS
 SYS:0463 36            SS:
@@ -775,7 +775,7 @@ SYS:047D CA0400        RETF	0004
 ```
 
 ## CloseFunc Handler
-```
+```nasm
 SYS:0480 8BDC          MOV	BX,SP
 SYS:0482 36            SS:
 SYS:0483 C47F04        LES	DI,[BX+04]
@@ -791,7 +791,7 @@ SYS:0496 CA0400        RETF	0004
 ```
 
 ## OpenFunc Handler
-```
+```nasm
 SYS:0499 8BDC          MOV	BX,SP
 SYS:049B 1E            PUSH	DS
 SYS:049C 36            SS:
@@ -847,7 +847,7 @@ SYS:0523 CA0400        RETF	0004
 ```
 
 ## OpenFunc Handler: Seek
-```
+```nasm
 SYS:0526 33D2          XOR	DX,DX
 SYS:0528 33C9          XOR	CX,CX
 SYS:052A 8B1D          MOV	BX,[DI:Handle]
@@ -890,7 +890,7 @@ SYS:057D CD21          INT	21
 SYS:057F C3            RET
 ```
 
-```
+```nasm
 SYS:0580 81F70080      XOR	DI,8000
 SYS:0584 0AC9          OR	CL,CL
 SYS:0586 747B          JZ	0603
@@ -908,27 +908,27 @@ SYS:059B 7367          JNB	0604
 SYS:059D 86C1          XCHG	AL,CL
 ```
 
-```
+```nasm
 SYS:059F 55            PUSH	BP
 SYS:05A0 50            PUSH	AX
 ```
 
 Save **BP** and **AX**.
 
-```
+```nasm
 SYS:05A1 8AE6          MOV	AH,DH
 SYS:05A3 80E480        AND	AH,80
 SYS:05A6 8BE8          MOV	BP,AX
 SYS:05A8 33C7          XOR	AX,DI
 ```
 
-```
+```nasm
 SYS:05AA 58            POP	AX
 ```
 
 Restore **AX** (saved in **SYS:05A0**).
 
-```
+```nasm
 SYS:05AB 9C            PUSHF
 SYS:05AC B000          MOV	AL,00
 SYS:05AE 80CE80        OR	DH,80
@@ -945,13 +945,13 @@ SYS:05C6 80E908        SUB	CL,08
 SYS:05C9 EBEA          JMP	05B5
 ```
 
-```
+```nasm
 SYS:05CB 0AC9          OR	CL,CL
 SYS:05CD 740A          JZ	05D9
 ```
 
 ## Adjust Number and Exponent
-```
+```nasm
 SYS:05CF D1EA          SHR	DX,1
 SYS:05D1 D1DB          RCR	BX,1
 SYS:05D3 D1D8          RCR	AX,1
@@ -960,34 +960,34 @@ SYS:05D5 FEC9          DEC	CL
 
 This shifts the **MSW** in **DX** by one power of two (to the right) and adjust the exponent **CL**, i.e **DX**:**BX**:**AX** * 2^(**-1**), **CL** = **CL - 1**.
 
-```
+```nasm
 SYS:05D7 75F6          JNZ	05CF
 SYS:05D9 9D            POPF
 SYS:05DA 7837          JS	0613
 ```
 
-```
+```nasm
 SYS:05DC 03C1          ADD	AX,CX
 SYS:05DE 13DE          ADC	BX,SI
 SYS:05E0 13D7          ADC	DX,DI
 ```
 
-Add **DI**:**SI**:**CX** to **DX**:**BX**:**AX** (handle all carries). 
+Add **DI**:**SI**:**CX** to **DX**:**BX**:**AX** (handle all carries).
 
-```
+```nasm
 SYS:05E2 8BCD          MOV	CX,BP
 SYS:05E4 5D            POP	BP
 ```
 
 Transfer **BP** to **CX** then restore **BP** (saved in **SYS:059F**).
 
-```
+```nasm
 SYS:05E5 730A          JNB	05F1
 ```
 
 Check if there was an overflow in **SYS:05E0** then adjust.
 
-```
+```nasm
 SYS:05E7 D1DA          RCR	DX,1
 SYS:05E9 D1DB          RCR	BX,1
 SYS:05EB D1D8          RCR	AX,1
@@ -996,13 +996,13 @@ SYS:05ED FEC1          INC	CL
 
 Shifts **DX**:**BX**:**AX** to the right once but compensate for it by increasing **CL**.
 
-```
+```nasm
 SYS:05EF 7420          JZ	0611
 ```
 
 If adjustment in **CL** causes the value to wrap around to 0, then return immediately with carry flag set (**SYS:0611**).
 
-```
+```nasm
 SYS:05F1 058000        ADD	AX,0080
 SYS:05F4 83D300        ADC	BX,+00
 SYS:05F7 83D200        ADC	DX,+00
@@ -1011,7 +1011,7 @@ SYS:05FA 720F          JB	060B
 
 Test if exponent in **AX** causes an overflow.
 
-```
+```nasm
 SYS:05FC 8AC1          MOV	AL,CL
 SYS:05FE 80E67F        AND	DH,7F
 SYS:0601 0AF5          OR	DH,CH
@@ -1020,7 +1020,7 @@ SYS:0603 C3            RET
 
 Copy the adjusted exponent in **CL** to **AL**. Clear the sign bit in **DH** then copy over the adjusted **MSB** in **CH** to **DH**. Return.
 
-```
+```nasm
 SYS:0604 8BC1          MOV	AX,CX
 SYS:0606 8BDE          MOV	BX,SI
 SYS:0608 8BD7          MOV	DX,DI
@@ -1030,14 +1030,14 @@ SYS:060A C3            RET
 Copy the adjusted number in DI:SI:CX to **DX**:**BX**:**AX** then return.
 
 ## Adjust MSW and Exponent
-```
+```nasm
 SYS:060B D1DA          RCR	DX,1
 SYS:060D FEC1          INC	CL
 ```
 
-This shifts the **MSW** in **DX** by one power of two (to the right) but compensates for it in **CL**, i.e **DX** * 2^(**CL - 1**) * 2^(**CL + 1**). 
+This shifts the **MSW** in **DX** by one power of two (to the right) but compensates for it in **CL**, i.e **DX** * 2^(**CL - 1**) * 2^(**CL + 1**).
 
-```
+```nasm
 SYS:060F 75EB          JNZ	05FC
 SYS:0611 F9            STC
 SYS:0612 C3            RET
@@ -1045,7 +1045,7 @@ SYS:0612 C3            RET
 
 If the result wraps **CL** back to **0**, then return with CF set (**SYS:0611**) otherwise continue to **SYS:05FC**.
 
-```
+```nasm
 SYS:0613 2BC1          SUB	AX,CX
 SYS:0615 1BDE          SBB	BX,SI
 SYS:0617 1BD7          SBB	DX,DI
@@ -1053,7 +1053,7 @@ SYS:0617 1BD7          SBB	DX,DI
 
 Subtract **DI**:**SI**:**CX** from **DX**:**BX**:**AX**.
 
-```
+```nasm
 SYS:0619 8BCD          MOV	CX,BP
 SYS:061B 5D            POP	BP
 SYS:061C 7310          JNB	062E
@@ -1072,7 +1072,7 @@ SYS:0636 0AF6          OR	DH,DH
 SYS:0638 78B7          JS	05F1
 ```
 
-```
+```nasm
 SYS:063A D1E0          SHL	AX,1
 SYS:063C D1D3          RCL	BX,1
 SYS:063E D1D2          RCL	DX,1
@@ -1080,11 +1080,11 @@ SYS:0640 FEC9          DEC	CL
 SYS:0642 75F2          JNZ	0636
 ```
 
-Multiply **DX**:**BX**:**AX** 2 then decrease the exponent in **CL**. This has the same effect just shifting the significand but preserving the overall magnitiude of the number, i.e. ```(A * 2) * 2^-1```. If CL drops to zero, then set **DX**:**BX**:**AX** to 0 instead. 
+Multiply **DX**:**BX**:**AX** 2 then decrease the exponent in **CL**. This has the same effect just shifting the significand but preserving the overall magnitiude of the number, i.e. ```(A * 2) * 2^-1```. If CL drops to zero, then set **DX**:**BX**:**AX** to 0 instead.
 
 ## Jump point en route to setting **DX**:**BX**:**AX** to zero
 
-```
+```nasm
 SYS:0644 E9FC00        JMP	0743
 ```
 
@@ -1095,40 +1095,40 @@ This is step 7b of the conversion. At this point:
 
 For the number we are trying to convert, following number is loaded into **DI**:**SI**:**CX** = **000000000081h**.
 
-```
+```nasm
 SYS:0647 0AC0          OR	AL,AL
 SYS:0649 74F9          JZ	0644
 ```
 
 Return with **DX**:**BX**:**AX** = ***0*** if the **exponent** in **AL** is 0.
 
-```
+```nasm
 SYS:064B 0AC9          OR	CL,CL
 SYS:064D 74F5          JZ	0644
 ```
 
 Return with **DX**:**BX**:**AX** = ***0*** if the **exponent** in **CL** is 0.
 
-```
+```nasm
 SYS:064F 55            PUSH	BP
 ```
 
 Save **BP** which keeps track of the parameters and immediate results as well as locations to the temporary buffers.
 
-```
+```nasm
 SYS:0650 8BEA          MOV	BP,DX
 ```
 
 Save **DX** into **BP**.
 
-```
+```nasm
 SYS:0652 33D7          XOR	DX,DI
 SYS:0654 81E20080      AND	DX,8000
 ```
 
 Complement the sign bit in **DI** into **DX**. Clear all the bits except for the sign bit in **DX**.
 
-```
+```nasm
 SYS:0658 86D0          XCHG	DL,AL
 SYS:065A 02D1          ADD	DL,CL
 SYS:065C 12F0          ADC	DH,AL
@@ -1137,20 +1137,20 @@ SYS:065E 8AC8          MOV	CL,AL
 
 Copy the exponent in **AL** into **DL**. Add the exponent in **CL** to **DL**. Add the overflow in **SYS**:**065A** to **DH**. Clear **CL**.
 
-```
+```nasm
 SYS:0660 81CD0080      OR	BP,8000
 SYS:0664 81CF0080      OR	DI,8000
 ```
 
 Set the sign bits of **BP** and **DI**.
 
-```
+```nasm
 SYS:0668 52            PUSH	DX
 ```
 
 Save **DX**.
 
-```
+```nasm
 SYS:0669 0AE4          OR	AH,AH
 SYS:066B 7504          JNZ	0671
 SYS:066D 0BDB          OR	BX,BX
@@ -1177,11 +1177,11 @@ SYS:0695 83D200        ADC	DX,+00
 SYS:0698 EB7C          JMP	0716
 ```
 
-```
+```nasm
 SYS:069A 90            NOP
 ```
 
-```
+```nasm
 SYS:069B 57            PUSH	DI
 SYS:069C 56            PUSH	SI
 SYS:069D 51            PUSH	CX
@@ -1203,31 +1203,31 @@ Save both numbers **DI**:**SI**:**CX** and **BP**:**BX**:**AX**.
 |BP+0A|DI      |
 |BP+0C|DI      |
 
-```
+```nasm
 SYS:06A1 8BEC          MOV	BP,SP
 ```
 
 Point **BP** to top of stack (**SP**).
 
-```
+```nasm
 SYS:06A3 33C9          XOR	CX,CX
 ```
 
 Clear **CX**.
 
-```
+```nasm
 SYS:06A5 8A4601        MOV	AL,[BP+01]
 ```
 
 Load **AH** (from the stack) into **AL**.
 
-```
+```nasm
 SYS:06A8 F66607        MUL	BYTE PTR [BP+07]
 ```
 
 Multiply **CH** (from stack) to **AL** and store in **AL**.
 
-```
+```nasm
 SYS:06AB 8BF0          MOV	SI,AX
 SYS:06AD 8BF9          MOV	DI,CX
 SYS:06AF 8BD9          MOV	BX,CX
@@ -1235,7 +1235,7 @@ SYS:06AF 8BD9          MOV	BX,CX
 
 Clear **BX**, **SI**, **DI** (**CX** = 0 from **SYS:06A3**).
 
-```
+```nasm
 SYS:06B1 8B4600        MOV	AX,[BP+00]
 SYS:06B4 F76608        MUL	WORD PTR [BP+08]
 SYS:06B7 03F0          ADD	SI,AX
@@ -1305,7 +1305,7 @@ SYS:0742 C3            RET
 
 ## Clear number
 
-```
+```nasm
 SYS:0743 33C0          XOR	AX,AX
 SYS:0745 8BD8          MOV	BX,AX
 SYS:0747 8BD0          MOV	DX,AX
@@ -1318,14 +1318,14 @@ This is step 7a of the conversion. At this point:
 - **DI**:**SI**:**CX** holds the adjusted ***Real*** number obtained from **SYS:0C35-0C70**.
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted.
 
-```
+```nasm
 SYS:074A 0AC0          OR	AL,AL
 SYS:074C 74F5          JZ	0743
 ```
 
 Return with the number **DX**:**BX**:**AX** set to 0 if the exponent in **AL** is **0**.
 
-```
+```nasm
 SYS:074E 55            PUSH	BP
 SYS:074F 8BEA          MOV	BP,DX
 SYS:0751 33D7          XOR	DX,DI
@@ -1392,7 +1392,7 @@ SYS:07CA 5A            POP	DX
 SYS:07CB C3            RET
 ```
 
-```
+```nasm
 SYS:07CC F6C680        TEST	DH,80
 SYS:07CF 7407          JZ	07D8
 SYS:07D1 E80400        CALL	07D8
@@ -1401,7 +1401,7 @@ SYS:07D6 F5            CMC
 SYS:07D7 C3            RET
 ```
 
-```
+```nasm
 SYS:07D8 3AC1          CMP	AL,CL
 SYS:07DA 750E          JNZ	07EA
 SYS:07DC 0AC0          OR	AL,AL
@@ -1414,7 +1414,7 @@ SYS:07E8 3AE5          CMP	AH,CH
 SYS:07EA C3            RET
 ```
 
-```
+```nasm
 SYS:07EB 8BD8          MOV	BX,AX
 SYS:07ED 0BDA          OR	BX,DX
 SYS:07EF 7435          JZ	0826
@@ -1446,7 +1446,7 @@ SYS:0823 80E67F        AND	DH,7F
 SYS:0826 C3            RET
 ```
 
-```
+```nasm
 SYS:0827 93            XCHG	BX,AX
 SYS:0828 B1A0          MOV	CL,A0
 SYS:082A 2ACB          SUB	CL,BL
@@ -1495,7 +1495,7 @@ SYS:0887 02DB          ADD	BL,BL
 SYS:0889 C3            RET
 ```
 
-```
+```nasm
 SYS:088A 8AFE          MOV	BH,DH
 SYS:088C B80000        MOV	AX,0000
 SYS:088F BA0000        MOV	DX,0000
@@ -1503,7 +1503,7 @@ SYS:0892 74D2          JZ	0866
 SYS:0894 C3            RET
 ```
 
-```
+```nasm
 SYS:0895 8BCF          MOV	CX,DI
 SYS:0897 BE0A00        MOV	SI,000A
 SYS:089A 8BDA          MOV	BX,DX
@@ -1520,7 +1520,7 @@ SYS:08AF 41            INC	CX
 SYS:08B0 C3            RET
 ```
 
-```
+```nasm
 SYS:08B1 33D2          XOR	DX,DX
 SYS:08B3 93            XCHG	BX,AX
 SYS:08B4 F7F6          DIV	SI
@@ -1540,7 +1540,7 @@ SYS:08CE 2BCF          SUB	CX,DI
 SYS:08D0 C3            RET
 ```
 
-```
+```nasm
 SYS:08D1 33C0          XOR	AX,AX
 SYS:08D3 33D2          XOR	DX,DX
 SYS:08D5 33F6          XOR	SI,SI
@@ -1597,12 +1597,12 @@ SYS:0933 7801          JS	0936
 SYS:0935 C3            RET
 ```
 
-```
+```nasm
 SYS:0936 F9            STC
 SYS:0937 C3            RET
 ```
 
-```
+```nasm
 SYS:0938 47            INC	DI
 SYS:0939 49            DEC	CX
 SYS:093A 74FA          JZ	0936
@@ -1643,7 +1643,7 @@ This is step 2 of the conversion. At this point:
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted
 - **CX** holds the desired precision.
 
-```
+```nasm
 SYS:0978 55            PUSH	BP
 SYS:0979 8BEC          MOV	BP,SP
 SYS:097B 83EC14        SUB	SP,+14
@@ -1660,13 +1660,13 @@ Reserve **14h/20** bytes in the stack and setup BP as index to the items on the 
 |BP-02|Precision/Exponent         |
 |BP+00|Old BP                     |
 
-```
+```nasm
 SYS:097E 57            PUSH	DI
 ```
 
 Preserve **DI**.
 
-```
+```nasm
 SYS:097F 83F90B        CMP	CX,+0B
 SYS:0982 7E03          JLE	0987
 SYS:0984 B90B00        MOV	CX,000B
@@ -1677,21 +1677,21 @@ SYS:098C B9F5FF        MOV	CX,FFF5
 
 Limits the precision to **000Bh**/**12** (or **FFF5h**/**-12**).
 
-```
+```nasm
 SYS:098F 894EFE        MOV	[BP-02],CX
 SYS:0992 8876FC        MOV	[BP-04],DH
 ```
 
 Record the final **precision** in **SS**:[**BP-02**] and the numbers' **MSB** (most significant byte) in **SS**:[**BP-04**].
 
-```
+```nasm
 SYS:0995 06            PUSH	ES
 SYS:0996 57            PUSH	DI
 ```
 
 Once more, **ES**:**DI** onto the stack.
 
-```
+```nasm
 SYS:0997 8D7EEC        LEA	DI,[BP-14]
 SYS:099A 16            PUSH	SS
 SYS:099B 07            POP	ES
@@ -1699,13 +1699,13 @@ SYS:099B 07            POP	ES
 
 Point **ES**:**DI** to the 20 bytes reserved earlier (at **SS**:[**BP-14**]).
 
-```
+```nasm
 SYS:099C E8D100        CALL	0A70
 ```
 
 Proceed to the next step of the conversion (at **SYS:0A70**).
 
-```
+```nasm
 SYS:099F 5F            POP	DI
 SYS:09A0 07            POP	ES
 ```
@@ -1716,26 +1716,26 @@ Restore **ES**:**DI** (saved in **SYS**:**0995**)
 
 This routine will perform any rounding-off on the converted digits stored **SS**:[**BP-14**]
 
-```
+```nasm
 SYS:09A1 894EFA        MOV	[BP-06],CX
 ```
 
 Save adjusted precision in **CX** to stack without modifying **BP**.
 
-```
+```nasm
 SYS:09A4 8B76FE        MOV	SI,[BP-02]
 ```
 
 Retrieve original **precision** stored previously on the stack (saved in **SYS:098F**).
 
-```
+```nasm
 SYS:09A7 0BF6          OR	SI,SI
 SYS:09A9 780C          JS	09B7
 ```
 
 Check if **SI** is signed / negative.
 
-```
+```nasm
 SYS:09AB 0376FA        ADD	SI,[BP-06]
 SYS:09AE 46            INC	SI
 SYS:09AF 7908          JNS	09B9
@@ -1747,13 +1747,13 @@ SYS:09BC 7203          JB	09C1
 ```
 
 ### Round off up to **0Bh**/**11** digits
-```
+```nasm
 SYS:09BE BE0B00        MOV	SI,000B
 ```
 
 Move pointer (in **SI**) to end of the string.
 
-```
+```nasm
 SYS:09C1 807AEC35      CMP	BYTE PTR [BP+SI-14],35
 SYS:09C5 C642EC00      MOV	BYTE PTR [BP+SI-14],00
 SYS:09C9 721A          JB	09E5
@@ -1761,25 +1761,25 @@ SYS:09C9 721A          JB	09E5
 
 Check if digit is below **'5'**/**35h**.
 
-```
+```nasm
 SYS:09CB 4E            DEC	SI
 ```
 
 Move pointer **SI** one digit to one byte to the left (of the string).
 
-```
+```nasm
 SYS:09CC 780F          JS	09DD
 ```
 
 Check if the sign (of **SI**) changes, i.e. if it is already on the first digit (after the decimal point).
 
-```
+```nasm
 SYS:09CE FE42EC        INC	BYTE PTR [BP+SI-14]
 ```
 
 Round up the digit at this location.
 
-```
+```nasm
 SYS:09D1 807AEC39      CMP	BYTE PTR [BP+SI-14],39
 SYS:09D5 760E          JBE	09E5
 SYS:09D7 C642EC00      MOV	BYTE PTR [BP+SI-14],00
@@ -1788,21 +1788,21 @@ SYS:09DB EBEE          JMP	09CB
 
 Check if the digit is below or equal to **'9'**/**39h**. If the value of the byte at this location is greater than **'9'** mark it as **NULL** then repeat the operation. Otherwise, the round up operation is complete.
 
-```
+```nasm
 SYS:09DD C746EC3100    MOV	WORD PTR [BP-14],0031
 SYS:09E2 FF46FA        INC	WORD PTR [BP-06]
 ```
 
 Round up the number to **1**. Increase the precision/exponent in **SS**:[**BP-06**].
 
-```
+```nasm
 SYS:09E5 33F6          XOR	SI,SI
 SYS:09E7 FC            CLD
 ```
 
 Reset the index (in **SI**) to 0.
 
-```
+```nasm
 SYS:09E8 8B56FE        MOV	DX,[BP-02]
 SYS:09EB 0BD2          OR	DX,DX
 SYS:09ED 7835          JS	0A24
@@ -1810,7 +1810,7 @@ SYS:09ED 7835          JS	0A24
 
 Retrieve the exponent from **SS**:[**BP-02**] and check if it is signed.
 
-```
+```nasm
 SYS:09EF F646FC80      TEST	BYTE PTR [BP-04],80
 SYS:09F3 7403          JZ	09F8
 SYS:09F5 B02D          MOV	AL,2D
@@ -1842,7 +1842,7 @@ SYS:0A21 AA            STOSB
 SYS:0A22 EBF7          JMP	0A1B
 ```
 
-```
+```nasm
 SYS:0A24 B020          MOV	AL,20
 SYS:0A26 F646FC80      TEST	BYTE PTR [BP-04],80
 SYS:0A2A 7402          JZ	0A2E
@@ -1850,40 +1850,40 @@ SYS:0A2A 7402          JZ	0A2E
 
 Check if the number is negative (using the **MSB** stored at **SS**:[**BP-04**]). If it is positive, set a whitespace (20h) character in **AL**.
 
-```
+```nasm
 SYS:0A2C B02D          MOV	AL,2D
 ```
 
 The number is negative, set a **'-'**/**2Dh** character in **AL** instead.
 
-```
+```nasm
 SYS:0A2E AA            STOSB
 ```
 
 Store the sign in output buffer buffer.
 
-```
+```nasm
 SYS:0A2F E83200        CALL	0A64
 SYS:0A32 AA            STOSB
 ```
 
 Retrieve next digit and store in buffer (on the call to **SYS:0A64**).
 
-```
+```nasm
 SYS:0A33 42            INC	DX
 SYS:0A34 740A          JZ	0A40
 ```
 
 Increase character count **DX** and check if all the digits (before the decimal point) have been stored in **ES**:**DI**.
 
-```
+```nasm
 SYS:0A36 B02E          MOV	AL,2E
 SYS:0A38 AA            STOSB
 ```
 
 Store the decimal point **'.'**/**2Eh**.
 
-```
+```nasm
 SYS:0A39 E82800        CALL	0A64
 SYS:0A3C AA            STOSB
 SYS:0A3D 42            INC	DX
@@ -1892,14 +1892,14 @@ SYS:0A3E 75F9          JNZ	0A39
 
 Retrieve the next digits then store it.
 
-```
+```nasm
 SYS:0A40 B045          MOV	AL,45
 SYS:0A42 AA            STOSB
 ```
 
 Store the **'E'**/**45h** or character (for the scientific notation).
 
-```
+```nasm
 SYS:0A43 B02B          MOV	AL,2B
 SYS:0A45 8B56FA        MOV	DX,[BP-06]
 SYS:0A48 0BD2          OR	DX,DX
@@ -1908,20 +1908,20 @@ SYS:0A4A 7904          JNS	0A50
 
 Prepare the **'+'**/**2B** character. Retrieve the exponent in **DX** from **SS**:[**BP-06**]. Test whetherthe exponent is positive.
 
-```
+```nasm
 SYS:0A4C B02D          MOV	AL,2D
 SYS:0A4E F7DA          NEG	DX
 ```
 
 Preepare **'+'**/**2D** character and negate the exponent in **DX** because the exponent was negative.
 
-```
+```nasm
 SYS:0A50 AA            STOSB
 ```
 
 Store this sign at the oputput buffer.
 
-```
+```nasm
 SYS:0A51 8BC2          MOV	AX,DX
 SYS:0A53 B20A          MOV	DL,0A
 SYS:0A55 F6FA          IDIV	DL
@@ -1929,19 +1929,19 @@ SYS:0A55 F6FA          IDIV	DL
 
 Move the exponent to **AX**. Convert the exponent in **AL** by doing a signed division of **AL** by **DL**. The quotient will be stored in **AL** while the remainder is stored in **AH**.
 
-```
+```nasm
 SYS:0A57 053030        ADD	AX,3030
 ```
 
 Convert both bytes of the result in **AX** into ASCII.
 
-```
+```nasm
 SYS:0A5A AB            STOSW
 ```
 
 Store **AX** into the output buffer. Because the remainder is in **AX**, storing the word will actually store **AL** first then followed by **AH** next.
 
-```
+```nasm
 SYS:0A5B 8BCF          MOV	CX,DI
 SYS:0A5D 5F            POP	DI
 SYS:0A5E 2BCF          SUB	CX,DI
@@ -1949,13 +1949,13 @@ SYS:0A5E 2BCF          SUB	CX,DI
 
 Compute for the number of characters rendered in **CX** by computing for **CX-DI**.
 
-```
+```nasm
 SYS:0A60 8BE5          MOV	SP,BP
 ```
 
 Restore SP (modified in **SYS:097B**).
 
-```
+```nasm
 SYS:0A62 5D            POP	BP
 SYS:0A63 C3            RET
 ```
@@ -1963,7 +1963,7 @@ SYS:0A63 C3            RET
 Restore **BP** then return.
 
 ### Retrieve next character from buffer
-```
+```nasm
 SYS:0A64 8A42EC        MOV	AL,[BP+SI-14]
 SYS:0A67 46            INC	SI
 SYS:0A68 0AC0          OR	AL,AL
@@ -1982,14 +1982,14 @@ This is step 3 of the conversion. At this point:
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted
 - **CX** holds the desired precision.
 
-```
+```nasm
 SYS:0A70 0AC0          OR	AL,AL
 SYS:0A72 750D          JNZ	0A81
 ```
 
 Proceed to the next step (at **SYS:0A81**) if the exponent is non-zero.
 
-```
+```nasm
 SYS:0A74 B90600        MOV	CX,0006
 SYS:0A77 B83030        MOV	AX,3030
 SYS:0A7A FC            CLD
@@ -2009,19 +2009,19 @@ This is step 4 the conversion. At this point:
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted
 - **CX** holds the desired precision.
 
-```
+```nasm
 SYS:0A81 80E67F        AND	DH,7F
 ```
 
 Clear the sign flag (bit 7 of the number's **MSB**).
 
-```
+```nasm
 SYS:0A84 50            PUSH	AX
 ```
 
 Save the exponent in **AX** onto the stack.
 
-```
+```nasm
 SYS:0A85 2C80          SUB	AL,80
 SYS:0A87 B44D          MOV	AH,4D
 SYS:0A89 F6EC          IMUL	AH
@@ -2033,13 +2033,13 @@ SYS:0A91 8BC8          MOV	CX,AX
 
 Calculate needed adjustments to the exponent into **CX**.
 
-```
+```nasm
 SYS:0A93 58            POP	AX
 ```
 
 Restore **AX** to the saved value (**exponent**)  in the stack.
 
-```
+```nasm
 SYS:0A94 83F9D9        CMP	CX,-27
 SYS:0A97 7501          JNZ	0A9A
 SYS:0A99 41            INC	CX
@@ -2047,33 +2047,33 @@ SYS:0A99 41            INC	CX
 
 Check if CX needs further adjustment (if equal to **FFD9h**/**-27**).
 
-```
+```nasm
 SYS:0A9A 51            PUSH	CX
 SYS:0A9B 57            PUSH	DI
 ```
 
 Save **CX** and **DI**.
 
-```
+```nasm
 SYS:0A9C F7D9          NEG	CX
 ```
 
 Reverse the sign of **CX**.
 
-```
+```nasm
 SYS:0A9E E84401        CALL	0BE5
 ```
 
 Proceed to the next step in the conversion (at **SYS:0BE5**).
 
-```
+```nasm
 SYS:0AA1 5F            POP	DI
 SYS:0AA2 59            POP	CX
 ```
 
 Restore **CX** and **DI** (saved in **SYS**:**0A9A**).
 
-```
+```nasm
 SYS:0AA3 3C81          CMP	AL,81
 SYS:0AA5 7304          JNB	0AAB
 SYS:0AA7 E8C701        CALL	0C71
@@ -2082,7 +2082,7 @@ SYS:0AAA 49            DEC	CX
 
 If the number needs further adjustment call **SYS**:**0C71** then decrease the **precsion**.
 
-```
+```nasm
 SYS:0AAB 51            PUSH	CX
 ```
 
@@ -2094,13 +2094,13 @@ Save **CX** (precision).
 
 This routine is the entry point for the actual conversion to ASCII. At this point, **DX**:**BX**:**AX** is in the normalized form after undergoing previous adjustments.
 
-```
+```nasm
 SYS:0AAC 80CE80        OR	DH,80
 ```
 
 Set the sign-bit (**bit 7**) in **DH**.
 
-```
+```nasm
 SYS:0AAF B184          MOV	CL,84
 SYS:0AB1 2AC8          SUB	CL,AL
 SYS:0AB3 B000          MOV	AL,00
@@ -2109,7 +2109,7 @@ SYS:0AB5 740A          JZ	0AC1
 
 Check if **DX**:**BX**:**AX** needs to be shifted right based on the exponent in **AL**. The amount of shifts are computed and stored in **CL**. Shifting will only be done on the significand (excluding **AL**, hence it is cleared prior).
 
-```
+```nasm
 SYS:0AB7 D1EA          SHR	DX,1
 SYS:0AB9 D1DB          RCR	BX,1
 SYS:0ABB D1D8          RCR	AX,1
@@ -2123,13 +2123,13 @@ This shifts the number **DX**:**BX**:**AH**:**00h** to the right one bit at a ti
 
 This routine does the actual conversion to ASCII. At this point **DX**:**BX**:**AH:00h** contains the final normalized form of the the number (without the exponent). In the final normalized form, the upper bits (bit **4-7**) of **DH** should already contain the first 'digit' in base 10.
 
-```
+```nasm
 SYS:0AC1 BE0C00        MOV	SI,000C
 ```
 
 Convert up to **0Ch**/**12** digits.
 
-```
+```nasm
 SYS:0AC4 8AEE          MOV	CH,DH
 SYS:0AC6 B104          MOV	CL,04
 SYS:0AC8 D2ED          SHR	CH,CL
@@ -2137,7 +2137,7 @@ SYS:0AC8 D2ED          SHR	CH,CL
 
 Get the upper bits of the number (in **DH**) into **CH**.
 
-```
+```nasm
 SYS:0ACA 80C530        ADD	CH,30
 SYS:0ACD 26            ES:
 SYS:0ACE 882D          MOV	[DI],CH
@@ -2145,13 +2145,13 @@ SYS:0ACE 882D          MOV	[DI],CH
 
 Convert the base digit in **CH** to ASCII by adding it to '**0**'/**30h**.
 
-```
+```nasm
 SYS:0AD0 80E60F        AND	DH,0F
 ```
 
 Clear the upper bits of the number.
 
-```
+```nasm
 SYS:0AD3 52            PUSH	DX
 SYS:0AD4 53            PUSH	BX
 SYS:0AD5 50            PUSH	AX
@@ -2183,7 +2183,7 @@ This entire sequence multiplies the number by **10**. It does this first by push
 
 This is done in this manner so that the multiplication is done in place instead of using **MUL**/**IMUL** then preserving and swapping in and out of **DX** and **AX** regulary. It is more efficient this way.
 
-```
+```nasm
 SYS:0AF1 47            INC	DI
 SYS:0AF2 4E            DEC	SI
 SYS:0AF3 75CF          JNZ	0AC4
@@ -2191,27 +2191,27 @@ SYS:0AF3 75CF          JNZ	0AC4
 
 Move the buffer pointer (**DI**) then decrease the count (**SI**). Repeat the process until all digits have been converted.
 
-```
+```nasm
 SYS:0AF5 26            ES:
 SYS:0AF6 C60500        MOV	BYTE PTR [DI],00
 ```
 
 **NULL** (**00h**) terminate the ASCII string conversion.
 
-```
+```nasm
 SYS:0AF9 59            POP	CX
 ```
 
 Restore **CX** (saved in **SYS**:**0AAB**).
 
-```
+```nasm
 SYS:0AFA C3            RET
 ```
 
 Return.
 
 ## String Operation (I)
-```
+```nasm
 SYS:0AFB 55            PUSH	BP
 SYS:0AFC 8BEC          MOV	BP,SP
 SYS:0AFE 83EC08        SUB	SP,+08
@@ -2301,7 +2301,7 @@ SYS:0BA5 5D            POP	BP
 SYS:0BA6 C3            RET
 ```
 
-```
+```nasm
 SYS:0BA7 33DB          XOR	BX,BX
 SYS:0BA9 E339          JCXZ	0BE4
 SYS:0BAB 26            ES:
@@ -2344,7 +2344,7 @@ This is step 5 of the conversion. At this point:
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted
 - **CX** adjusted exponent.
 
-```
+```nasm
 SYS:0BE5 80F9DA        CMP	CL,DA
 SYS:0BE8 7C49          JL	0C33
 SYS:0BEA 80F926        CMP	CL,26
@@ -2353,7 +2353,7 @@ SYS:0BED 7F44          JG	0C33
 
 Return immediately if adjusted exponent is not in the range **DAh**/**-38** <= **CX** <= **26h**/**38**.
 
-```
+```nasm
 SYS:0BEF 52            PUSH	DX
 SYS:0BF0 53            PUSH	BX
 SYS:0BF1 50            PUSH	AX
@@ -2361,35 +2361,35 @@ SYS:0BF1 50            PUSH	AX
 
 Save the number.
 
-```
+```nasm
 SYS:0BF2 0AC9          OR	CL,CL
 SYS:0BF4 9C            PUSHF
 ```
 
 Check exponent (**CL**) then save the results (in **Flags**) to stack.
 
-```
+```nasm
 SYS:0BF5 7902          JNS	0BF9
 SYS:0BF7 F6D9          NEG	CL
 ```
 
 If exponent is negative then make it positive (reverse the sign).
 
-```
+```nasm
 SYS:0BF9 8AD9          MOV	BL,CL
 SYS:0BFB 80E3FC        AND	BL,FC
 ```
 
 Copy the exponent in **BL** and clear bits 0-1.
 
-```
+```nasm
 SYS:0BFE 8AFB          MOV	BH,BL
 SYS:0C00 D0EB          SHR	BL,1
 ```
 
 Copy **BL** to **BH** then shift **BL** to the right once.
 
-```
+```nasm
 SYS:0C02 02DF          ADD	BL,BH
 SYS:0C04 32FF          XOR	BH,BH
 SYS:0C06 8DBF350C      LEA	DI,[BX+0C35]
@@ -2397,7 +2397,7 @@ SYS:0C06 8DBF350C      LEA	DI,[BX+0C35]
 
 Calculate lookup index to number table in **SYS:0C35**.
 
-```
+```nasm
 SYS:0C0A 2E            CS:
 SYS:0C0B 8B05          MOV	AX,[DI]
 SYS:0C0D 2E            CS:
@@ -2408,27 +2408,27 @@ SYS:0C12 8B5504        MOV	DX,[DI+04]
 
 Load ***Real*** number in **ES**:[**DI**] to **DX**:**BX**:**AX**.
 
-```
+```nasm
 SYS:0C15 80E103        AND	CL,03
 SYS:0C18 7407          JZ	0C21
 ```
 
 Clear top bits (2-7) of the exponent in **CL**. Check if **DX**:**BX**:**AX** requires adjustment (based on the exponent in **CL**).
 
-```
+```nasm
 SYS:0C1A E85400        CALL	0C71
 ```
 
 If adjustments are needed go to step 6 (**SYS:0C71**) and do so.
 
-```
+```nasm
 SYS:0C1D FEC9          DEC	CL
 SYS:0C1F 75F9          JNZ	0C1A
 ```
 
 Keep adjusting while **CL** is non-zero.
 
-```
+```nasm
 SYS:0C21 8BC8          MOV	CX,AX
 SYS:0C23 8BF3          MOV	SI,BX
 SYS:0C25 8BFA          MOV	DI,DX
@@ -2436,13 +2436,13 @@ SYS:0C25 8BFA          MOV	DI,DX
 
 Copy the number in **DX**:**BX**:**AX** to **DI**:**SI**:**CX**.
 
-```
+```nasm
 SYS:0C27 9D            POPF
 ```
 
 Restore flags.
 
-```
+```nasm
 SYS:0C28 58            POP	AX
 SYS:0C29 5B            POP	BX
 SYS:0C2A 5A            POP	DX
@@ -2450,27 +2450,26 @@ SYS:0C2A 5A            POP	DX
 
 Restore the number **DX**:**BX**:**AX**
 
-```
+```nasm
 SYS:0C2B 7803          JS	0C30
 ```
 
 Check the result (that was saved in **SYS:0BF4**). If the exponent is a negative, proceed to step 7a on **SYS:074A**
 
-```
+```nasm
 SYS:0C2D E917FA        JMP	0647
 ```
 
 Otherwise proceed to step 7b in **SYS:0647**.
 
-```
+```nasm
 SYS:0C30 E917FB        JMP	074A
 ```
 
 Jump to step 7a in **SYS:074A**.
 
 ## Number out of range
-
-```
+```nasm
 SYS:0C33 F9            STC
 SYS:0C34 C3            RET
 ```
@@ -2478,7 +2477,6 @@ SYS:0C34 C3            RET
 ## Data Block (SYS:0C35-0C70)
 
 Table of numbers
-
 ```
 SYS:0C35  81 00 00 00 00 00
 SYS:0C3B  8E 00 00 00 40 1C
@@ -2497,39 +2495,39 @@ SYS:0C6B  F8 C9 7B CE 97 40
 This is step 6 of the conversion. At this point:
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted
 
-```
+```nasm
 SYS:0C71 0AC0          OR	AL,AL
 SYS:0C73 7449          JZ	0CBE
 ```
 
 Return immediately if exponent (in **AL**) is ***0***.
 
-```
+```nasm
 SYS:0C75 51            PUSH	CX
 SYS:0C76 56            PUSH	SI
 ```
 
 Save **CX** and **SI**.
 
-```
+```nasm
 SYS:0C77 80CE80        OR	DH,80
 ```
 
 Set the sign bit of the **MSB** (bit 7 in **DH**).
 
-```
+```nasm
 SYS:0C7A 8AC8          MOV	CL,AL
 ```
 
 Copy the exponent in **AL** to **CL**.
 
-```
+```nasm
 SYS:0C7C 32C0          XOR	AL,AL
 ```
 
 Clear exponent in **AL**.
 
-```
+```nasm
 SYS:0C7E 52            PUSH	DX
 SYS:0C7F 53            PUSH	BX
 SYS:0C80 50            PUSH	AX
@@ -2549,13 +2547,13 @@ SYS:0C94 13D6          ADC	DX,SI
 
 This entire sequence adjusts the number by scaling **DX**:**BX**:**AX** by **5/4** or (**1.25**).
 
-```
+```nasm
 SYS:0C96 730B          JNB	0CA3
 ```
 
 Check if further adjustments are needed on an overflow.
 
-```
+```nasm
 SYS:0C98 D1DA          RCR	DX,1
 SYS:0C9A D1DB          RCR	BX,1
 SYS:0C9C D1D8          RCR	AX,1
@@ -2565,7 +2563,7 @@ SYS:0CA1 7219          JB	0CBC
 
 Shift **DX**:**BX**:**AX** to the right by 1 then increment exponent in **CL**. If this results in a overflow in the exponent, return immediately.
 
-```
+```nasm
 SYS:0CA3 058000        ADD	AX,0080
 SYS:0CA6 83D300        ADC	BX,+00
 SYS:0CA9 83D200        ADC	DX,+00
@@ -2574,7 +2572,7 @@ SYS:0CAC 7307          JNB	0CB5
 
 Bias the exponent in **AL**. Check if further adjustments are needed on overflow.
 
-```
+```nasm
 SYS:0CAE D1DA          RCR	DX,1
 SYS:0CB0 80C101        ADD	CL,01
 SYS:0CB3 7207          JB	0CBC
@@ -2582,7 +2580,7 @@ SYS:0CB3 7207          JB	0CBC
 
 Shift **DX** to the right by 1 then increment the exponent in **CL**. If this causes an overflow then return immediately.
 
-```
+```nasm
 SYS:0CB5 80E67F        AND	DH,7F
 SYS:0CB8 8AC1          MOV	AL,CL
 SYS:0CBA 0403          ADD	AL,03
@@ -2590,7 +2588,7 @@ SYS:0CBA 0403          ADD	AL,03
 
 If there were no adjustments after **SYS:0CA9** (or **SYS:0CB0**), then the net effect of this code is to actually multiply **DX**:**BX**:**AX** by **10** (**5/4** in the **significand**, **2**^**3**/**8** at the **exponent** in **AL**).
 
-```
+```nasm
 SYS:0CBC 5E            POP	SI
 SYS:0CBD 59            POP	CX
 SYS:0CBE C3            RET
@@ -2598,9 +2596,9 @@ SYS:0CBE C3            RET
 
 ## Conversion - Step 1 (Entry Point)
 
-This is the entrypoint to **Str**(***Real***, ***String***)
+This is the entrypoint to **Str**(***Real***, ***String***).
 
-```
+```nasm
 SYS:0CBF 55            PUSH	BP
 SYS:0CC0 8BEC          MOV	BP,SP
 SYS:0CC2 83EC40        SUB	SP,+40
@@ -2625,7 +2623,7 @@ Reserve **40h**/**64** bytes on the stack. **BP** will be used as index to the i
 |BP+12|Mid Word of *Real*       |
 |BP+14|High Word of *Real*      |
 
-```
+```nasm
 SYS:0CC5 8B4610        MOV	AX,[BP+10]
 SYS:0CC8 8B5E12        MOV	BX,[BP+12]
 SYS:0CCB 8B5614        MOV	DX,[BP+14]
@@ -2633,20 +2631,20 @@ SYS:0CCB 8B5614        MOV	DX,[BP+14]
 
 Load the ***Real*** number from the stack into **DX**:**BX**:**AX**.
 
-```
+```nasm
 SYS:0CCE 8B4E0C        MOV	CX,[BP+0C]
 ```
 
 Load precision from the stack into **CX**.
 
-```
+```nasm
 SYS:0CD1 0BC9          OR	CX,CX
 SYS:0CD3 790E          JNS	0CE3
 ```
 
 If **CX** is a positive number, then the precision is fixed, proceed to the next step of the conversion.
 
-```
+```nasm
 SYS:0CD5 B90600        MOV	CX,0006
 SYS:0CD8 2B4E0E        SUB	CX,[BP+0E]
 SYS:0CDB 83F9FE        CMP	CX,-02
@@ -2656,7 +2654,7 @@ SYS:0CE0 B9FEFF        MOV	CX,FFFE
 
 This checks if the desired precision (= **FFFFh** max) compared to the width of the representation is enough. It sets the minimum to **2** (**FFFEh/-02**) digits.
 
-```
+```nasm
 SYS:0CE3 8D7EC0        LEA	DI,[BP-40]
 SYS:0CE6 16            PUSH	SS
 SYS:0CE7 07            POP	ES
@@ -2665,7 +2663,7 @@ SYS:0CE8 E88DFC        CALL	0978
 
 Point **ES**:**DI** to the temporary buffer reserved earlier (**SS**:[**BP-40**]). Move to the next part of the conversion (**SYS:0978**).
 
-```
+```nasm
 SYS:0CEB 1E            PUSH	DS
 SYS:0CEC 8BF7          MOV	SI,DI
 SYS:0CEE 16            PUSH	SS
@@ -2674,25 +2672,25 @@ SYS:0CEF 1F            POP	DS
 
 Set **DS**:**SI** to the temporary buffer (**SS**[**BP-40**]).
 
-```
+```nasm
 SYS:0CF0 C47E08        LES	DI,[BP+08]
 ```
 
 Set **ES**:**DI** to the **Output buffer** (passed on the stack on the call to **Str** function).
 
-```
+```nasm
 SYS:0CF3 8B5606        MOV	DX,[BP+06]
 ```
 
 Load the **Output buffer** length into **DX**.
 
-```
+```nasm
 SYS:0CF6 8B460E        MOV	AX,[BP+0E]
 ```
 
 Load the **Width** parameter (passed on the stack on the call to **Str** function) into **AX**.
 
-```
+```nasm
 SYS:0CF9 3BC2          CMP	AX,DX
 SYS:0CFB 7E02          JLE	0CFF
 SYS:0CFD 8BC2          MOV	AX,DX
@@ -2706,28 +2704,28 @@ SYS:0D09 8BC1          MOV	AX,CX
 
 Compute for **AX** (string length of the conversion) and **CX** (precision).
 
-```
+```nasm
 SYS:0D0B FC            CLD
 SYS:0D0C AA            STOSB
 ```
 
 Since **Output buffer** is a Pascal-string, store the length (**AL**) into the first byte (**Byte 0**).
 
-```
+```nasm
 SYS:0D0D 2BC1          SUB	AX,CX
 SYS:0D0F 7408          JZ	0D19
 ```
 
 Check if there are digits to copy. If there is none, fill **Output buffer** **NULL** (**00h**) on **SYS**:**0D19**.
 
-```
+```nasm
 SYS:0D11 51            PUSH	CX
 SYS:0D12 8BC8          MOV	CX,AX
 ```
 
 Preserve **CX** then copy the width in **AX** (less **CX** in **SYS**:**0D0D**).
 
-```
+```nasm
 SYS:0D14 B020          MOV	AL,20
 SYS:0D16 F3            REPZ
 SYS:0D17 AA            STOSB
@@ -2735,7 +2733,7 @@ SYS:0D17 AA            STOSB
 
 Left-pad the **Output buffer** (fill with whitespace character **20h**).
 
-```
+```nasm
 SYS:0D18 59            POP	CX
 SYS:0D19 F3            REPZ
 SYS:0D1A A4            MOVSB
@@ -2743,19 +2741,19 @@ SYS:0D1A A4            MOVSB
 
 Restore **CX** (precision of the string conversion) then copy the digits from **DS**:**SI** to **ES**:**DI**.
 
-```
+```nasm
 SYS:0D1B 1F            POP	DS
 ```
 
 Restore **DS** (saved in **SYS**:**0CEB**).
 
-```
+```nasm
 SYS:0D1C 8BE5          MOV	SP,BP
 ```
 
 Restore **SP** (modified in **SYS**:**0CC2**). This *"removes"* any space it has reserved on the stack.
 
-```
+```nasm
 SYS:0D1E 5D            POP	BP
 SYS:0D1F CA1000        RETF	0010
 ```
@@ -2763,7 +2761,7 @@ SYS:0D1F CA1000        RETF	0010
 Restore BP and pop off **10h**/**16** bytes from the stack (**8** parameters) upon return.
 
 ## String operation (II)
-```
+```nasm
 SYS:0D22 55            PUSH	BP
 SYS:0D23 8BEC          MOV	BP,SP
 SYS:0D25 C47E0A        LES	DI,[BP+0A]
@@ -2793,7 +2791,7 @@ SYS:0D52 CA0800        RETF	0008
 ```
 
 ## Clear Data
-```
+```nasm
 SYS:0D55 BF5000        MOV	DI,0050
 SYS:0D58 1E            PUSH	DS
 SYS:0D59 07            POP	ES

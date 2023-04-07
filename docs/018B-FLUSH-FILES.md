@@ -1,6 +1,6 @@
 # 018B Flush and Close Input and Output Files
 
-```
+```nasm
 SYS:018B B85000        MOV	AX,Input
 SYS:018E 1E            PUSH	DS
 SYS:018F 50            PUSH	AX

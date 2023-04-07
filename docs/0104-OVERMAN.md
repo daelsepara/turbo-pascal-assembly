@@ -1,6 +1,6 @@
 # 0104 Overlay manager not installed
 
-```
+```nasm
 SYS:0104 B8D000        MOV	AX,00D0
 SYS:0107 83C406        ADD	SP,+06
 SYS:010A EB03          JMP	010F

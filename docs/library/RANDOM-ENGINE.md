@@ -1,13 +1,13 @@
 # Random Number Generator Engine
 
-```
+```nasm
 SYS:05DD A13E00        MOV	AX,[RandSeed.Low]
 SYS:05E0 8B1E4000      MOV	BX,[RandSeed.High]
 ```
 
 Load **[RandomSeed](../DATA.md)** (*LongInt*) into **BX**:**AX**.
 
-```
+```nasm
 SYS:05E4 8BC8          MOV	CX,AX
 SYS:05E6 2E            CS:
 SYS:05E7 F7261306      MUL	WORD PTR [0613]
@@ -28,20 +28,20 @@ SYS:0605 050100        ADD	AX,0001
 SYS:0608 83D200        ADC	DX,+00
 ```
 
-```
+```nasm
 SYS:060B A33E00        MOV	[RandSeed.Low],AX
 SYS:060E 89164000      MOV	[RandSeed.High],DX
 ```
 
 Update **[RandSeed](../DATA.md)** (*LongInt*) with **DX**:**AX**.
 
-```
+```nasm
 SYS:0612 C3            RET
 ```
 
 Return to calling **Random** function (*[Real](RANDOM-REAL.md)*/*[Int](RANDOM-INT.md)*). Because it returns with a **NEAR RET**, it can only be called from within the system library.
 
-```
+```nasm
 SYS:0613 05 84
 ```
 

@@ -2,7 +2,7 @@
 
 Returns a random number (***Int***/***Word***, 2 bytes). It takes one ***Int*** parameter and returns ***X*** in the range: **0** <= ***X*** < ***Int***.
 
-```
+```nasm
 SYS:0580 E85A00        CALL	05DD
 ```
 
@@ -16,7 +16,7 @@ Call **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)**.
 |SP+02|Return Address (SEGMENT)|
 |SP+04|*Int* parameter         |
 
-```
+```nasm
 SYS:0583 8BDC          MOV	BX,SP
 SYS:0585 8BCA          MOV	CX,DX
 SYS:0587 36            SS:

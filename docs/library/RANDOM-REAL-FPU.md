@@ -2,13 +2,13 @@
 
 Returns a random number (***Real*** type, 6-bytes) in the range **0.0** <= ***X*** < **1.0**. It is the same as the [**Random:** ***Real***](RANDOM-REAL.md) function but uses **FPU** code. The main program is compiled with **8087 emulation** disabled (**-$E-**) and **8087/80287/80387 code** enabled (**-$N+**):
 
-```
+```cmd
 TPC.EXE -GS -GP -GD -$D+ -$E- -$N+ MAIN
 ```
 
 ## Random: *Real* using FPU
 
-```
+```nasm
 CODE:0019 9A270D7407    CALL	SYS:0D27
 CODE:001E 9A8E097407    CALL	SYS:098E
 ```
@@ -19,13 +19,13 @@ Random(*Real*) is composed of two separate calls to **System Library** subroutin
 - **AX** = Low Word
 
 ## Random: *Real* using FPU (I)
-```
+```nasm
 SYS:0D27 E82000        CALL	0D4A
 ```
 
 Call random number generator engine at **SYS:0D4A**.
 
-```
+```nasm
 SYS:0D2A CD3C9F06480D  FILD CS:WORD PTR [0D48]
 SYS:0D30 CD37063E00    FILD DWORD PTR [RandSeed]
 SYS:0D35 CD3C9806440D  FADD CS:DWORD PTR [0D44]
@@ -49,7 +49,7 @@ SYS:0D48  E0 FF
 
 This is the same random number generator engine (see: **[SYS:05DD Random Number Generator Engine](RANDOM-ENGINE.md)** for analysis). The location of this routine has been displaced due to inclusion of additional routines in the **System Library**.
 
-```
+```nasm
 SYS:0D4A A13E00        MOV	AX,[RandSeed.Low]
 SYS:0D4D 8B1E4000      MOV	BX,[RandSeed.High]
 SYS:0D51 8BC8          MOV	CX,AX
@@ -84,32 +84,32 @@ Magic number used bye the random number generator engine (**8405h**/**33797**).
 
 ## Random: *Real* using FPU (II)
 
-```
+```nasm
 SYS:098E 83EC0A        SUB	SP,+0A
 ```
 
 Reserve 10 bytes on the stack.
 
-```
+```nasm
 SYS:0991 8BDC          MOV	BX,SP
 ```
 
 Copy offset to this location (**SP**) into **BX**.
 
-```
+```nasm
 SYS:0993 CD3C5B3F      FSTP SS:TBYTE PTR [BX]
 SYS:0997 CD3D          FWAIT
 ```
 
 Load 10 bytes from FPU stack into reserved location [**BX**].
 
-```
+```nasm
 SYS:0999 83C402        ADD	SP,+02
 ```
 
 Ignore **MSB**
 
-```
+```nasm
 SYS:099C 59            POP	CX
 SYS:099D 5B            POP	BX
 SYS:099E 5A            POP	DX
@@ -118,7 +118,7 @@ SYS:099F 58            POP	AX
 
 Load into **AX**:**DX**:**BX**:**CX**.
 
-```
+```nasm
 SYS:09A0 8BF8          MOV	DI,AX
 SYS:09A2 25FF7F        AND	AX,7FFF
 SYS:09A5 2D7E3F        SUB	AX,3F7E

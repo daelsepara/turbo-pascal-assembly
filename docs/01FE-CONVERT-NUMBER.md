@@ -2,14 +2,14 @@
 
 This subroutine takes an unsigned number in AL to a string. The base of the string is set in CL.
 
-```
+```nasm
 SYS:01FE B164          MOV	CL,64
 SYS:0200 E80700        CALL	020A
 ```
 
 This converts the number in **AL** into a base-100 digit. This takles only the upper digit in **AL** and converts it to '0', '1', or '2'.
 
-```
+```nasm
 SYS:0203 B10A          MOV	CL,0A
 SYS:0205 E80200        CALL	020A
 SYS:0208 EB04          JMP	020E
@@ -17,7 +17,7 @@ SYS:0208 EB04          JMP	020E
 
 This converts the number in **AL** into a base-10 string. This works best only if **AL** is less than 100 (64h). It converts the first half with a call to **SYS:020A**, then converts the second half with a jump to **SYS:020E** (see below).
 
-```
+```nasm
 SYS:020A 32E4          XOR	AH,AH
 SYS:020C F6F1          DIV	CL
 ```
@@ -26,7 +26,7 @@ This is the actual digit to ascii conversion. It is possible to call this subrou
 
 Conversion is done one digit at a time. First, it clears the upper half of **AX**, i.e. **AH** and divides the **AX** by the base in **CL**. The result is in AL while the remainder is in **AH**.
 
-```
+```nasm
 SYS:020E 0430          ADD	AL,30
 SYS:0210 50            PUSH	AX
 SYS:0211 E81E00        CALL	0232
@@ -35,7 +35,7 @@ SYS:0214 58            POP	AX
 
 This converts the result in **AL** to ASCII by adding 30h ('0') and calling **[SYS:0232 Print Digits](0218-PRINT-DIGITS.md)** to print it.
 
-```
+```nasm
 SYS:0215 8AC4          MOV	AL,AH
 SYS:0217 C3            RET
 ```
