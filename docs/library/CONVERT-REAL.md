@@ -421,15 +421,14 @@ SYS0238: RET
 
 ## SYS:0239 Data Block (Interrupt list)
 ```
-SYS0230:               00 02 1B 21 23 24 34
-SYS0240: 9 3A 3B 3C-3D 3E 3F 75
+SYS0230:                 00 02 1B 21 23 24 34
+SYS0240:  35 36 37 38 39 3A 3B 3C-3D 3E 3F 75
 ```
 
 ## SYS:024C Runtime error strings
 ```nasm
-SYS024C:                        52 75 6E 74               Runt
-SYS0250: 5 72 72 6F-72 20 00                  ime error
-SYS025B:                     20 61 74 20 00               at
+SYS024C:                                      52 75 6E 74               Runt
+SYS0250:  69 6D 65 20 65 72 72 6F-72 20 00 20 61 74 20 00   ime error   at  
 SYS0260:  2E
 SYS0261:     0D 0A
 ```
@@ -441,9 +440,9 @@ SYS0263:           00
 
 ## SYS:0264 Unused copyright string
 ```
-SYS0264: 0 6F 72 74-69 6F 6E 73 20 43 6F 70       Portions Cop
-SYS0270: 8 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
-SYS0280: F 72 6C 61-6E 64                     92 Borland
+SYS0264:              50 6F 72 74-69 6F 6E 73 20 43 6F 70       Portions Cop
+SYS0270:  79 72 69 67 68 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
+SYS0280:  39 32 20 42 6F 72 6C 61-6E 64                     92 Borland
 ```
 
 ## Clear I/O Result
@@ -2478,16 +2477,16 @@ SYS0C34: RET
 
 Table of numbers
 ```
-SYS0C35: 0 00
-SYS0C3B: 0 1C
-SYS0C41: C 3E
-SYS0C47: 4 68
-SYS0C4D: B 0E
-SYS0C53: 8 2D
-SYS0C59: 2 53
-SYS0C5F: F 01
-SYS0C65: 5 1D
-SYS0C6B: 7 40
+SYS0C35:  81 00 00 00 00 00
+SYS0C3B:  8E 00 00 00 40 1C
+SYS0C41:  9B 00 00 20 BC 3E
+SYS0C47:  A8 00 10 A5 D4 68
+SYS0C4D:  B6 04 BF C9 1B 0E
+SYS0C53:  C3 AC C5 EB 78 2D
+SYS0C59:  D0 CD CE 1B C2 53
+SYS0C5F:  DE F9 78 39 3F 01
+SYS0C65:  EB 2B A8 AD C5 1D
+SYS0C6B:  F8 C9 7B CE 97 40
 ```
 
 ## Conversion - Step 6 (Conversion Adjustments)

@@ -302,17 +302,17 @@ SYS:0234 B406          MOV AH,06
 SYS:0236 CD21          INT 21
 SYS:0238 C3            RET
 
-SYS:0239                             00 02 1B 21 23 24 34
-SYS:0240  35 36 37 38 39 3A 3B 3C 3D 3E 3F 75
-SYS:024C                                      52 75 6E 74               Runt
-SYS:0250  69 6D 65 20 65 72 72 6F 72 20 00                  ime error .
-SYS:025B                                   20 61 74 20 00               at .
-SYS:0260  2E                                                .
-SYS:0261     0D 0A
-SYS:0263           00
-SYS:0264              50 6F 72 74-69 6F 6E 73 20 43 6F 70       Portions Cop
-SYS:0270  79 72 69 67 68 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
-SYS:0280  39 32 20 42 6F 72 6C 61-6E 64                     92 Borland
+SYS0239:                             00 02 1B 21 23 24 34
+SYS0240:  35 36 37 38 39 3A 3B 3C 3D 3E 3F 75 
+SYS024C:                                      52 75 6E 74              Runt
+SYS0250:  69 6D 65 20 65 72 72 6F 72 20 00                 ime error
+SYS025B:                                   20 61 74 20 00             at  
+SYS0260:  2E
+SYS0261:     0D 0A
+SYS0263:           00 
+SYS0264:              50 6F 72 74 69 6F 6E 73 20 43 6F 70      Portions Cop
+SYS0270:  79 72 69 67 68 74 20 28 63 29 20 31 39 38 33 2C  yright (c) 1983,
+SYS0280:  39 32 20 42 6F 72 6C 61 6E 64                    92 Borland
 
 SYS:028A 33C0          XOR AX,AX
 SYS:028C 87063C00      XCHG AX,[InOutRes]

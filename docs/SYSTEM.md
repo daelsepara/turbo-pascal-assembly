@@ -276,12 +276,12 @@ SYS0234: MOV AH,06
 SYS0236: INT 21
 SYS0238: RET
 
-SYS0230:               00 02 1B 21 23 24 34            ...!#$4
-SYS0240: 9 3A 3B 3C-3D 3E 3F 75 52 75 6E 74   56789:;<=>?uRunt
-SYS0250: 5 72 72 6F-72 20 00 20 61 74 20 00   ime error . at .
-SYS0260: 0 6F 72 74-69 6F 6E 73 20 43 6F 70   ....Portions Cop
-SYS0270: 8 74 20 28-63 29 20 31 39 38 33 2C   yright (c) 1983,
-SYS0280: F 72 6C 61-6E 64                     92 Borland
+SYS0239:                             00 02 1B 21 23 24 34         ...!#$4
+SYS0240:  35 36 37 38 39 3A 3B 3C 3D 3E 3F 75 52 75 6E 74        <=>?uRunt
+SYS0250:  69 6D 65 20 65 72 72 6F 72 20 00 20 61 74 20 00 ime error . at .
+SYS0260:  2E 0D 0A 00 50 6F 72 74 69 6F 6E 73 20 43 6F 70 ....Portions Cop
+SYS0270:  79 72 69 67 68 74 20 28 63 29 20 31 39 38 33 2C yright (c) 1983,
+SYS0280:  39 32 20 42 6F 72 6C 61 6E 64                   92 Borland
 
 SYS028A: XOR AX,AX
 SYS028C: XCHG AX,[InOutRes]
