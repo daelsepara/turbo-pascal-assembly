@@ -1192,6 +1192,7 @@ SYS06A0: PUSH AX
 Save both numbers **DI**:**SI**:**CX** and **BP**:**BX**:**AX**.
 
 ### Stack after SYS:06A0
+
 |Index|Contents|
 |-----|--------|
 |BP   |AX      |
