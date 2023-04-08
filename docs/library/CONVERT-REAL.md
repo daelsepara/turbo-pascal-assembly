@@ -963,7 +963,7 @@ SYS0584: OR CL,CL
 SYS0586: JZ 0603
 ```
 
-Return immediately if the exponent in **CL** is 0.
+Probable entry point for *Real* addition operation. Return immediately if the exponent in **CL** is 0.
 
 ```nasm
 SYS0588: OR AL,AL
@@ -1306,7 +1306,7 @@ SYS065C: ADC DH,AL
 SYS065E: MOV CL,AL
 ```
 
-Copy the exponent in **AL** into **DL**. Add the exponent in **CL** to **DL**. Add the overflow in **SYS**:**065A** to **DH**. Clear **CL**.
+Copy the exponent in **AL** into **DL**. Add the exponent in **CL** to **DL**. Add the overflow in **SYS:065A** to **DH**. Clear **CL**.
 
 ```nasm
 SYS0660: OR BP,8000
@@ -1592,6 +1592,8 @@ SYS07E8: CMP AH,CH
 SYS07EA: RET
 ```
 
+## SYS:07EB
+### Unknown code block
 ```nasm
 SYS07EB: MOV BX,AX
 SYS07ED: OR BX,DX
@@ -1889,10 +1891,10 @@ SYS099F: POP DI
 SYS09A0: POP ES
 ```
 
-Restore **ES**:**DI** (saved in **SYS**:**0995**)
+Restore **ES**:**DI** (saved in **SYS:0995**)
 
 ## Step 9 - Round off
-This routine will perform any rounding-off on the converted digits stored **SS**:[**BP-14**]
+This routine will perform any rounding-off on the converted digits stored **SS**:[**BP-14**].
 
 ```nasm
 SYS09A1: MOV [BP-06],CX
@@ -1926,7 +1928,7 @@ SYS09B1: MOV BYTE PTR [BP-14],00
 SYS09B5: JMP 09E5
 ```
 
-Set string length to 0 then proceed immediately to **SYS**:**09E5**.
+Set string length to 0 then proceed immediately to **SYS:09E5**.
 
 ```nasm
 SYS09B7: NEG SI
@@ -2271,7 +2273,7 @@ This is step 4 the conversion. At this point:
 SYS0A81: AND DH,7F
 ```
 
-Clear the sign flag (bit 7 of the number's **MSB** in **DH**).
+Clear the sign flag (bit **7** of the number's **MSB** in **DH**).
 
 ```nasm
 SYS0A84: PUSH AX
@@ -2329,7 +2331,7 @@ SYS0AA1: POP DI
 SYS0AA2: POP CX
 ```
 
-Restore **CX** and **DI** (saved in **SYS**:**0A9A**).
+Restore **CX** and **DI** (saved in **SYS:0A9A**).
 
 ```nasm
 SYS0AA3: CMP AL,81
@@ -2338,7 +2340,7 @@ SYS0AA7: CALL 0C71
 SYS0AAA: DEC CX
 ```
 
-If the number needs further adjustment call **SYS**:**0C71** then decrease the **precsion**.
+If the number needs further adjustment call [**SYS:0C71**](#sys0c71) then decrease the **precsion**.
 
 ```nasm
 SYS0AAB: PUSH CX
@@ -2393,7 +2395,7 @@ SYS0AC6: MOV CL,04
 SYS0AC8: SHR CH,CL
 ```
 
-Get the upper bits of the number (in **DH**) into **CH**.
+Get the upper nibble (top 4 bits) of the number (in **DH**) into **CH**.
 
 ```nasm
 SYS0ACA: ADD CH,30
@@ -2439,7 +2441,7 @@ This entire sequence multiplies the number by **10**. It does this first by push
 |```A += A'```|Add the saved number using **ADD/ADC** to carry over the bits, i.e. ```A = 4A + A``` |
 |```A *= 2``` |Multiply by 2 shifting to the left once, i.e. ```A = 2(4A + A) = 10A```              |
 
-This is done in this manner so that the multiplication is done in place instead of using **MUL**/**IMUL** then preserving and swapping in and out of **DX** and **AX** regulary. It is more efficient this way.
+The multiplication is done in place using shifts and adds instead of using **MUL**/**IMUL**. Using the multiplaction opcodes would involve preserving and swapping in and out of **DX** and **AX** regulary. It is more efficient to use the former.
 
 ```nasm
 SYS0AF1: INC DI
@@ -2460,7 +2462,7 @@ SYS0AF6: MOV BYTE PTR [DI],00
 SYS0AF9: POP CX
 ```
 
-Restore **CX** (saved in **SYS**:**0AAB**).
+Restore **CX** (saved in **SYS:0AAB**).
 
 ```nasm
 SYS0AFA: RET
@@ -2468,7 +2470,8 @@ SYS0AFA: RET
 
 Return.
 
-## String Operation (I)
+## SYS:0AFB
+### String Operation (I)
 ```nasm
 SYS0AFB: PUSH BP
 SYS0AFC: MOV BP,SP
@@ -2531,6 +2534,9 @@ SYS0B6A: CMP AX,FFC0
 SYS0B6D: JG 0B72
 SYS0B6F: STC
 SYS0B70: JMP 0BA3
+```
+
+```nasm
 SYS0B72: PUSH CX
 SYS0B73: PUSH DI
 SYS0B74: MOV CL,BL
@@ -2559,6 +2565,8 @@ SYS0BA5: POP BP
 SYS0BA6: RET
 ```
 
+## SYS:0BA7
+### Unknown code block
 ```nasm
 SYS0BA7: XOR BX,BX
 SYS0BA9: JCXZ 0BE4
@@ -2639,22 +2647,22 @@ SYS0BF9: MOV BL,CL
 SYS0BFB: AND BL,FC
 ```
 
-Copy the exponent in **BL** and clear bits 0-1.
+Copy the exponent in **BL** and clear bits 0-1. This ensures that the exponent in **BL** will be in a multiple of **4**.
 
 ```nasm
 SYS0BFE: MOV BH,BL
 SYS0C00: SHR BL,1
-```
-
-Copy **BL** to **BH** then shift **BL** to the right once.
-
-```nasm
 SYS0C02: ADD BL,BH
 SYS0C04: XOR BH,BH
+```
+
+This has the effect of multiplying **BL** by **3/2**. Since BL is multiplicable by 4, the net effect is that the computed index in **BX** is in multiples of **6**.
+
+```nasm
 SYS0C06: LEA DI,[BX+0C35]
 ```
 
-Calculate lookup index to number table in [**SYS:0C35**](#sys0c35).
+Use the calculated value in **BX** as a lookup index to number list in [**SYS:0C35**](#sys0c35).
 
 ```nasm
 SYS0C0A: CS:
@@ -2738,7 +2746,9 @@ SYS0C34: RET
 
 ## SYS:0C35
 ### Data Block (SYS:0C35-0C70)
-Table of numbers
+
+This block of data is a list of 10 **48-bit** (6-bytes) numbers. They are [*Real*](REAL-TYPE.md) representations of increasing powers of **10** (from **1.0E00** to **1.0E36** at intervals of **1.0E04**).
+
 ```
 SYS0C35:  81 00 00 00 00 00
 SYS0C3B:  8E 00 00 00 40 1C
@@ -2754,7 +2764,6 @@ SYS0C6B:  F8 C9 7B CE 97 40
 
 ## SYS:0C71
 ### Conversion - Step 6 (Conversion Adjustments)
-
 This is step 6 of the conversion. At this point:
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted
 
@@ -2763,7 +2772,7 @@ SYS0C71: OR AL,AL
 SYS0C73: JZ 0CBE
 ```
 
-Return immediately if exponent (in **AL**) is ***0***.
+Return immediately if exponent (in **AL**) is **0**.
 
 ```nasm
 SYS0C75: PUSH CX
@@ -2824,7 +2833,7 @@ SYS0C9E: ADD CL,01
 SYS0CA1: JB 0CBC
 ```
 
-Shift **DX**:**BX**:**AX** to the right by 1 then increment exponent in **CL**. If this results in a overflow in the exponent, return immediately.
+Shift **DX**:**BX**:**AX** to the right by 1 then increment exponent in **CL** (to compensate). If this results in a overflow in the exponent, return immediately.
 
 ```nasm
 SYS0CA3: ADD AX,0080
@@ -2841,7 +2850,7 @@ SYS0CB0: ADD CL,01
 SYS0CB3: JB 0CBC
 ```
 
-Shift **DX** to the right by 1 then increment the exponent in **CL**. If this causes an overflow then return immediately.
+Shift **DX** to the right by 1 then increment the exponent in **CL** (to compensate). If this causes an overflow then return immediately.
 
 ```nasm
 SYS0CB5: AND DH,7F
@@ -2933,7 +2942,7 @@ SYS0CEE: PUSH SS
 SYS0CEF: POP DS
 ```
 
-Set **DS**:**SI** to the temporary buffer (**SS**[**BP-40**]).
+Set **DS**:**SI** to the temporary buffer (**SS**:[**BP-40**]).
 
 ```nasm
 SYS0CF0: LES DI,[BP+08]
@@ -2986,7 +2995,7 @@ SYS0D11: PUSH CX
 SYS0D12: MOV CX,AX
 ```
 
-Preserve **CX** then copy the width in **AX** (less **CX** in **SYS**:**0D0D**).
+Preserve **CX** then copy the width in **AX** (less **CX** in **SYS:0D0D**).
 
 ```nasm
 SYS0D14: MOV AL,20
@@ -3023,6 +3032,7 @@ SYS0D1F: RETF 0010
 
 Restore BP and pop off **10h**/**16** bytes from the stack (**8** parameters) upon return.
 
+## SYS:0D22
 ## String operation (II)
 ```nasm
 SYS0D22: PUSH BP
@@ -3053,7 +3063,8 @@ SYS0D51: POP BP
 SYS0D52: RETF 0008
 ```
 
-## Clear Data
+## SYS:0D55
+### Clear Data
 ```nasm
 SYS0D55: MOV DI,0050
 SYS0D58: PUSH DS
