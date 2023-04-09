@@ -1271,7 +1271,6 @@ SYS0644: JMP 0743
 
 ## SYS:0647
 ### Step 7b
-
 This is step 7b of the conversion. At this point:
 - **DI**:**SI**:**CX** holds the adjusted ***Real*** number obtained from **SYS:0C35-0C70**.
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted.
@@ -1333,6 +1332,8 @@ SYS0668: PUSH DX
 
 Save **DX**.
 
+## SYS:0669
+### Unknown code block
 ```nasm
 SYS0669: OR AH,AH
 SYS066B: JNZ 0671
@@ -1419,6 +1420,8 @@ SYS06AF: MOV BX,CX
 
 Clear **BX**, **SI**, **DI** (**CX** = 0 from **SYS:06A3**).
 
+## SYS:06B1
+### Unknown code block
 ```nasm
 SYS06B1: MOV AX,[BP+00]
 SYS06B4: MUL WORD PTR [BP+08]
@@ -1517,6 +1520,8 @@ SYS074F: MOV BP,DX
 
 Save **BP** and copy **DX**.
 
+## SYS:0751
+### Unknown code block
 ```nasm
 SYS0751: XOR DX,DI
 SYS0753: OR DI,8000
@@ -1582,6 +1587,8 @@ SYS07CA: POP DX
 SYS07CB: RET
 ```
 
+## SYS:07CC
+### Unknown code block
 ```nasm
 SYS07CC: TEST DH,80
 SYS07CF: JZ 07D8
@@ -1591,6 +1598,8 @@ SYS07D6: CMC
 SYS07D7: RET
 ```
 
+## SYS:07D8
+### Unknown code block
 ```nasm
 SYS07D8: CMP AL,CL
 SYS07DA: JNZ 07EA
@@ -1638,6 +1647,8 @@ SYS0823: AND DH,7F
 SYS0826: RET
 ```
 
+## SYS:0827
+### Unknown code block
 ```nasm
 SYS0827: XCHG BX,AX
 SYS0828: MOV CL,A0
@@ -1687,6 +1698,8 @@ SYS0887: ADD BL,BL
 SYS0889: RET
 ```
 
+## SYS:088A
+### Unknown code block
 ```nasm
 SYS088A: MOV BH,DH
 SYS088C: MOV AX,0000
@@ -1695,6 +1708,8 @@ SYS0892: JZ 0866
 SYS0894: RET
 ```
 
+## SYS:0895
+### Unknown code block
 ```nasm
 SYS0895: MOV CX,DI
 SYS0897: MOV SI,000A
@@ -1712,6 +1727,8 @@ SYS08AF: INC CX
 SYS08B0: RET
 ```
 
+## SYS:08B1
+### Unknown code block
 ```nasm
 SYS08B1: XOR DX,DX
 SYS08B3: XCHG BX,AX
@@ -1732,6 +1749,8 @@ SYS08CE: SUB CX,DI
 SYS08D0: RET
 ```
 
+## SYS:08D1
+### Unknown code block
 ```nasm
 SYS08D1: XOR AX,AX
 SYS08D3: XOR DX,DX
@@ -1789,11 +1808,15 @@ SYS0933: JS 0936
 SYS0935: RET
 ```
 
+## SYS:0936
+### Unknown code block
 ```nasm
 SYS0936: STC
 SYS0937: RET
 ```
 
+## SYS:0938
+### Unknown code block
 ```nasm
 SYS0938: INC DI
 SYS0939: DEC CX
@@ -2352,8 +2375,9 @@ SYS0AA7: CALL 0C71
 SYS0AAA: DEC CX
 ```
 
-If the number needs further adjustment call [**SYS:0C71**](#sys0c71) then decrease the **precsion**.
+If the number needs further adjustment call [**SYS:0C71**](#sys0c71) then decrease the **precsion**, jump to [**SYS:0AAB**](#sys0aab).
 
+## SYS:0AAB
 ```nasm
 SYS0AAB: PUSH CX
 ```
@@ -2474,7 +2498,7 @@ SYS0AF6: MOV BYTE PTR [DI],00
 SYS0AF9: POP CX
 ```
 
-Restore **CX** (saved in **SYS:0AAB**).
+Restore **CX** (saved in [**SYS:0AAB**](#sys0aab)).
 
 ```nasm
 SYS0AFA: RET
@@ -2483,7 +2507,7 @@ SYS0AFA: RET
 Return.
 
 ## SYS:0AFB
-### String Operation (I)
+### Unknown code block
 ```nasm
 SYS0AFB: PUSH BP
 SYS0AFC: MOV BP,SP
@@ -2548,6 +2572,8 @@ SYS0B6F: STC
 SYS0B70: JMP 0BA3
 ```
 
+## SYS:0B72
+### Unknown code block
 ```nasm
 SYS0B72: PUSH CX
 SYS0B73: PUSH DI
@@ -3047,7 +3073,7 @@ SYS0D1F: RETF 0010
 Restore BP and pop off **10h**/**16** bytes from the stack (**8** parameters) upon return.
 
 ## SYS:0D22
-## String operation (II)
+### Unknown code block
 ```nasm
 SYS0D22: PUSH BP
 SYS0D23: MOV BP,SP
