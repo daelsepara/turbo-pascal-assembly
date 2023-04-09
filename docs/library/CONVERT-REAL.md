@@ -3132,6 +3132,8 @@ SYS0D52: RETF 0008
 
 ## SYS:0D55
 ### Clear Data
+Clears [user data](../DATA.md) and [system variables](../DATA.md) that are set/computed at runtime.
+
 ```nasm
 SYS0D55: MOV DI,0050
 SYS0D58: PUSH DS
@@ -3145,5 +3147,7 @@ SYS0D64: REPZ
 SYS0D65: STOSW
 SYS0D66: RET
 ```
+
+Clears the entire **DATA** area. User data starts at **DATA:0050**. If there are no user-defined variables, **DATA:0050** is where [**Input** text file](../TEXT-FILE-TYPE.md) is stored. **SizeOf(DATA)** is set during compile time. The entire **DATA** space is cleared one word at a time. **DATA** segment is usually aligned to a power of 2 (paragraph ~ 10h/16 bytes, by default).
 
 Go [Back](../../README.md)
