@@ -956,7 +956,7 @@ This subroutine (unused in the *Real* number conversion) adds two numbers **DX**
 SYS0580: XOR DI,8000
 ```
 
-This is biases DI by **8000**. This is probably the entry point for subtraction.
+Complements the sign bit in the **DI**. This is probably the entry point for subtraction.
 
 ```nasm
 SYS0584: OR CL,CL
@@ -1127,7 +1127,7 @@ SYS05E2: MOV CX,BP
 SYS05E4: POP BP
 ```
 
-Transfer **BP** to **CX** then restore **BP** (saved in **SYS:059F**).
+Transfer back the exponent (saved **SYS:05A6**) in **BP** to **CX**. Restore **BP** (saved in **SYS:059F**).
 
 ```nasm
 SYS05E5: JNB 05F1
@@ -1215,7 +1215,17 @@ Subtract **DI**:**SI**:**CX** from **DX**:**BX**:**AX**.
 ```nasm
 SYS0619: MOV CX,BP
 SYS061B: POP BP
+```
+
+Copy back the exponent (saved in **SYS:05A6**) in **BP** to **CX** then restore **BP** (saved in **SYS:059F**).
+
+```nasm
 SYS061C: JNB 062E
+```
+
+If the result in **SYS:0617** did not produce an overflow, proceed to **SYS:062E**.
+
+```nasm
 SYS061E: NOT DX
 SYS0620: NOT BX
 SYS0622: NEG AX
@@ -1224,6 +1234,8 @@ SYS0625: ADC BX,+00
 SYS0628: ADC DX,+00
 SYS062B: XOR CH,80
 ```
+
+This entire block negates the entire number **DX**:**BX**:**AX** (two's complement form). It also complements the sign bit of the exponent in **CH**.
 
 ```nasm
 SYS062E: MOV DI,DX
@@ -1239,7 +1251,7 @@ SYS0636: OR DH,DH
 SYS0638: JS 05F1
 ```
 
-If no adjustments are needed, fix the exponent in AL by continuing to [**SYS:05F1**](#sys05f1).
+If **DH** is negative then fix the exponent in **AL** by jumping to [**SYS:05F1**](#sys05f1). Otherwise further adjustments are needed.
 
 ```nasm
 SYS063A: SHL AX,1
@@ -2858,13 +2870,15 @@ SYS0CB8: MOV AL,CL
 SYS0CBA: ADD AL,03
 ```
 
-If there were no adjustments after **SYS:0CA9** (or **SYS:0CB0**), then the net effect of this code is to actually multiply **DX**:**BX**:**AX** by **10** (**5/4** in the **significand**, **2**^**3**/**8** at the **exponent** in **AL**).
+If there were no adjustments after **SYS:0CA9** (or **SYS:0CB0**), then the net effect of this code is to multiply **DX**:**BX**:**AX** by **10** (**5/4** in the **significand**, **2**^**3**/**8** at the **exponent** in **AL**).
 
 ```nasm
 SYS0CBC: POP SI
 SYS0CBD: POP CX
 SYS0CBE: RET
 ```
+
+Restore **CX** and **SI** then return.
 
 ## SYS:0CBF
 ### Conversion - Step 1 (Entry Point)
