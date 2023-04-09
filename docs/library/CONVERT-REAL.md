@@ -20,16 +20,39 @@ It was compiled with both x87 emulation and FPU x87 code disabled using:
 TPC.EXE -GS -GP -GD -$D+ -$E- -$N- MAIN
 ```
 
-## Complete Disassembly of the Main Program
+## CODE:0000
+### Complete Disassembly of the Main Program
+The entire main program (above) is compiled and fits in less than **50h/90** bytes. Width the compiler defaulting to paragraph alignment, **SYS** segment would be 5 paragraphs above **CODE** segment.
+
 ```nasm
 CODE0000: CALL SYS:0000
+```
+
+Initialize [**system library**](#sys0000). 
+
+```nasm
 CODE0005: PUSH BP
 CODE0006: MOV BP,SP
+```
+
+This is a signature of high-level language, which usually features a lot of stack-based constructs/variables: **BP** is saved on to the stack. It then copies **SP** into **BP** so that variables/values on the stack are indexed using **BP** and usually with +/- byte offsets.
+
+```nasm
 CODE0008: XOR AX,AX
 CODE000A: CALL SYS:02CD
+```
+
+Check the [stack size](#sys02cd).
+
+```nasm
 CODE000F: MOV WORD PTR [A.Low],9282
 CODE0015: MOV WORD PTR [A.Mid],DAA2
 CODE001B: MOV WORD PTR [A.High],490F
+```
+
+This is the [assignment](#code000f) operation.
+
+```nasm
 CODE0021: PUSH [A.High]
 CODE0025: PUSH [A.Mid]
 CODE0029: PUSH [A.Low]
@@ -43,13 +66,20 @@ CODE0039: PUSH DI
 CODE003A: MOV AX,00FF
 CODE003D: PUSH AX
 CODE003E: CALL SYS:0CBF
+```
+
+This is the call to the [Str()](#code0021) function.
+
+```nasm
 CODE0043: POP BP
 CODE0044: XOR AX,AX
 CODE0046: CALL SYS:0116
 ```
 
-## Assignment
+Restore **BP** then [exit](#sys0116) with code **0**.
 
+## CODE:000F
+### Assignment
 Assign a ***Real*** value to **A**.
 
 ```pascal
@@ -64,8 +94,10 @@ CODE0015: MOV WORD PTR [A.Mid],DAA2
 CODE001B: MOV WORD PTR [A.High],490F
 ```
 
-## Conversion to String
+[*Real*](REAL-TYPE.md) values in Pasacal occupy 6-bytes and are usually stored in **DX**:**BX**:**AX** registers (high, middle, low words).
 
+## CODE:0021
+### Conversion to String
 Call on Pascal **Str()** function to convert ***Real*** variable **A** to a ***string*** in **B**.
 
 ```pascal
