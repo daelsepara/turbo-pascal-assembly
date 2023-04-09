@@ -561,6 +561,8 @@ SYS02DC: JB 02DF
 SYS02DE: RETF
 ```
 
+Check if stack size is above the minimum limit ([StackLimit](../DATA.md)).
+
 ```nasm
 SYS02DF: MOV AX,00CA
 SYS02E2: JMP 010F
@@ -573,6 +575,8 @@ Print [CAh/202 Stack overflow](../ERROR-CODES.md) [runtime error](#sys010f).
 ```
 SYS02E5:  BA
 ```
+
+For alignment?
 
 ## SYS:02E6
 ### Open File Function
