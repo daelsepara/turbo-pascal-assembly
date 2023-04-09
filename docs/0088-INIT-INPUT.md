@@ -8,7 +8,7 @@ Reset (Input);
 ```
 
 ```nasm
-SYS0088: MOV AX,Input
+SYS0088: MOV AX,OFFSET Input
 SYS008B: PUSH DS
 SYS008C: PUSH AX
 SYS008D: PUSH DS
@@ -18,7 +18,7 @@ SYS008E: PUSH AX
 Push pointer to **[Input](TEXT-FILE-TYPE.md)** twice. The first one is for **[SYS:0364 Reset Function](0364-RESET-REWRITE-FUNC.md)**, the second one for **[SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md)**.
 
 ```nasm
-SYS008F: MOV AX,SYS:0263
+SYS008F: MOV AX,0263
 SYS0092: PUSH CS
 SYS0093: PUSH AX
 SYS0094: PUSH CS

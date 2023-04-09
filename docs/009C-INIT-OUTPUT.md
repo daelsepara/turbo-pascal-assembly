@@ -8,7 +8,7 @@ Rewrite(Output);
 ```
 
 ```nasm
-SYS009C: MOV AX,Output
+SYS009C: MOV AX,OFFSET Output
 SYS009F: PUSH DS
 SYS00A0: PUSH AX
 SYS00A1: PUSH DS
@@ -18,7 +18,7 @@ SYS00A2: PUSH AX
 Push pointer to **[Output](TEXT-FILE-TYPE.md)** twice. The first one is for **[SYS:0369 Reset Function](0364-RESET-REWRITE-FUNC.md)**, the second one for **[SYS:02E6 Assign Function](02E6-ASSIGN-FUNC.md)**.
 
 ```nasm
-SYS00A3: MOV AX,SYS:0263
+SYS00A3: MOV AX,0263
 SYS00A6: PUSH CS
 SYS00A7: PUSH AX
 SYS00A8: PUSH CS
