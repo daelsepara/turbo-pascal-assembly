@@ -6,7 +6,7 @@ This CTRL-C handler is also the **Exit Program** subroutine. When called at **SY
 SYS0113: MOV AX,00FF
 ```
 
-Set ExitCode to FFh (-1). This only happens when the Program Execution is interrupted by pressing CTRL-C.
+Set ExitCode to **FFh (-1)**. This only happens when the Program Execution is interrupted by pressing CTRL-C.
 
 ```nasm
 SYS0116: XOR CX,CX

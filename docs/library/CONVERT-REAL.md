@@ -266,10 +266,19 @@ SYS0107: ADD SP,+06
 SYS010A: JMP 010F
 ```
 
+Print [D0h/208 Overlay manager not installed](../ERROR-CODES.md) [runtime error](#sys010f).
+
 ## SYS:010C
 ### INT 00h Handler
 ```nasm
 SYS010C: MOV AX,00C8
+```
+
+Set error code to [C8h/200 Division by zero](../ERROR-CODES.md).
+
+## SYS:010F
+### Entry point for runtime errors
+```nasm
 SYS010F: POP CX
 SYS0110: POP BX
 SYS0111: JMP 011A
@@ -280,6 +289,8 @@ SYS0111: JMP 011A
 ```nasm
 SYS0113: MOV AX,00FF
 ```
+
+Set exit code to [FFh/255/-1 Unknown](../ERROR-CODES.md).
 
 ## SYS:0116
 ### Exit Routine Entry Point
@@ -494,6 +505,8 @@ SYS0299: MOV AX,[InOutRes]
 SYS029C: JMP 010F
 ```
 
+On error, load [**InOutRes**](../DATA.md) into **AX** [print runtime error](#sys010f).
+
 ## SYS:029F
 ### Range check
 ```nasm
@@ -524,12 +537,16 @@ SYS02C1: MOV AX,00C9
 SYS02C4: JMP 010F
 ```
 
+Print [C9h/201 Range check](../ERROR-CODES.md) [runtime error](#sys010f).
+
 ## SYS:02C7
 ### Arithmetic Overflow Error
 ```nasm
 SYS02C7: MOV AX,00D7
 SYS02CA: JMP 010F
 ```
+
+Print [D7h/215 Arithmetic overflow](../ERROR-CODES.md) [runtime error](#sys010f).
 
 ## SYS:02CD
 ### Check Stack
@@ -542,11 +559,17 @@ SYS02D6: NEG AX
 SYS02D8: CMP AX,[StackLimit]
 SYS02DC: JB 02DF
 SYS02DE: RETF
+```
+
+```nasm
 SYS02DF: MOV AX,00CA
 SYS02E2: JMP 010F
 ```
 
-## Unused byte
+Print [CAh/202 Stack overflow](../ERROR-CODES.md) [runtime error](#sys010f).
+
+## SYS:02E5
+### Unused byte
 ```
 SYS02E5:  BA
 ```
