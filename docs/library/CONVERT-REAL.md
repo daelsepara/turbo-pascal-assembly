@@ -1052,13 +1052,13 @@ SYS05AE: OR DH,80
 
 Clear exponent in **AL** since we do not want **AL** to have any effect on the adjustments. Set the sign bit in **DH** (to handle the bit shifts properly).
 
-```
+```nasm
 SYS05B1: OR DI,8000
 ```
 
 Set the sign bit of **DI**.
 
-```
+```nasm
 SYS05B5: CMP CL,08
 SYS05B8: JB 05CB
 ```
@@ -1107,7 +1107,7 @@ SYS05D9: POPF
 
 Retrieve the result, i.e. whether or not the numbers have opposing signs.
 
-```
+```nasm
 SYS05DA: JS 0613
 ```
 
@@ -2066,7 +2066,7 @@ SYS0A0D: JZ 0A5B
 
 If **DX** (precision) is 0 then all digits have been rendered. Exit to [**SYS:0A5B**](#sys0a5b).
 
-```
+```nasm
 SYS0A0F: MOV AL,2E
 SYS0A11: STOSB
 ```
@@ -2082,21 +2082,21 @@ SYS0A17: STOSB
 
 Store **'0'** until there is a non-zero digit (**CX** == **0**) or all digits have been copied.
 
-```
+```nasm
 SYS0A18: DEC DX
 SYS0A19: JNZ 0A12
 ```
 
 Loop back while string there are still digits to copy or 
 
-```
+```nasm
 SYS0A1B: DEC DX
 SYS0A1C: JS 0A5B
 ```
 
 Check if all digits have been rendered then exit to [**SYS:0A5B**](#sys0a5b).
 
-```
+```nasm
 SYS0A1E: CALL 0A64
 SYS0A21: STOSB
 SYS0A22: JMP 0A1B
@@ -2214,7 +2214,7 @@ SYS0A5D: POP DI
 
 Copy the current buffer pointer position in **DI** to **CX**. Retrieve length of string from **SS**:[**SP**] by popping **DI** (recall **BP-14** = **SP**).
 
-```
+```nasm
 SYS0A5E: SUB CX,DI
 ```
 
