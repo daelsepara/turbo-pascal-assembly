@@ -505,7 +505,7 @@ SYS0299: MOV AX,[InOutRes]
 SYS029C: JMP 010F
 ```
 
-On error, load [**InOutRes**](../DATA.md) into **AX** [print runtime error](#sys010f).
+On error, load [**InOutRes**](../DATA.md) into **AX** then [print runtime error](#sys010f).
 
 ## SYS:029F
 ### Range check
