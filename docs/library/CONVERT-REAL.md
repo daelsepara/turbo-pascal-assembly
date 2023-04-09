@@ -14,7 +14,7 @@ program main;
 end program;
 ```
 
-It was compiled with x87 emulation and x87 code disabled using:
+It was compiled with both x87 emulation and FPU x87 code disabled using:
 
 ```cmd
 TPC.EXE -GS -GP -GD -$D+ -$E- -$N- MAIN
