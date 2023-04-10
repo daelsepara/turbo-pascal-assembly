@@ -1667,15 +1667,22 @@ SYS0723: DEC CX
 
 Shift the number **DX**:**BX**:**AX** to the left once but compensate in **CX**.
 
+## SYS:0724
 ```nasm
 SYS0724: SUB CX,8081
+```
+
+Bias the exponent in **CX**
+
+## SYS:0728
+```nasm
 SYS0728: ADD AX,0080
 SYS072B: ADC BX,+00
 SYS072E: ADC DX,+00
 SYS0731: JNB 0736
 ```
 
-Bias the exponent in **CX** and **AX** and check if there is an overflow.
+Bias the exponent in **AX** and check if there is an overflow.
 
 ```nasm
 SYS0733: RCR DX,1
@@ -1727,7 +1734,7 @@ SYS0749: RET
 
 ## SYS:074A
 This is step 7a of the conversion. At this point:
-- **DI**:**SI**:**CX** holds the adjusted ***Real*** number obtained from [**SYS:0C35-0C70**](#sys0c35).
+- **DI**:**SI**:**CX** holds the ***Real*** number obtained from [**SYS:0C35-0C70**](#sys0c35).
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted.
 
 ```nasm
@@ -1794,46 +1801,112 @@ SYS0775: JB 077D
 SYS0777: SUB AH,CH
 SYS0779: SBB BX,SI
 SYS077B: SBB BP,DI
+```
+
+```nasm
 SYS077D: RCL DX,1
 SYS077F: JB 0792
+```
+
+Shift **DX** once and check if there is an overflow.
+
+## SYS:0781
+```nasm
 SYS0781: SHL AH,1
 SYS0783: RCL BX,1
 SYS0785: RCL BP,1
 SYS0787: JNB 076B
+```
+
+Shift the number **BP**:**BX**:**AH** once and check if there is an overflow.
+
+```nasm
 SYS0789: SUB AH,CH
 SYS078B: SBB BX,SI
 SYS078D: SBB BP,DI
+```
+
+Subtract the number **DI**:**SI**:**CH** from **BP**:**BX**:**AH** and handle overflows.
+
+```
 SYS078F: CLC
 SYS0790: JMP 077D
 ```
 
 ## SYS:0792
-### Unknown code block
 ```nasm
 SYS0792: DEC AL
 SYS0794: JS 07A0
+```
+
+Adjust exponent. If the result is too large that it sets the sign bit in **AL**, proceed to [**SYS:07A0**](#sys07a0).
+
+```nasm
 SYS0796: PUSH DX
+```
+
+Save **DX**.
+
+```nasm
 SYS0797: MOV DX,0001
 SYS079A: JNZ 0781
+```
+
+If AL is non-zero (in [**SYS:0792**](#sys0792)), get back to [**SYS:0781**](#sys0781).
+
+```
 SYS079C: MOV DL,40
 SYS079E: JMP 0781
+```
+
+Otherwise, set **DL** to **40h**/**64** then get back to [**SYS:0781**](#sys0781).
+
+## SYS:07A0
+```nasm
 SYS07A0: MOV AX,DX
 SYS07A2: MOV CL,06
 SYS07A4: SHL AX,CL
+```
+
+```nasm
 SYS07A6: POP BX
 SYS07A7: POP DX
 SYS07A8: POP CX
 SYS07A9: POP BP
+```
+
+Retrieve values push onto the stack (**SYS:074E**, **SYS:0765**, **SYS:0796**)
+
+```nasm
 SYS07AA: NOT AX
 SYS07AC: NOT BX
 SYS07AE: XOR DX,-01
 SYS07B1: JS 07BA
+```
+
+Add 1 and negate **DX**:**BX**:**AX**. If **DX** becomes negative proceed to [**SYS:07BA**](#sys07ba).
+
+```nasm
 SYS07B3: RCL AX,1
 SYS07B5: RCL BX,1
 SYS07B7: RCL DX,1
 SYS07B9: DEC CX
+```
+
+Adjust **DX**:**BX**:**AX** (shift left once) then compensate in **CX**.
+
+## SYS:07BA
+### Bias exponent in **CX**.
+```nasm
 SYS07BA: ADD CX,8080
 SYS07BE: JMP 0728
+```
+
+Continue to [**SYS:0728**](#sys0728).
+
+## SYS:07C1
+#### Unknown code block
+```nasm
 SYS07C1: PUSH DX
 SYS07C2: XOR DX,DI
 SYS07C4: POP DX
@@ -2915,6 +2988,7 @@ SYS0BED: JG 0C33
 
 Return immediately ([**SYS:0C33**](#sys0c33)) if adjusted exponent is not in the range **DAh**/**-38** <= **CX** <= **26h**/**38**.
 
+## SYS:0BEF
 ```nasm
 SYS0BEF: PUSH DX
 SYS0BF0: PUSH BX
@@ -3012,7 +3086,7 @@ SYS0C29: POP BX
 SYS0C2A: POP DX
 ```
 
-Restore the number **DX**:**BX**:**AX**
+Restore the number **DX**:**BX**:**AX** (saved in [**SYS:0BEF**](#sys0bef)).
 
 ```nasm
 SYS0C2B: JS 0C30
