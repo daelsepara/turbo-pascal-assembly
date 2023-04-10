@@ -1512,7 +1512,7 @@ SYS06BD: MOV AX,[BP+02]
 SYS06C0: MUL WORD PTR [BP+06]
 ```
 
-Multiple **BX** * **CX** using their original values from the stack.
+Multiply **BX** * **CX** using their original values from the stack.
 
 ```nasm
 SYS06C3: ADD SI,AX
@@ -1524,65 +1524,197 @@ Add the result in **DX**:**AX** to **BX**:**DI**:**SI** (handling all the carrie
 
 ```nasm
 SYS06C9: MOV SI,CX
+```
+
+Clear **SI**.
+
+```nasm
 SYS06CB: MOV AX,[BP+00]
 SYS06CE: MUL WORD PTR [BP+0A]
+```
+
+Multiply **AX** * **DI** using their original values from the stack.
+
+```nasm
 SYS06D1: ADD DI,AX
 SYS06D3: ADC BX,DX
 SYS06D5: ADC SI,CX
+```
+
+Add the result in **DX**:**AX** to **SI**:**BX**:**DI** (handling all the carries).
+
+```nasm
 SYS06D7: MOV AX,[BP+02]
 SYS06DA: MUL WORD PTR [BP+08]
+```
+
+Multiply **BX** * **SI** using their original values from the stack.
+
+```nasm
 SYS06DD: ADD DI,AX
 SYS06DF: ADC BX,DX
 SYS06E1: ADC SI,CX
+```
+
+Add the result in **DX**:**AX** to **SI**:**BX**:**DI** (handling all the carries).
+
+```nasm
 SYS06E3: MOV AX,[BP+04]
 SYS06E6: MUL WORD PTR [BP+06]
+```
+
+Multiply **BP** * **CX** using their original values from the stack.
+
+```nasm
 SYS06E9: ADD DI,AX
 SYS06EB: ADC BX,DX
 SYS06ED: ADC SI,CX
+```
+
+Add the result in **DX**:**AX** to **SI**:**BX**:**DI** (handling all the carries).
+
+```nasm
 SYS06EF: MOV DI,CX
+```
+
+Clear **DI**.
+
+```nasm
 SYS06F1: MOV AX,[BP+02]
 SYS06F4: MUL WORD PTR [BP+0A]
+```
+
+Multiply **BX** * **DI** using their original values from the stack.
+
+```nasm
 SYS06F7: ADD BX,AX
 SYS06F9: ADC SI,DX
 SYS06FB: ADC DI,CX
+```
+
+Add the result in **DX**:**AX** to **DI**:**SI**:**BX** (handling all the carries).
+
+```nasm
 SYS06FD: MOV AX,[BP+04]
 SYS0700: MUL WORD PTR [BP+08]
+```
+
+Multiply **BP** * **SI** using their original values from the stack.
+
+```nasm
 SYS0703: ADD BX,AX
 SYS0705: ADC SI,DX
 SYS0707: ADC DI,CX
+```
+
+Add the result in **DX**:**AX** to **DI**:**SI**:**BX** (handling all the carries).
+
+```nasm
 SYS0709: MOV AX,[BP+04]
 SYS070C: MUL WORD PTR [BP+0A]
+```
+
+Multiply **BP** * **DI** using their original values from the stack.
+
+```nasm
 SYS070F: ADD AX,SI
 SYS0711: ADC DX,DI
+```
+
+Add the result in **DX**:**AX** to **DI**:**SI** (handling all the carries).
+
+```nasm
 SYS0713: ADD SP,+0C
 ```
+
+"*Remove*" numbers saved on the stack (in [**SYS:069B**](#sys069b)).
 
 ## SYS:0716
 ```nasm
 SYS0716: XCHG BX,AX
+```
+
+Exchange the low (**BX**) and mid (**AX**) words.
+
+## SYS:0717
+### Stack after SYS:0716
+
+|Index|Contents|
+|-----|--------|
+|BP   |DX      |
+|BP+02|BP      |
+
+```nasm
 SYS0717: POP CX
 SYS0718: POP BP
+```
+
+Restore **BP** and **DX** (from the stack) into **CX**.
+
+```nasm
 SYS0719: OR DH,DH
 SYS071B: JS 0724
+```
+
+Check if **DH** is signed.
+
+```nasm
 SYS071D: SHL AX,1
 SYS071F: RCL BX,1
 SYS0721: RCL DX,1
 SYS0723: DEC CX
+```
+
+Shift the number **DX**:**BX**:**AX** to the left once but compensate in **CX**.
+
+```nasm
 SYS0724: SUB CX,8081
 SYS0728: ADD AX,0080
 SYS072B: ADC BX,+00
 SYS072E: ADC DX,+00
 SYS0731: JNB 0736
+```
+
+Bias the exponent in **CX** and **AX** and check if there is an overflow.
+
+```nasm
 SYS0733: RCR DX,1
 SYS0735: INC CX
+```
+
+If there is an overflow, scale back **DX** but compensate in **CX**.
+
+```nasm
 SYS0736: TEST CH,40
 SYS0739: JNZ 0743
+```
+
+Check if **CH** is too large.
+
+```nasm
 SYS073B: INC CX
+```
+
+Adjust exponent in **CX**.
+
+```nasm
 SYS073C: MOV AL,CL
+```
+
+Copy exponent into **AL**.
+
+```nasm
 SYS073E: XOR DH,CH
+```
+
+Complement the sign in **DH**.
+
+```nasm
 SYS0740: SHR CH,1
 SYS0742: RET
 ```
+
+Make final adjustment in **CH** and return.
 
 ## Clear number
 
@@ -1594,8 +1726,6 @@ SYS0749: RET
 ```
 
 ## SYS:074A
-### Step 7a
-
 This is step 7a of the conversion. At this point:
 - **DI**:**SI**:**CX** holds the adjusted ***Real*** number obtained from [**SYS:0C35-0C70**](#sys0c35).
 - **DX**:**BX**:**AX** holds the ***Real*** number being converted.
@@ -1614,17 +1744,45 @@ SYS074F: MOV BP,DX
 
 Save **BP** and copy **DX**.
 
-## SYS:0751
-### Unknown code block
 ```nasm
 SYS0751: XOR DX,DI
+```
+
+Compare **DX** and **DI** (check if signs are complementary)
+
+```nasm
 SYS0753: OR DI,8000
 SYS0757: OR BP,8000
+```
+
+Set the sign bits of **DI** and **BP**.
+
+```nasm
 SYS075B: AND DX,8000
+```
+
+Clear **DX** except for the sign bit.
+
+```nasm
 SYS075F: XCHG AL,DL
+```
+
+Clear **AL** (**DL** was **00h** in **SYS:075B**) but copy the exponent into **DL**.
+
+```nasm
 SYS0761: SUB DL,CL
 SYS0763: SBB DH,AL
+```
+
+Get the magnitude difference between the exponents in **DL** and **CL** and store the overflow in **DH**.
+
+```nasm
 SYS0765: PUSH DX
+```
+
+Save **DX**.
+
+```nasm
 SYS0766: MOV AL,02
 SYS0768: MOV DX,0001
 SYS076B: CMP BP,DI
@@ -1647,6 +1805,11 @@ SYS078B: SBB BX,SI
 SYS078D: SBB BP,DI
 SYS078F: CLC
 SYS0790: JMP 077D
+```
+
+## SYS:0792
+### Unknown code block
+```nasm
 SYS0792: DEC AL
 SYS0794: JS 07A0
 SYS0796: PUSH DX
