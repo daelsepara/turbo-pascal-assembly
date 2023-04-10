@@ -298,7 +298,7 @@ SYS0107: ADD SP,+06
 SYS010A: JMP 010F
 ```
 
-Print [D0h/208 Overlay manager not installed](../ERROR-CODES.md) [runtime error](#sys010f).
+Exit with [D0h/208 Overlay manager not installed](../ERROR-CODES.md) [runtime error](#sys010f).
 
 ## SYS:010C
 ### INT 00h Handler
@@ -569,7 +569,7 @@ SYS02C1: MOV AX,00C9
 SYS02C4: JMP 010F
 ```
 
-Print [C9h/201 Range check](../ERROR-CODES.md) [runtime error](#sys010f).
+Exit with [C9h/201 Range check](../ERROR-CODES.md) [runtime error](#sys010f).
 
 ## SYS:02C7
 ### Arithmetic Overflow Error
@@ -578,7 +578,7 @@ SYS02C7: MOV AX,00D7
 SYS02CA: JMP 010F
 ```
 
-Print [D7h/215 Arithmetic overflow](../ERROR-CODES.md) [runtime error](#sys010f).
+Exit with [D7h/215 Arithmetic overflow](../ERROR-CODES.md) [runtime error](#sys010f).
 
 ## SYS:02CD
 ### Check Stack
@@ -600,7 +600,7 @@ SYS02DF: MOV AX,00CA
 SYS02E2: JMP 010F
 ```
 
-Print [CAh/202 Stack overflow](../ERROR-CODES.md) [runtime error](#sys010f).
+Exit with [CAh/202 Stack overflow](../ERROR-CODES.md) [runtime error](#sys010f).
 
 ## SYS:02E5
 ### Unused byte
@@ -1133,7 +1133,7 @@ SYS05C2: MOV DL,DH
 SYS05C4: XOR DH,DH
 ```
 
-This entire code block shifts to the number DX:BX:AX to the right by 8 bits at once.
+This entire code block shifts to the number **DX**:**BX**:**AX** to the right by 8 bits at once.
 
 ```nasm
 SYS05C6: SUB CL,08
@@ -1158,7 +1158,7 @@ SYS05D5: DEC CL
 SYS05D7: JNZ 05CF
 ```
 
-This shifts the **MSW** in **DX** by one power of two (to the right) and adjust the exponent **CL**, i.e **DX**:**BX**:**AX** * 2^(**-1**), **CL** = **CL - 1**.
+This shifts the number **DX**:**BX**:**AX** one bit at a time to the right. The number of times this shift occurs is determined by **CL**, i.e **DX**:**BX**:**AX** * 2^(**-1**), **CL** = **CL - 1**. 
 
 ```nasm
 SYS05D9: POPF
@@ -1179,7 +1179,7 @@ SYS05DE: ADC BX,SI
 SYS05E0: ADC DX,DI
 ```
 
-Add **DI**:**SI**:**CX** to **DX**:**BX**:**AX** (handle all carries).
+Add **DI**:**SI**:**CX** to **DX**:**BX**:**AX** (and handle all carries).
 
 ```nasm
 SYS05E2: MOV CX,BP
@@ -1376,7 +1376,7 @@ SYS065C: ADC DH,AL
 SYS065E: MOV CL,AL
 ```
 
-Copy the exponent in **AL** into **DL**. Add the exponent in **CL** to **DL**. Add the overflow in **SYS:065A** to **DH**. Clear **CL**.
+Copy the exponent in **AL** into **DL**. Add the exponent in **CL** to **DL**. Add the overflow in **SYS:065A** to **DH**. Clear **CL** (**AL** was **00h** after **SYS:0658**).
 
 ```nasm
 SYS0660: OR BP,8000
@@ -1402,9 +1402,20 @@ SYS0671: OR CH,CH
 SYS0673: JNZ 069B
 SYS0675: OR SI,SI
 SYS0677: JNZ 069B
+```
+
+Checks if the mid word and low bytes of both numbers. If both low bytes (**AH**, **CH**) are non-zero, proceed immediately to [**SYS:069B**](#sys069b). If the mid word (**BX**) is zero, proceed immediately to [**SYS:067E**](#sys067e).
+
+```nasm
 SYS0679: XCHG CX,AX
 SYS067A: XCHG BX,SI
 SYS067C: XCHG BP,DI
+```
+
+Exchange the numbers BP**:**BX**:**AX** with **DI**:**SI**:**CX**.
+
+## SYS:067E
+```nasm
 SYS067E: MOV AX,CX
 SYS0680: MUL BP
 SYS0682: MOV BX,DX
@@ -1420,10 +1431,13 @@ SYS0695: ADC DX,+00
 SYS0698: JMP 0716
 ```
 
+This entire sequence multiplies the number **DI**:**SI**:**CX** by **BP** with the final result stored in **DX**:**AX**:**BX** (**AX** and **BX** are reveresed). Proceed to [**SYS:0716**](#sys0716).
+
 ```nasm
 SYS069A: NOP
 ```
 
+## SYS:069B
 ```nasm
 SYS069B: PUSH DI
 SYS069C: PUSH SI
@@ -1445,7 +1459,6 @@ Save both numbers **DI**:**SI**:**CX** and **BP**:**BX**:**AX**.
 |BP+06|CX      |
 |BP+08|SI      |
 |BP+0A|DI      |
-|BP+0C|DI      |
 
 ```nasm
 SYS06A1: MOV BP,SP
@@ -1469,7 +1482,7 @@ Load **AH** (from the stack) into **AL**.
 SYS06A8: MUL BYTE PTR [BP+07]
 ```
 
-Multiply **CH** (from stack) to **AL** and store in **AL**.
+Multiply **CH** (from stack) to **AL** (which contained **AH**) and store in **AL**.
 
 ```nasm
 SYS06AB: MOV SI,AX
@@ -1477,21 +1490,39 @@ SYS06AD: MOV DI,CX
 SYS06AF: MOV BX,CX
 ```
 
-Clear **BX**, **SI**, **DI** (**CX** = 0 from **SYS:06A3**).
+Clear **BX**, **DI** (**CX** = 0 from **SYS:06A3**).
 
-## SYS:06B1
-### Unknown code block
 ```nasm
 SYS06B1: MOV AX,[BP+00]
 SYS06B4: MUL WORD PTR [BP+08]
+```
+
+Load the original value of **AX** from the stack (**SS**:[**BP+00**]) and multiply it by **SI** (from the stack **SS**:[**BP+08**])
+
+```nasm
 SYS06B7: ADD SI,AX
 SYS06B9: ADC DI,DX
 SYS06BB: ADC BX,CX
+```
+
+Store the result in **DX**:**AX** to **BX**:**DI**:**SI** (handling all the carries).
+
+```nasm
 SYS06BD: MOV AX,[BP+02]
 SYS06C0: MUL WORD PTR [BP+06]
+```
+
+Multiple **BX** * **CX** using their original values from the stack.
+
+```nasm
 SYS06C3: ADD SI,AX
 SYS06C5: ADC DI,DX
 SYS06C7: ADC BX,CX
+```
+
+Add the result in **DX**:**AX** to **BX**:**DI**:**SI** (handling all the carries).
+
+```nasm
 SYS06C9: MOV SI,CX
 SYS06CB: MOV AX,[BP+00]
 SYS06CE: MUL WORD PTR [BP+0A]
@@ -1524,6 +1555,10 @@ SYS070C: MUL WORD PTR [BP+0A]
 SYS070F: ADD AX,SI
 SYS0711: ADC DX,DI
 SYS0713: ADD SP,+0C
+```
+
+## SYS:0716
+```nasm
 SYS0716: XCHG BX,AX
 SYS0717: POP CX
 SYS0718: POP BP
