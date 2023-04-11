@@ -1412,7 +1412,7 @@ SYS067A: XCHG BX,SI
 SYS067C: XCHG BP,DI
 ```
 
-Exchange the numbers BP**:**BX**:**AX** with **DI**:**SI**:**CX**.
+Exchange the numbers **BP**:**BX**:**AX** with **DI**:**SI**:**CX**.
 
 ## SYS:067E
 ```nasm
@@ -1656,7 +1656,7 @@ SYS0719: OR DH,DH
 SYS071B: JS 0724
 ```
 
-Check if **DH** is signed.
+Check if **DH** is [**signed**](#sys0724).
 
 ```nasm
 SYS071D: SHL AX,1
@@ -1723,8 +1723,8 @@ SYS0742: RET
 
 Make final adjustment in **CH** and return.
 
-## Clear number
-
+## SYS:0743
+### Clear number
 ```nasm
 SYS0743: XOR AX,AX
 SYS0745: MOV BX,AX
@@ -1742,8 +1742,9 @@ SYS074A: OR AL,AL
 SYS074C: JZ 0743
 ```
 
-Return with the number **DX**:**BX**:**AX** set to 0 if the exponent in **AL** is **0**.
+Return with the number **DX**:**BX**:**AX** set to 0 ([**SYS:0743**](#sys0743)) if the exponent in **AL** is **0**.
 
+## SYS:074E
 ```nasm
 SYS074E: PUSH BP
 SYS074F: MOV BP,DX
@@ -1783,6 +1784,7 @@ SYS0763: SBB DH,AL
 
 Get the magnitude difference between the exponents in **DL** and **CL** and store the overflow in **DH**.
 
+## SYS:0765
 ```nasm
 SYS0765: PUSH DX
 ```
@@ -1792,23 +1794,35 @@ Save **DX**.
 ```nasm
 SYS0766: MOV AL,02
 SYS0768: MOV DX,0001
+```
+
+## SYS:076B
+```nasm
 SYS076B: CMP BP,DI
 SYS076D: JNZ 0775
 SYS076F: CMP BX,SI
 SYS0771: JNZ 0775
 SYS0773: CMP AH,CH
 SYS0775: JB 077D
+```
+
+Check if number **BP**:**BX**:**AH** is below **DI**:**SI**:**CH** then proceed to [**SYS:077D**](#sys077d).
+
+```nasm
 SYS0777: SUB AH,CH
 SYS0779: SBB BX,SI
 SYS077B: SBB BP,DI
 ```
 
+... otherwise subtract **DI**:**SI**:**CH** from **BP**:**BX**:**AH**.
+
+## SYS:077D
 ```nasm
 SYS077D: RCL DX,1
 SYS077F: JB 0792
 ```
 
-Shift **DX** once and check if there is an overflow.
+Double **DX** and check if there is an overflow.
 
 ## SYS:0781
 ```nasm
@@ -1828,10 +1842,12 @@ SYS078D: SBB BP,DI
 
 Subtract the number **DI**:**SI**:**CH** from **BP**:**BX**:**AH** and handle overflows.
 
-```
+```nasm
 SYS078F: CLC
 SYS0790: JMP 077D
 ```
+
+Clear carry flag **CF** and go back to [**SYS:077D**](#sys077d).
 
 ## SYS:0792
 ```nasm
@@ -1839,8 +1855,9 @@ SYS0792: DEC AL
 SYS0794: JS 07A0
 ```
 
-Adjust exponent. If the result is too large that it sets the sign bit in **AL**, proceed to [**SYS:07A0**](#sys07a0).
+Adjust exponent (**AL**). If **AL** becomes too small, proceed to [**SYS:07A0**](#sys07a0).
 
+## SYS:0796
 ```nasm
 SYS0796: PUSH DX
 ```
@@ -1852,7 +1869,7 @@ SYS0797: MOV DX,0001
 SYS079A: JNZ 0781
 ```
 
-If AL is non-zero (in [**SYS:0792**](#sys0792)), get back to [**SYS:0781**](#sys0781).
+If **AL** is non-zero (in [**SYS:0792**](#sys0792)), get back to [**SYS:0781**](#sys0781).
 
 ```
 SYS079C: MOV DL,40
@@ -1875,7 +1892,7 @@ SYS07A8: POP CX
 SYS07A9: POP BP
 ```
 
-Retrieve values push onto the stack (**SYS:074E**, **SYS:0765**, **SYS:0796**)
+Retrieve values push onto the stack ([**SYS:074E**](#sys074e), [**SYS:0765**](#sys0765), [**SYS:0796**](#sys0796))
 
 ```nasm
 SYS07AA: NOT AX
@@ -1896,13 +1913,12 @@ SYS07B9: DEC CX
 Adjust **DX**:**BX**:**AX** (shift left once) then compensate in **CX**.
 
 ## SYS:07BA
-### Bias exponent in **CX**.
 ```nasm
 SYS07BA: ADD CX,8080
 SYS07BE: JMP 0728
 ```
 
-Continue to [**SYS:0728**](#sys0728).
+Bias exponent in **CX**. Continue to [**SYS:0728**](#sys0728).
 
 ## SYS:07C1
 #### Unknown code block
@@ -3016,7 +3032,7 @@ SYS0BF9: MOV BL,CL
 SYS0BFB: AND BL,FC
 ```
 
-Copy the exponent in **BL** and clear bits 0-1. This ensures that the exponent in **BL** will be in a multiple of **4**.
+Copy the exponent in **CL** to **BL** and clear bits 0-1. This ensures that the exponent in **BL** will be in a multiple of **4**.
 
 ```nasm
 SYS0BFE: MOV BH,BL
