@@ -1449,7 +1449,11 @@ SYS06A0: PUSH AX
 
 Save both numbers **DI**:**SI**:**CX** and **BP**:**BX**:**AX**.
 
-### Stack after SYS:06A0
+```nasm
+SYS06A1: MOV BP,SP
+```
+
+### Stack after SYS:06A1
 
 |Index|Contents|
 |-----|--------|
@@ -1459,10 +1463,6 @@ Save both numbers **DI**:**SI**:**CX** and **BP**:**BX**:**AX**.
 |BP+06|CX      |
 |BP+08|SI      |
 |BP+0A|DI      |
-
-```nasm
-SYS06A1: MOV BP,SP
-```
 
 Point **BP** to top of stack (**SP**).
 
@@ -1482,7 +1482,7 @@ Load **AH** (from the stack) into **AL**.
 SYS06A8: MUL BYTE PTR [BP+07]
 ```
 
-Multiply **CH** (from stack) to **AL** (which contained **AH**) and store in **AL**.
+Multiply **CH** (from stack) to **AL** (which contained **AH**). Result stored in **AX**.
 
 ```nasm
 SYS06AB: MOV SI,AX
@@ -1490,7 +1490,7 @@ SYS06AD: MOV DI,CX
 SYS06AF: MOV BX,CX
 ```
 
-Clear **BX**, **DI** (**CX** = 0 from **SYS:06A3**).
+Clear **BX**, **DI** (**CX** = 0 from **SYS:06A3**). Copy **AX** to **SI** (Full result in **BX**:**DI**:**SI**).
 
 ```nasm
 SYS06B1: MOV AX,[BP+00]
@@ -1505,7 +1505,7 @@ SYS06B9: ADC DI,DX
 SYS06BB: ADC BX,CX
 ```
 
-Store the result in **DX**:**AX** to **BX**:**DI**:**SI** (handling all the carries).
+Add result in **DX**:**AX** to **BX**:**DI**:**SI** (handling all the carries).
 
 ```nasm
 SYS06BD: MOV AX,[BP+02]
@@ -1621,7 +1621,7 @@ SYS070F: ADD AX,SI
 SYS0711: ADC DX,DI
 ```
 
-Add the result in **DX**:**AX** to **DI**:**SI** (handling all the carries).
+Add **DI**:**SI** to the result in **DX**:**AX** to (handling all the carries).
 
 ```nasm
 SYS0713: ADD SP,+0C
@@ -1641,8 +1641,8 @@ Exchange the low (**BX**) and mid (**AX**) words.
 
 |Index|Contents|
 |-----|--------|
-|BP   |DX      |
-|BP+02|BP      |
+|SP   |DX      |
+|SP+02|BP      |
 
 ```nasm
 SYS0717: POP CX
@@ -1921,43 +1921,86 @@ SYS07BE: JMP 0728
 Bias exponent in **CX**. Continue to [**SYS:0728**](#sys0728).
 
 ## SYS:07C1
-#### Unknown code block
 ```nasm
 SYS07C1: PUSH DX
 SYS07C2: XOR DX,DI
 SYS07C4: POP DX
 SYS07C5: JNS 07CC
+```
+
+Check if **DX** and **DI** (high words of *Real* numbers) have opposite signs.
+
+```
 SYS07C7: PUSH DX
 SYS07C8: RCL DX,1
 SYS07CA: POP DX
 SYS07CB: RET
 ```
 
+Get the sign bit of **DX** to **CF** flag then return.
+
 ## SYS:07CC
-### Unknown code block
 ```nasm
 SYS07CC: TEST DH,80
 SYS07CF: JZ 07D8
+```
+
+If **DH** is negative proceed to [**SYS:07D8**](#sys07d8).
+
+```nasm
 SYS07D1: CALL 07D8
 SYS07D4: JZ 07EA
 SYS07D6: CMC
 SYS07D7: RET
 ```
 
+Compare numbers ([**SYS:07D8**](#sys07d8)), complement **CF** flag, then return.
+
 ## SYS:07D8
-### Unknown code block
+### Compare magnitudes of the numbers
+
+This subroutine compares the magnitude of the *Real* numbers **DX**:**BX**:**AX** and **DI**:**SI**:**CX** and stores the result in **CF** flag.
+
 ```nasm
 SYS07D8: CMP AL,CL
 SYS07DA: JNZ 07EA
+```
+
+If exponents (**AL**, **CL**) are not equal then return via [**SYS:07EA**](#sys07ea).
+
+```nasm
 SYS07DC: OR AL,AL
 SYS07DE: JZ 07EA
+```
+
+If exponent (**AL**) is 0 then return via [**SYS:07EA**](#sys07ea).
+
+```nasm
 SYS07E0: CMP DX,DI
 SYS07E2: JNZ 07EA
+```
+
+If high words **DX** and **DI** are not equal then return via [**SYS:07EA**](#sys07ea).
+
+```nasm
 SYS07E4: CMP BX,SI
 SYS07E6: JNZ 07EA
+```
+
+If mid words **BX** and **SI** are not equal then return via [**SYS:07EA**](#sys07ea).
+
+```nasm
 SYS07E8: CMP AH,CH
+```
+
+Compare low bye **AH** and **CH**.
+
+## SYS:07EA
+```nasm
 SYS07EA: RET
 ```
+
+Return. Result flags especially carry flag **CF** is already set at this point.
 
 ## SYS:07EB
 ### Unknown code block
