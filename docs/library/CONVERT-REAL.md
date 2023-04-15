@@ -1885,6 +1885,8 @@ SYS07A2: MOV CL,06
 SYS07A4: SHL AX,CL
 ```
 
+Copy **DX** (exponent) into **AX** then shift to the left by 6 bits (multiply by 64).
+
 ```nasm
 SYS07A6: POP BX
 SYS07A7: POP DX
