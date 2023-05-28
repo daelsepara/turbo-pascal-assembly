@@ -1,4 +1,4 @@
-# Random Function: (*Real*), FPU: 87/287/387 
+# Random Function: (*Real*), FPU: 87/287/387
 
 Returns a random number (***Real*** type, 6-bytes) in the range **0.0** <= ***X*** < **1.0**. It is the same as the [**Random:** ***Real***](RANDOM-REAL.md) function but uses **FPU** code. The main program is compiled with **8087 emulation** disabled (**-$E-**) and **8087/80287/80387 code** enabled (**-$N+**):
 

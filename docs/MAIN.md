@@ -29,7 +29,7 @@ When the program is loaded in memory, ES AND DS points to the Program Segment Pr
 |Segment|Value|Distance from CODE segment|Distance calculation |size / hex / align / paragraphs + start = next|
 |-------|-----|--------------------------|---------------------|----------------------------------------------|
 |PSP    | 075E| 016 paragraphs above CODE|076E - 0010 = 075E   | 00256 => 0100 => 0100 => 010 + 75E = 76E     |
-|CODE   | 076E|                          |                     | 00023 => 0017 => 0020 => 002 + 76E = 770     | 
+|CODE   | 076E|                          |                     | 00023 => 0017 => 0020 => 002 + 76E = 770     |
 |SYSTEM | 0770| 002 paragraphs below CODE|076E + 0002 = 0770   | 01426 => 0592 => 05A0 => 05A + 770 = 7CA     |
 |DATA   | 07CA| 092 paragraphs below CODE|076E + 005C = 07CA   | 00668 => 029C => 02A0 => 02A + 7CA = 7F4     |
 |STACK  | 07F4| 134 paragraphs below CODE|076E + 0086 = 07F4   | 16384 => 4000 => 4000 => 400 + 7F4 = ???     |
@@ -57,7 +57,7 @@ CODE0005: PUSH BP
 CODE0006: MOV BP,SP
 ```
 
-Probably like other compiled high-level languages, Turbo Pascal has a lot of stack manipulation. This sequence of statements PUSH BP/MOV BP, SP is like a defining signature of compiled code. It's likely that the main program is a callable function and receives parameters (e.g. argc, argv) on the stack right next to the return code. It is also possible that the loader or the parent program did a **FAR JMP** to **CODE:0000**. 
+Probably like other compiled high-level languages, Turbo Pascal has a lot of stack manipulation. This sequence of statements PUSH BP/MOV BP, SP is like a defining signature of compiled code. It's likely that the main program is a callable function and receives parameters (e.g. argc, argv) on the stack right next to the return code. It is also possible that the loader or the parent program did a **FAR JMP** to **CODE:0000**.
 
 BP is used often to address these parameters on the stack. In most cases Turbo Pascal compiler takes special care of BP and SP, while playing fast and loose with the other registers.
 

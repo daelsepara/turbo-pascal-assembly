@@ -2,7 +2,7 @@
 
 This is Turbo Pascal's **Assign**(**[File](TEXT-FILE-TYPE.md)**, *Name*) function. It takes two parameters:
 - **File**: Pointer to the [File Record](TEXT-FILE-TYPE.md)
-- **Name**: Pointer to **[string](0263-DATA-COPYRIGHT.md)**  to assign to the **File** 
+- **Name**: Pointer to **[string](0263-DATA-COPYRIGHT.md)**  to assign to the **File**
 
 Upon calling this routine, this is how the stack looks like:
 

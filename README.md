@@ -43,7 +43,7 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
   - [019D Restore interrupt vectors](docs/019D-RESTORE-INT.md)
 
   - [01B7 Print Runtime error](docs/01B7-PRINT-RUNTIME-ERR.md)
- 
+
   - [01E9 DOS Exit](docs/01E9-DOS-EXIT.md)
 
   - [01F0 Print string](docs/01F0-PRINT-STRING.md)
@@ -69,7 +69,7 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
   - [02E6 Assign Function](docs/02E6-ASSIGN-FUNC.md)
 
   - [0364 Reset/Rewrite Function](docs/0364-RESET-REWRITE-FUNC.md)
-  
+
   - [03BA Reset/Rewrite Function (II)](docs/03BA-RESET-REWRITE-FUNC-II.md)
 
   - [03FA I/O Function Dispatcher](docs/03FA-IO-FUNCTION-DISPATCHER.md)
@@ -79,7 +79,7 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
   - [043B Write to File Function](docs/043B-WRITE-TO-FILE-FUNC.md)
 
   - [0460 Write Function](docs/0460-WRITE-FUNC.md)
-  
+
   - [0480 Close Function](docs/0480-CLOSE-FUNC.md)
 
   - [0499 Open Function](docs/0499-OPEN-FUNC.md)
@@ -109,7 +109,7 @@ This is a walkthrough through the compiled code of an **[basic Pascal program](d
   - [Randomize](docs/library/RANDOMIZE.md)
 
   - [Random Number Generator Engine](docs/library/RANDOM-ENGINE.md)
-  
+
   - [Random: *Real*](docs/library/RANDOM-REAL.md)
 
   - [Random: *Real*, FPU: 87/287/387](docs/library/RANDOM-REAL-FPU.md)

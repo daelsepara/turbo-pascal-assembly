@@ -47,7 +47,7 @@ CODE0036: MOV AX,FFFF
 CODE0039: PUSH AX
 ```
 
-These parameters are pased onto the stack for the successive calls to the system library. Notice that the higher bytes of the number (**A**) are passed first before the lower bytes. **AX** = **0011h/17** characters are used to represent the number (1 for the sign, 4 for the exponent, and 12 for the digits including the decimal point). Another parameter **AX** = **FFFFh** is pushed to the stack. 
+These parameters are pased onto the stack for the successive calls to the system library. Notice that the higher bytes of the number (**A**) are passed first before the lower bytes. **AX** = **0011h/17** characters are used to represent the number (1 for the sign, 4 for the exponent, and 12 for the digits including the decimal point). Another parameter **AX** = **FFFFh** is pushed to the stack.
 
 ## Stack after CODE:0039
 
@@ -197,7 +197,7 @@ SYS054E: CMP WORD PTR [BX+02],fmOutput
 SYS0553: JNZ 0596
 ```
 
-Check if file/device has been is open for writing. 
+Check if file/device has been is open for writing.
 
 ```nasm
 SYS0555: ES:
@@ -312,7 +312,7 @@ Save **BP** and use it as index to the stack. Reserve **40h/64** bytes on the st
 |BP+10|Output buffer (Offset)   |
 |BP+12|Output buffer (Segment)  |
 
-**Precision** and **Width** are used to set the desired precision. If **Precision** is a positive number, it will determine the number of digits after the decimal point. 
+**Precision** and **Width** are used to set the desired precision. If **Precision** is a positive number, it will determine the number of digits after the decimal point.
 
 ```nasm
 SYS0699: MOV AX,[BP+0A]
@@ -396,7 +396,7 @@ SYS06DB: RETF 000A
 
 ## Digit extaction logic
 
-|Registers|Description                  |Sample value  |              
+|Registers|Description                  |Sample value  |
 |---------|-----------------------------|--------------|
 |DI:SI:CX |Number read from **SYS:0E7A**|0000 0000 0081|
 |DX:BX:AX |Number to be converted       |HHHH MMMM LLLL|

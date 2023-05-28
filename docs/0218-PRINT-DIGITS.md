@@ -26,7 +26,7 @@ SYS022C: CMP AL,3A
 SYS022E: JB 0232
 ```
 
-Clears upper half (or the upper 4-bits) of **AL** then converts **AL** to an ASCII character. If the ASCII character is from '0' to '9' then go ahead and print it by jumping to **[SYS:0232 Print Character](0232-PRINT-CHAR.md)**. 
+Clears upper half (or the upper 4-bits) of **AL** then converts **AL** to an ASCII character. If the ASCII character is from '0' to '9' then go ahead and print it by jumping to **[SYS:0232 Print Character](0232-PRINT-CHAR.md)**.
 
 Why is the upper half cleared first? This ensures that the conversion is handled properly and the output limited to '0'-'9' and 'A' to 'F'. If this the call was made to **SYS:022A** instead of **SYS:0228**, it is assumed that the upper half is already cleared, usually by shifting **AL** to the right by 4 bits (see above).
 

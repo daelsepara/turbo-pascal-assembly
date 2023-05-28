@@ -1,4 +1,4 @@
-# Random Function: (*Real*) 
+# Random Function: (*Real*)
 
 Returns a random number (***Real*** type, 6-bytes) in the range **0.0** <= ***X*** < **1.0**.
 

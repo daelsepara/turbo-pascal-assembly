@@ -28,7 +28,7 @@ The entire main program (above) is compiled and fits in less than **50h/90** byt
 CODE0000: CALL SYS:0000
 ```
 
-Initialize [**system library**](#sys0000). 
+Initialize [**system library**](#sys0000).
 
 ```nasm
 CODE0005: PUSH BP
@@ -1158,7 +1158,7 @@ SYS05D5: DEC CL
 SYS05D7: JNZ 05CF
 ```
 
-This shifts the number **DX**:**BX**:**AX** one bit at a time to the right. The number of times this shift occurs is determined by **CL**, i.e **DX**:**BX**:**AX** * 2^(**-1**), **CL** = **CL - 1**. 
+This shifts the number **DX**:**BX**:**AX** one bit at a time to the right. The number of times this shift occurs is determined by **CL**, i.e **DX**:**BX**:**AX** * 2^(**-1**), **CL** = **CL - 1**.
 
 ```nasm
 SYS05D9: POPF
@@ -2501,7 +2501,7 @@ SYS0A18: DEC DX
 SYS0A19: JNZ 0A12
 ```
 
-Loop back while string there are still digits to copy or 
+Loop back while string there are still digits to copy or
 
 ```nasm
 SYS0A1B: DEC DX

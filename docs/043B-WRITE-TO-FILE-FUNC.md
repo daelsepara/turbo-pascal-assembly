@@ -59,7 +59,7 @@ SYS0451: INT 21
 Write **CX** bytes to File/Device using **DOS Write to a File or Device INT 21h AH = 40h** with parameters:
 - **BX** = Handle
 - **CX** = Number of bytes to write
-- **DS**:**DX** = Pointer to Buffer 
+- **DS**:**DX** = Pointer to Buffer
 
 ```nasm
 SYS0453: JB 045C

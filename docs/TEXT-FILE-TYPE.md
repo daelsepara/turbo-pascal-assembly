@@ -9,7 +9,7 @@ This is a type of file or record used internally by Turbo Pascal. It is around 2
 |0000   |2            |Handle   |WORD      |Handle contains the file's handle (when the file is open) as returned by **DOS**|
 |0002   |2            |Mode     |WORD      |The Mode field can assume one of the *magic* values (see [Modes](FILE-MODES.md))|
 |0004   |2            |BufSize  |WORD      |Size of the *TextBuf* character buffer                                          |
-|0006   |2            |Private  |WORD      |Unused but reserved                                                             | 
+|0006   |2            |Private  |WORD      |Unused but reserved                                                             |
 |0008   |2            |BufPos   |WORD      |Index of the next character in the buffer to read or write                      |
 |000A   |2            |BufEnd   |WORD      |Count of characters in the buffer                                               |
 |000C   |4            |BufPtr   |FAR PTR   |Pointer to *TextBuf* buffer of *BufSize* bytes                                  |

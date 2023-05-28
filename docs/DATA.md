@@ -19,10 +19,10 @@
 |Address| Variable    | Description                                     |
 |-------|-------------|-------------------------------------------------|
 | 0016  | HeapOrg     | Points to the bottom of the heap                |
-| 001A  | HeapPtr     | Points to the top of the heap                   | 
+| 001A  | HeapPtr     | Points to the top of the heap                   |
 | 001E  | HeapEnd     | Points to the end of DOS memory used by programs|
 | 0022  | FreeList    | Points to the first free block in the heap      |
-| 0026  | FreeZero    | ???                                             | 
+| 0026  | FreeZero    | ???                                             |
 | 002A  | HeapError   | Pointer to Heap Error Handler                   |
 
 # Exit/Error Internal Variables
